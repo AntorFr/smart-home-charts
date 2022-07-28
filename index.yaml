@@ -6,6 +6,25 @@ entries:
         - kind: changed
           description: First chart release
     apiVersion: v2
+    created: "2022-07-28T21:42:19.202988461Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.4.2
+    description: Adminer (formerly phpMinAdmin) is a web database management tool
+    digest: 667d267ca1a7bd9e4d8f4cbc48cd8363ab365f4f70189131164509c1f3f12160
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: adminer
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/adminer-0.1.1/adminer-0.1.1.tgz
+    version: 0.1.1
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
     created: "2022-07-28T21:31:05.709299785Z"
     dependencies:
     - name: common
@@ -56,6 +75,26 @@ entries:
         - kind: changed
           description: First chart release
     apiVersion: v2
+    created: "2022-07-28T21:42:19.341902174Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.4.2
+    description: The MARY Text-to-Speech System (MaryTTS) is an open-source, multilingual
+      Text-to-Speech Synthesis platform
+    digest: e4a412bf46f12ea6f0b4a91c5a03627de34fdef589afde89c7dc1d9a54df92c8
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: marytts
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/marytts-0.1.1/marytts-0.1.1.tgz
+    version: 0.1.1
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
     created: "2022-07-28T21:31:05.867438018Z"
     dependencies:
     - name: common
@@ -92,6 +131,26 @@ entries:
     - https://github.com/AntorFr/smart-home-charts/releases/download/marytts-0.0.1/marytts-0.0.1.tgz
     version: 0.0.1
   smartiot-config:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    created: "2022-07-28T21:42:19.491661935Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.4.2
+    description: SmartIoT-config is an config system for SmartIoT Esp32/Esp8266 firmware
+      helping for discovery, OTA upate and config backup.
+    digest: f8f4e2a785d3a466b8b695aaa930164bc5755ffac88414c98f1dbe69f81f8c03
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: smartiot-config
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/smartiot-config-0.1.1/smartiot-config-0.1.1.tgz
+    version: 0.1.1
   - annotations:
       artifacthub.io/changes: |-
         - kind: changed
@@ -138,6 +197,26 @@ entries:
         - kind: changed
           description: First chart release
     apiVersion: v2
+    created: "2022-07-28T21:42:19.657644721Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.4.2
+    description: TasmoAdmin is an administrative platform for devices flashed with
+      Tasmota.
+    digest: 83d421a0abb8032e7cdb5d4da2effde3b3868a1f30d60e398c2742faf012e1b3
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: tasmoadmin
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.1.1/tasmoadmin-0.1.1.tgz
+    version: 0.1.1
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
     created: "2022-07-28T21:31:06.276015014Z"
     dependencies:
     - name: common
@@ -173,4 +252,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
-generated: "2022-07-28T21:31:06.276049214Z"
+generated: "2022-07-28T21:42:19.657673921Z"
