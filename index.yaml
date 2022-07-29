@@ -107,6 +107,30 @@ entries:
           description: First chart release
     apiVersion: v2
     appVersion: 1.0.1
+    created: "2022-07-29T01:09:17.32035743Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.4.2
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.6.19
+    description: A Helm chart of compreface for Kubernetes
+    digest: bf1b1aaf6f7af5f857323a66fbe3af269f2b825cbf3f3ea91b2b7480e79fd042
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: compreface2
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/compreface2-0.0.5/compreface2-0.0.5.tgz
+    version: 0.0.5
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    appVersion: 1.0.1
     created: "2022-07-29T00:49:39.508218486Z"
     dependencies:
     - name: common
@@ -332,4 +356,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
-generated: "2022-07-29T00:49:39.508272488Z"
+generated: "2022-07-29T01:09:17.32047313Z"
