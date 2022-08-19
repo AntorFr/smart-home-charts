@@ -61,6 +61,16 @@ entries:
   compreface:
   - apiVersion: v2
     appVersion: 1.0.1
+    created: "2022-08-19T01:53:29.444943152Z"
+    description: A Helm chart of compreface for Kubernetes
+    digest: 8ca886aea95e6e63b720b5154f8e643e35ebffce8c47d11381287b7fadc7413c
+    name: compreface
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/compreface-0.1.9/compreface-0.1.9.tgz
+    version: 0.1.9
+  - apiVersion: v2
+    appVersion: 1.0.1
     created: "2022-08-19T01:16:59.933216525Z"
     description: A Helm chart of compreface for Kubernetes
     digest: 9d8246a758195edac6a4c3346d00a43647dcd2a6b1eb09bf3573ad1f4c887851
@@ -444,4 +454,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
-generated: "2022-08-19T01:16:59.933389626Z"
+generated: "2022-08-19T01:53:29.444999154Z"
