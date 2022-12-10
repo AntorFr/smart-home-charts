@@ -18,6 +18,10 @@ spec:
         - env:
             - name: ML_PORT
               value: "{{ .Values.core.port }}"
+            - name: UWSGI_PROCESSES
+              value: "{{ .Values.core.uwsgi_processes }}"
+            - name: UWSGI_THREADS
+              value: "{{ .Values.core.uwsgi_threads }}"
           image: {{ .Values.core.repository }}:{{ .Values.core.tag }}
           ports:
           - containerPort: {{ .Values.core.port }}

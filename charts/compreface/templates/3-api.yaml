@@ -17,7 +17,7 @@ spec:
       containers:
         - env:
             - name: API_JAVA_OPTS
-              value: '-Xmx8g'
+              value: "{{ .Values.api.compreface_java_options }}"
             - name: POSTGRES_PASSWORD
               value: '{{ .Values.postgres.db_password }}'
             - name: POSTGRES_URL
@@ -28,6 +28,16 @@ spec:
               value: 'true'
             - name: SPRING_PROFILES_ACTIVE
               value: 'dev'
+            - name: SAVE_IMAGES_TO_DB
+              value: "{{ .Values.config.save_image_to_db }}"
+            - name: MAX_FILE_SIZE
+              value: "{{ .Values.config.max_file_size }}"
+            - name: MAX_REQUEST_SIZE
+              value: "{{ .Values.config.max_request_size }}"
+            - name: CONNECTION_TIMEOUT
+              value: "{{ .Values.config.connection_timeout }}" 
+            - name: READ_TIMEOUT
+              value: "{{ .Values.config.read_timeout }}"
           image: '{{ .Values.api.repository }}:{{ .Values.api.tag }}'
           ports:
           - containerPort: {{ .Values.api.port }}

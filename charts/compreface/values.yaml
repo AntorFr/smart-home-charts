@@ -4,6 +4,21 @@
 
 replicaCount: 1
 
+config:
+  #image backup
+  save_image_to_db: true
+  #email config
+  email_host: "smtp.gmail.com"
+  email_username:
+  email_from:
+  email_password:
+  enable_email_server: false
+  #max size and timout settings
+  max_file_size: 5MB
+  max_request_size: 10MB
+  connection_timeout: 10000
+  read_timeout: 60000
+
 postgres:
   repository: postgres
   pullPolicy: Always
@@ -12,42 +27,45 @@ postgres:
   db_port: 5432
   db_password: postgres
   db_user: postgres
-  name: cf-db-data
+  name: compreface-db-data
   db_storage_class: longhorn
   db_storage_size: 100Mi
 
 core:
   repository: exadel/compreface-core
   pullPolicy: Always
-  tag: 1.0.1
+  tag: 1.1.0
   port: 3000
+  uwsgi_processes: 2
+  uwsgi_threads: 1
   replicas: 1
-  name: cf-core
+  name: compreface-core
 
 api:
   repository: exadel/compreface-api
   pullPolicy: Always
-  tag: 1.0.1
+  tag: 1.1.0
   port: 8080
   replicas: 1
-  name: cf-api
+  name: compreface-api
+  compreface_java_options: "-Xmx4g"
 
 admin:
   repository: exadel/compreface-admin
   pullPolicy: Always
-  tag: 1.0.1
+  tag: 1.1.0
   port: 8080
   replicas: 1
-  name: cf-admin
+  name: compreface-admin
+  compreface_java_options: "-Xmx1g"
 
 fe:
   repository: exadel/compreface-fe
   pullPolicy: Always
-  tag: 1.0.1
+  tag: 1.1.0
   port: 80
   replicas: 1
-  name: cf-fe
-
+  name: compreface-fe
 
 imagePullSecrets: []
 nameOverride: ""

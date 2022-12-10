@@ -15,11 +15,21 @@ spec:
         app: fe
     spec:
       containers:
+        - env:
+            - name: CLIENT_MAX_BODY_SIZE
+              value: "{{ .Values.config.max_request_size }}"
+            - name: PROXY_READ_TIMEOUT
+              value: "{{ .Values.config.connection_timeout }}"  
+            - name: PROXY_CONNECT_TIMEOUT
+              value: "{{ .Values.config.read_timeout }}"        
         - image: '{{ .Values.fe.repository }}:{{ .Values.fe.tag }}'
           name: {{ .Values.fe.name }}
           ports:
             - containerPort: {{ .Values.fe.port }}
       restartPolicy: Always
+
+
+          environment:
 ---
 apiVersion: v1
 kind: Service
