@@ -27,9 +27,6 @@ spec:
           ports:
             - containerPort: {{ .Values.fe.port }}
       restartPolicy: Always
-
-
-          environment:
 ---
 apiVersion: v1
 kind: Service
