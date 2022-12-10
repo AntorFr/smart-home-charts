@@ -17,7 +17,7 @@ kind: Deployment
 metadata:
   labels:
     app: db
-  name: cf-db
+  name: {{ .Values.postgres.name }} 
 spec:
   replicas: 1
   selector:
