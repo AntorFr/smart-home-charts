@@ -23,9 +23,9 @@ spec:
             - name: CLIENT_MAX_BODY_SIZE
               value: "{{ .Values.config.max_request_size }}"
             - name: PROXY_READ_TIMEOUT
-              value: {{ .Values.config.connection_timeout }}  
+              value: "{{ .Values.config.connection_timeout }}"
             - name: PROXY_CONNECT_TIMEOUT
-              value: {{ .Values.config.read_timeout }}       
+              value: "{{ .Values.config.read_timeout }}"     
       restartPolicy: Always
 ---
 apiVersion: v1

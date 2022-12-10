@@ -41,9 +41,9 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: 'dev'
             - name: MAX_FILE_SIZE
-              value: "{{ .Values.config.max_file_size }}"
+              value: '{{ .Values.config.max_file_size }}'
             - name: MAX_REQUEST_SIZE
-              value: "{{ .Values.config.max_request_size}}"              
+              value: '{{ .Values.config.max_request_size}}'             
       restartPolicy: Always
 ---
 apiVersion: v1
