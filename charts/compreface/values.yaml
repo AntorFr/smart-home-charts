@@ -14,8 +14,8 @@ config:
   email_password:
   enable_email_server: false
   #max size and timout settings
-  max_file_size: 5MB
-  max_request_size: 10MB
+  max_file_size: "5MB"
+  max_request_size: "10MB"
   connection_timeout: 10000
   read_timeout: 60000
 

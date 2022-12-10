@@ -15,19 +15,23 @@ spec:
         app: admin
     spec:
       containers:
-        - env:
+        - name: {{ .Values.admin.name }} 
+          image: '{{ .Values.admin.repository }}:{{ .Values.admin.tag }}'
+          ports:
+            - containerPort: {{ .Values.admin.port }}
+          env:
             - name: ADMIN_JAVA_OPTS
-              value: "{{ .Values.admin.compreface_java_options }}"
+              value: '{{ .Values.admin.compreface_java_options }}'
             - name: EMAIL_FROM
-              value: "{{ .Values.config.email_from }}"
+              value: '{{ .Values.config.email_from }}'
             - name: EMAIL_HOST
-              value: "{{ .Values.config.email_host }}"
+              value: '{{ .Values.config.email_host }}'
             - name: EMAIL_PASSWORD
-              value: "{{ .Values.config.email_password }}"
+              value: '{{ .Values.config.email_password }}'
             - name: EMAIL_USERNAME
-              value: "{{ .Values.config.email_username }}"
+              value: '{{ .Values.config.email_username }}'
             - name: ENABLE_EMAIL_SERVER
-              value: "{{ .Values.config.enable_email_server }}"
+              value: '{{ .Values.config.enable_email_server }}'
             - name: POSTGRES_PASSWORD
               value: '{{ .Values.postgres.db_password }}'
             - name: POSTGRES_URL
@@ -40,10 +44,6 @@ spec:
               value: "{{ .Values.config.max_file_size }}"
             - name: MAX_REQUEST_SIZE
               value: "{{ .Values.config.max_request_size}}"              
-          image: '{{ .Values.admin.repository }}:{{ .Values.admin.tag }}'
-          ports:
-          - containerPort: {{ .Values.admin.port }}
-          name: {{ .Values.admin.name }}
       restartPolicy: Always
 ---
 apiVersion: v1

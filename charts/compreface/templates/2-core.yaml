@@ -15,17 +15,17 @@ spec:
         app: core
     spec:
       containers:
-        - env:
-            - name: ML_PORT
-              value: "{{ .Values.core.port }}"
-            - name: UWSGI_PROCESSES
-              value: "{{ .Values.core.uwsgi_processes }}"
-            - name: UWSGI_THREADS
-              value: "{{ .Values.core.uwsgi_threads }}"
+        - name: {{ .Values.core.name }}
           image: {{ .Values.core.repository }}:{{ .Values.core.tag }}
           ports:
-          - containerPort: {{ .Values.core.port }}
-          name: {{ .Values.core.name }}
+            - containerPort: {{ .Values.core.port }}
+          env:
+            - name: ML_PORT
+              value: {{ .Values.core.port }}
+            - name: UWSGI_PROCESSES
+              value: {{ .Values.core.uwsgi_processes }}
+            - name: UWSGI_THREADS
+              value: {{ .Values.core.uwsgi_threads }}
       restartPolicy: Always
 ---
 apiVersion: v1

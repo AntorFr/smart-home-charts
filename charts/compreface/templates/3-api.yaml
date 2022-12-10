@@ -15,7 +15,11 @@ spec:
         app: api
     spec:
       containers:
-        - env:
+        - name: {{ .Values.api.name }}
+          image: '{{ .Values.api.repository }}:{{ .Values.api.tag }}'
+          ports:
+            - containerPort: {{ .Values.api.port }}
+          env:
             - name: API_JAVA_OPTS
               value: "{{ .Values.api.compreface_java_options }}"
             - name: POSTGRES_PASSWORD
@@ -38,10 +42,6 @@ spec:
               value: "{{ .Values.config.connection_timeout }}" 
             - name: READ_TIMEOUT
               value: "{{ .Values.config.read_timeout }}"
-          image: '{{ .Values.api.repository }}:{{ .Values.api.tag }}'
-          ports:
-          - containerPort: {{ .Values.api.port }}
-          name: {{ .Values.api.name }}
       restartPolicy: Always
 ---
 apiVersion: v1

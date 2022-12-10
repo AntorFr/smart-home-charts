@@ -31,17 +31,17 @@ spec:
         app: db
     spec:
       containers:
-        - env:
+        - name: {{ .Values.db.name }} 
+          image: {{ .Values.postgres.repository }}:{{ .Values.postgres.tag }}
+          ports:
+            - containerPort: {{ .Values.postgres.db_port }}
+          env:
             - name: POSTGRES_DB
               value: {{ .Values.postgres.db_name }}
             - name: POSTGRES_PASSWORD
               value: {{ .Values.postgres.db_password }}
             - name: POSTGRES_USER
               value: {{ .Values.postgres.db_user }}
-          image: {{ .Values.postgres.repository }}:{{ .Values.postgres.tag }}
-          name: cf-db
-          ports:
-          - containerPort: {{ .Values.postgres.db_port }}
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: {{ .Values.postgres.name }}
