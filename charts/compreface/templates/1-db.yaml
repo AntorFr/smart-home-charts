@@ -31,7 +31,7 @@ spec:
         app: db
     spec:
       containers:
-        - name: {{ .Values.db.name }} 
+        - name: {{ .Values.postgres.name }} 
           image: {{ .Values.postgres.repository }}:{{ .Values.postgres.tag }}
           ports:
             - containerPort: {{ .Values.postgres.db_port }}
