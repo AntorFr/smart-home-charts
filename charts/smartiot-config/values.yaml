@@ -27,18 +27,9 @@ service:
 # -- Configure persistence settings for the chart under this key.
 # @default -- See values.yaml
 persistence:
-  configs:
+  data:
     enabled: false
-    mountPath: /app/configs
-  discovery:
-    enabled: false
-    mountPath: /app/discovery
-  firmwares:
-    enabled: false
-    mountPath: /app/firmwares
-  settings:
-    enabled: false
-    mountPath: /app/settings
+    mountPath: /app/data
 
 affinity:
   nodeAffinity:
