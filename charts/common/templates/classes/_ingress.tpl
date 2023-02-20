@@ -17,13 +17,18 @@ within the common library.
     {{- $ingressName = printf "%v-%v" $ingressName $values.nameOverride -}}
   {{- end -}}
 
-  {{- $primaryService := get .Values.service (include "common.service.primary" .) -}}
+
   {{- $defaultServiceName := $fullName -}}
-  {{- if and (hasKey $primaryService "nameOverride") $primaryService.nameOverride -}}
-    {{- $defaultServiceName = printf "%v-%v" $defaultServiceName $primaryService.nameOverride -}}
-  {{- end -}}
-  {{- $defaultServicePort := get $primaryService.ports (include "common.classes.service.ports.primary" (dict "values" $primaryService)) -}}
   {{- $isStable := include "common.capabilities.ingress.isStable" . }}
+
+  {{- $primaryService := get .Values.service (include "common.service.primary" .) -}}
+  {{- if $primaryService -}}
+    {{- if and (hasKey $primaryService "nameOverride") $primaryService.nameOverride -}}
+      {{- $defaultServiceName = printf "%v-%v" $defaultServiceName $primaryService.nameOverride -}}
+    {{- end -}}
+    {{- $defaultServicePort := get $primaryService.ports (include "common.classes.service.ports.primary" (dict "values" $primaryService)) -}}
+  {{- end -}}
+
 ---
 apiVersion: {{ include "common.capabilities.ingress.apiVersion" . }}
 kind: Ingress
@@ -58,7 +63,7 @@ spec:
         paths:
           {{- range .paths }}
           {{- $service := $defaultServiceName -}}
-          {{- $port := $defaultServicePort.port -}}
+          {{- $port := $defaultServicePort.port | default "" -}}
           {{- if .service -}}
             {{- $service = default $service .service.name -}}
             {{- $port = default $port .service.port -}}
