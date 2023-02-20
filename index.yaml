@@ -58,6 +58,29 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/adminer-0.0.1/adminer-0.0.1.tgz
     version: 0.0.1
+  common:
+  - apiVersion: v2
+    created: "2023-02-20T22:42:44.637006167Z"
+    description: Function library for k8s-at-home charts
+    digest: da844216192115c8348778513c588c4c6794111af20aa5b87b0c84cb8e086043
+    home: https://github.com/k8s-at-home/library-charts/tree/main/stable/common
+    keywords:
+    - k8s-at-home
+    - common
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: me@bjw-s.dev
+      name: bjw-s
+    - email: devin.kray@gmail.com
+      name: onedr0p
+    - email: nick@cajun.pro
+      name: dirtycajunrice
+    - name: AntorFR
+    name: common
+    type: library
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/common-4.5.2/common-4.5.2.tgz
+    version: 4.5.2
   compreface:
   - apiVersion: v2
     appVersion: 1.1.0
@@ -412,6 +435,30 @@ entries:
         - kind: changed
           description: bump common depedency to v1.3.2
     apiVersion: v2
+    created: "2023-02-20T22:42:44.837165203Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: SmartIoT-config is an config system for SmartIoT Esp32/Esp8266 firmware
+      helping for discovery, OTA upate and config backup.
+    digest: 5ed7cbd837c27f60175868f1301028bf47236346a2005866a683710a5b835d24
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: smartiot-config
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/smartiot-config-0.2.6/smartiot-config-0.2.6.tgz
+    version: 0.2.6
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+        - kind: changed
+          description: update data persistence with v1.1.0 of the app
+        - kind: changed
+          description: bump common depedency to v1.3.2
+    apiVersion: v2
     created: "2023-02-20T22:26:56.513641689Z"
     dependencies:
     - name: common
@@ -592,4 +639,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
-generated: "2023-02-20T22:26:56.513716192Z"
+generated: "2023-02-20T22:42:44.837294008Z"
