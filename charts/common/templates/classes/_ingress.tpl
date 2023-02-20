@@ -63,7 +63,7 @@ spec:
         paths:
           {{- range .paths }}
           {{- $service := $defaultServiceName -}}
-          {{- $port := $defaultServicePort.port | default "" -}}
+          {{- $port := default "" $defaultServicePort.port -}}
           {{- if .service -}}
             {{- $service = default $service .service.name -}}
             {{- $port = default $port .service.port -}}
