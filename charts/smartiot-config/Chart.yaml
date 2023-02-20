@@ -2,18 +2,17 @@
 apiVersion: v2
 description: SmartIoT-config is an config system for SmartIoT Esp32/Esp8266 firmware helping for discovery, OTA upate and config backup.
 name: smartiot-config
-version: 0.2.3
+version: 0.2.4
 maintainers:
   - name: AntorFR
     email: contact@antor.fr
 dependencies:
-  #- name: common
-  #  repository: https://library-charts.k8s-at-home.com
-  #  version: 4.5.2
-
   - name: common
-    version: 1.3.2
-    repository: https://bjw-s.github.io/helm-charts/`
+    repository: https://library-charts.k8s-at-home.com
+    version: 4.5.2
+  #- name: common
+  #  version: 1.3.2
+  #  repository: https://bjw-s.github.io/helm-charts/`
 annotations:
   artifacthub.io/changes: |-
     - kind: changed
