@@ -409,6 +409,30 @@ entries:
           description: First chart release
         - kind: changed
           description: update data persistence with v1.1.0 of the app
+        - kind: changed
+          description: bump common depedency to v1.3.2
+    apiVersion: v2
+    created: "2023-02-20T22:26:56.513641689Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: SmartIoT-config is an config system for SmartIoT Esp32/Esp8266 firmware
+      helping for discovery, OTA upate and config backup.
+    digest: df83b6976868e74c1f6010c242887c0e6802b85721242beb51c67d7bf20d1278
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: smartiot-config
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/smartiot-config-0.2.4/smartiot-config-0.2.4.tgz
+    version: 0.2.4
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+        - kind: changed
+          description: update data persistence with v1.1.0 of the app
     apiVersion: v2
     created: "2023-02-19T14:47:35.108924046Z"
     dependencies:
@@ -568,4 +592,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
-generated: "2023-02-19T14:47:35.109015647Z"
+generated: "2023-02-20T22:26:56.513716192Z"
