@@ -29,7 +29,7 @@ within the common library.
       {{- $defaultServiceName = printf "%v-%v" $defaultServiceName $primaryService.nameOverride -}}
     {{- end -}}
     {{- $defaultServicePort = get $primaryService.ports (include "common.classes.service.ports.primary" (dict "values" $primaryService)) -}}
-  {{- end -}}
+  {{- end }}
 
 ---
 apiVersion: {{ include "common.capabilities.ingress.apiVersion" . }}
