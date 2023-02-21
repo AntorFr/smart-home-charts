@@ -28,7 +28,7 @@ within the common library.
     {{- end -}}
     {{- $defaultServicePort := get $primaryService.ports (include "common.classes.service.ports.primary" (dict "values" $primaryService)) -}}
   {{- else -}}
-    {{- $defaultServicePort := (dict "port" "")) -}}
+    {{- $defaultServicePort := (dict "port" "") -}}
   {{- end -}}
 
 ---
