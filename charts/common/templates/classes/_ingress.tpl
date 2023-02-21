@@ -21,14 +21,14 @@ within the common library.
   {{- $defaultServiceName := $fullName -}}
   {{- $isStable := include "common.capabilities.ingress.isStable" . }}
 
+  {{- $defaultServicePort := (dict "port" "") -}}
+
   {{- $primaryService := get .Values.service (include "common.service.primary" .) -}}
   {{- if $primaryService -}}
     {{- if and (hasKey $primaryService "nameOverride") $primaryService.nameOverride -}}
       {{- $defaultServiceName = printf "%v-%v" $defaultServiceName $primaryService.nameOverride -}}
     {{- end -}}
-    {{- $defaultServicePort := get $primaryService.ports (include "common.classes.service.ports.primary" (dict "values" $primaryService)) -}}
-  {{- else -}}
-    {{- $defaultServicePort := (dict "port" "") -}}
+    {{- $defaultServicePort = get $primaryService.ports (include "common.classes.service.ports.primary" (dict "values" $primaryService)) -}}
   {{- end -}}
 
 ---
