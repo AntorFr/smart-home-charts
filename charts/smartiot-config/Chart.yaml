@@ -2,7 +2,7 @@
 apiVersion: v2
 description: SmartIoT-config is an config system for SmartIoT Esp32/Esp8266 firmware helping for discovery, OTA upate and config backup.
 name: smartiot-config
-version: 0.2.9
+version: 0.3.0
 maintainers:
   - name: AntorFR
     email: contact@antor.fr
