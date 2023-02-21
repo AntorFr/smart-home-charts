@@ -27,6 +27,8 @@ within the common library.
       {{- $defaultServiceName = printf "%v-%v" $defaultServiceName $primaryService.nameOverride -}}
     {{- end -}}
     {{- $defaultServicePort := get $primaryService.ports (include "common.classes.service.ports.primary" (dict "values" $primaryService)) -}}
+  {{- else -}}
+    {{- $defaultServicePort := (dict "port" "")) -}}
   {{- end -}}
 
 ---
@@ -63,7 +65,7 @@ spec:
         paths:
           {{- range .paths }}
           {{- $service := $defaultServiceName -}}
-          {{- $port := default "" $defaultServicePort.port -}}
+          {{- $port := $defaultServicePort.port -}}
           {{- if .service -}}
             {{- $service = default $service .service.name -}}
             {{- $port = default $port .service.port -}}
