@@ -579,6 +579,26 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/marytts-0.0.1/marytts-0.0.1.tgz
     version: 0.0.1
+  minecraft-server:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    created: "2023-03-17T09:40:21.696031421Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: The chart will run a Minecraft Bedrock Dedicated Server (MBDS)
+    digest: 6f68dfb22abfbd84c25cfab29b6785928323bcbd9ea7732d7e9590eda255f5dd
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: minecraft-server
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/minecraft-server-0.0.1/minecraft-server-0.0.1.tgz
+    version: 0.0.1
   smartiot-config:
   - annotations:
       artifacthub.io/changes: |-
@@ -985,4 +1005,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
-generated: "2023-02-21T02:09:03.322000153Z"
+generated: "2023-03-17T09:40:21.696136722Z"
