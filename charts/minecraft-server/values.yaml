@@ -141,6 +141,7 @@ mapViz:
   ingress:
     mapviz:
       enabled: false
+
       
   schedule: "0 3 * * *"
   image:
@@ -152,7 +153,10 @@ mapViz:
     tag: latest
 
   env:
+  
   command:
+  args:
+
   restartPolicy: Never
 
   affinity:

@@ -27,6 +27,8 @@ spec:
               imagePullPolicy: {{ .Values.mapViz.image.imagePullPolicy}}
               command:
                 {{- .Values.mapViz.command | toYaml | nindent 16 }}
+              args:
+                {{- .Values.mapViz.args | toYaml | nindent 16 }}
               resources:
                 {{- .Values.mapViz.resources | toYaml | nindent 16 }}
               env:
