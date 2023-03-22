@@ -145,7 +145,7 @@ mapViz:
   schedule: "0 3 * * *"
   image:
     # -- image used for map export
-    repository: oberard/bedrock-viz:1.0.0
+    repository: oberard/bedrock-viz
     # -- image pull policy
     pullPolicy: IfNotPresent
     # -- image pull tag
