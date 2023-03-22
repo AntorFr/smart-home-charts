@@ -141,11 +141,6 @@ mapViz:
   ingress:
     mapViz:
       enabled: false
-                  service:
-              # -- Overrides the service name reference for this path
-              name:
-              # -- Overrides the service port reference for this path
-              port:
       
   schedule: "0 3 * * *"
   image:
