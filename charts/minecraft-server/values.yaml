@@ -6,7 +6,7 @@
 #
 
 controller:
-  type: statefulset
+  type: deployment
   replicas: 1
 
 image:
@@ -114,7 +114,7 @@ ingress:
 
 persistence:
   worlds:
-    enabled: false
+    enabled: true
     type: pvc
     mountPath:  /data/worlds
     readOnly: false
@@ -127,3 +127,58 @@ persistence:
     enabled: true
     type: emptyDir
     mountPath: /data
+
+mapViz:
+  enabled: false
+  persistence:
+    vizhtml:
+      enabled: true
+      type: pvc
+      mountPath:  '-'
+      accessMode: ReadWriteMany
+      size: 100Mi
+
+  ingress:
+    mapViz:
+      enabled: false
+                  service:
+              # -- Overrides the service name reference for this path
+              name:
+              # -- Overrides the service port reference for this path
+              port:
+      
+  schedule: "0 3 * * *"
+  image:
+    # -- image used for map export
+    repository: oberard/bedrock-viz:1.0.0
+    # -- image pull policy
+    pullPolicy: IfNotPresent
+    # -- image pull tag
+    tag: latest
+
+  env:
+  command:
+  restartPolicy: Never
+
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+            - key: "kubernetes.io/arch"
+              operator: In
+              values:
+                - amd64
+
+  resources:
+    requests:
+      # -- requested memory for map html export
+      memory: "50Mi"
+      # -- requested cpu for map html export
+      cpu: "5m"
+
+nginx:
+  staticSitePVC: minecraft-server-vizhtml
+  ingress.enabled: false
+
+ 

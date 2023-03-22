@@ -2,7 +2,7 @@
 apiVersion: v2
 description: The chart will run a Minecraft Bedrock Dedicated Server (MBDS)
 name: minecraft-server
-version: 0.0.4
+version: 0.0.5
 maintainers:
   - name: AntorFR
     email: contact@antor.fr
@@ -10,6 +10,10 @@ dependencies:
   - name: common
     repository: https://antorfr.github.io/smart-home-charts
     version: 4.5.8
+  - name: nginx
+    repository: https://charts.bitnami.com/bitnami
+    version: 13.2.30
+    condition: mapViz.enabled
 annotations:
   artifacthub.io/changes: |-
     - kind: changed

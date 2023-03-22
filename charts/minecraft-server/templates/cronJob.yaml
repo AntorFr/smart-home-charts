@@ -1,0 +1,47 @@
+{{- include "common.values.setup" . -}}
+{{- if .Values.mapViz.enabled -}}
+---
+# ------------------- CronJob ------------------- #
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "common.names.fullname" . }}-mapplot
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.mapViz.schedule | quote }}
+  concurrencyPolicy: Replace
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          name: {{ include "common.names.fullname" . }}-mapplot
+          labels:
+            {{- include "common.labels.selectorLabels" . | nindent 12 }}
+        spec:
+          affinity:
+            {{- .Values.mapViz.affinity | toYaml | nindent 12 }}
+          containers:
+            - name: bedrock-viz
+              image: "{{ .Values.mapViz.image.repository}}:{{ .Values.mapViz.image.tag}}"
+              imagePullPolicy: {{ .Values.mapViz.image.imagePullPolicy}}
+              command:
+                {{- .Values.mapViz.command | toYaml | nindent 16 }}
+              resources:
+                {{- .Values.mapViz.resources | toYaml | nindent 16 }}
+              env:
+                {{- .Values.mapViz.env | toYaml | nindent 16 }}
+              volumeMounts:
+              - name: world
+                mountPath: /app/world
+              - name: html
+                mountPath: /app/html
+          restartPolicy: {{ .Values.mapViz.restartPolicy | quote }}
+          volumes:
+            - name: world
+              persistentVolumeClaim:
+                claimName: {{ include "common.names.fullname" . }}-world
+            - name: html
+              persistentVolumeClaim:
+                claimName: {{ include "common.names.fullname" . }}-vizhtml
+{{- end -}}
