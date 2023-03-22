@@ -6,12 +6,12 @@
 {{- define "minecraft.harcodedValues" -}}
 {{- if .Values.mapViz.enabled -}}
 
-{{- if .Values.mapViz.ingress.mapViz.enabled -}}
+{{- if .Values.mapViz.ingress.mapviz.enabled -}}
 {{/* Set port number used by dataViz */}}
 {{- $servicename := print (include "common.names.fullname" .) "-ngnix" }}
 {{- $serviceport := 80 }}
 
-{{- range .Values.mapViz.ingress.mapViz.hosts }}
+{{- range .Values.mapViz.ingress.mapviz.hosts }}
 {{- range .paths }}
 {{- $_ := mergeOverwrite . (dict "service" (dict "port" $serviceport "name" $servicename )) -}}
 {{- end }}

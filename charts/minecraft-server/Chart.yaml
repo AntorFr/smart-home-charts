@@ -2,7 +2,7 @@
 apiVersion: v2
 description: The chart will run a Minecraft Bedrock Dedicated Server (MBDS)
 name: minecraft-server
-version: 0.0.8
+version: 0.0.9
 maintainers:
   - name: AntorFR
     email: contact@antor.fr
