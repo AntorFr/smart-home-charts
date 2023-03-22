@@ -114,7 +114,7 @@ ingress:
 
 persistence:
   worlds:
-    enabled: true
+    enabled: false
     type: pvc
     mountPath:  /data/worlds
     readOnly: false
@@ -132,14 +132,14 @@ mapViz:
   enabled: false
   persistence:
     vizhtml:
-      enabled: true
+      enabled: false
       type: pvc
       mountPath:  '-'
       accessMode: ReadWriteMany
       size: 100Mi
 
   ingress:
-    mapViz:
+    mapviz:
       enabled: false
       
   schedule: "0 3 * * *"
