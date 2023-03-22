@@ -585,6 +585,29 @@ entries:
         - kind: changed
           description: First chart release
     apiVersion: v2
+    created: "2023-03-22T13:14:54.412716285Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    - condition: mapViz.enabled
+      name: nginx
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.2.30
+    description: The chart will run a Minecraft Bedrock Dedicated Server (MBDS)
+    digest: 92cbe95c011c85ecda7b0cc484ed5439fc0cf5d57a711a9aa633848aa192d196
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: minecraft-server
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/minecraft-server-0.0.9/minecraft-server-0.0.9.tgz
+    version: 0.0.9
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
     created: "2023-03-22T12:56:39.54132942Z"
     dependencies:
     - name: common
@@ -1154,4 +1177,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
-generated: "2023-03-22T12:56:39.541531625Z"
+generated: "2023-03-22T13:14:54.413171085Z"
