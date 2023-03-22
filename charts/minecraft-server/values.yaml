@@ -28,7 +28,7 @@ env:
   #GAMEMODE: "survival" # Options: survival, creative, adventure
   #DIFFICULTY: "easy" # Options: peaceful, easy, normal, hard
   #DEFAULT_PLAYER_PERMISSION_LEVEL: "member" # Options: visitor, member, operator
-  #LEVEL_NAME: "my_minecraft_world"
+  LEVEL_NAME: "my_minecraft_world"
   #LEVEL_SEED: "33480944"
   #SERVER_NAME: "my_minecraft_server"
   SERVER_PORT: "19132"
@@ -136,13 +136,12 @@ mapViz:
       type: pvc
       mountPath:  '-'
       accessMode: ReadWriteMany
-      size: 100Mi
+      size: 1Gi
 
   ingress:
     mapviz:
       enabled: false
 
-      
   schedule: "0 3 * * *"
   image:
     # -- image used for map export
@@ -150,12 +149,9 @@ mapViz:
     # -- image pull policy
     pullPolicy: IfNotPresent
     # -- image pull tag
-    tag: latest
+    tag: "1.0.0"
 
   env:
-  
-  command:
-  args:
 
   restartPolicy: Never
 

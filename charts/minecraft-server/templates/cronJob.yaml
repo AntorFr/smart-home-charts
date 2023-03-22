@@ -25,10 +25,15 @@ spec:
             - name: bedrock-viz
               image: "{{ .Values.mapViz.image.repository}}:{{ .Values.mapViz.image.tag}}"
               imagePullPolicy: {{ .Values.mapViz.image.imagePullPolicy}}
-              command:
-                {{- .Values.mapViz.command | toYaml | nindent 16 }}
-              args:
-                {{- .Values.mapViz.args | toYaml | nindent 16 }}
+              command:              
+                - /bin/sh
+                - -ce
+                - |
+                  echo "$(date) - Start map viz"
+                  mkdir /worldcopy
+                  cp -rf /app/world/{{ .Values.env.LEVEL_NAME}}/* /worldcopy
+                  bedrock-viz --db /worldcopy --out ./html --html-all
+                  echo "$(date) - End  map viz"
               resources:
                 {{- .Values.mapViz.resources | toYaml | nindent 16 }}
               env:

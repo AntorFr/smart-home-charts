@@ -8,7 +8,7 @@
 
 {{- if .Values.mapViz.ingress.mapviz.enabled -}}
 {{/* Set port number used by dataViz */}}
-{{- $servicename := print (include "common.names.fullname" .) "-ngnix" }}
+{{- $servicename := print (include "common.names.fullname" .) "-nginx" }}
 {{- $serviceport := 80 }}
 
 {{- range .Values.mapViz.ingress.mapviz.hosts }}
