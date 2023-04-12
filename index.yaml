@@ -518,6 +518,45 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/compreface2-0.0.3/compreface2-0.0.3.tgz
     version: 0.0.3
+  frigate:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: Upgraded `common` chart dependency to version 4.5.8
+        - kind: changed
+          description: Upgraded chart default Docker repo
+    apiVersion: v2
+    appVersion: 0.12.0
+    created: "2023-04-12T07:49:23.285540513Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: NVR With Realtime Object Detection for IP Cameras
+    digest: 4d163afb4561e372a28950e06269b04595f6afe251c5ef97daec93dfc0db26df
+    home: https://github.com/k8s-at-home/charts/tree/master/charts/stable/frigate
+    icon: https://github.com/blakeblackshear/frigate/blob/master/docs/static/img/frigate.png
+    keywords:
+    - frigate
+    - nvr
+    - tensorflow
+    - coral
+    - ml
+    - machine-learning
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: jeff@billimek.com
+      name: billimek
+    - email: 5434875+PixelJonas@users.noreply.github.com
+      name: PixelJonas
+    - email: contact@antor.fr
+      name: AntorFR
+    name: frigate
+    sources:
+    - https://github.com/blakeblackshear/frigate
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/frigate-8.2.0/frigate-8.2.0.tgz
+    version: 8.2.0
   marytts:
   - annotations:
       artifacthub.io/changes: |-
@@ -1269,4 +1308,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
-generated: "2023-03-22T23:23:38.660436492Z"
+generated: "2023-04-12T07:49:23.28574971Z"
