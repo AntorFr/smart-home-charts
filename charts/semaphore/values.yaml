@@ -1,0 +1,78 @@
+#
+# IMPORTANT NOTE
+#
+# This chart inherits from our common library chart. You can check the default values/options here:
+# https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
+#
+
+image:
+  # -- image repository
+  repository: semaphoreui/semaphore
+  # -- image tag
+  tag: "v2.8.53"
+  # -- image pull policy
+  pullPolicy: IfNotPresent
+
+# -- environment variables. See more environment variables in the [teamspeak image documentation](https://hub.docker.com/_/teamspeak).
+# @default -- See below
+env:
+  TZ: UTC
+  SEMAPHORE_DB_USER: semaphore
+  SEMAPHORE_DB_PASS: semaphore
+  SEMAPHORE_DB_HOST: postgres # for mysql, change to: mysql
+  SEMAPHORE_DB_PORT:  5432 # change to  3306 for mysql
+  SEMAPHORE_DB_DIALECT: mysql
+  SEMAPHORE_DB: semaphore
+  SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/
+  SEMAPHORE_ADMIN_PASSWORD: changeme
+  SEMAPHORE_ADMIN_NAME: admin
+  SEMAPHORE_ADMIN_EMAIL: admin@localhost
+  SEMAPHORE_ADMIN: admin
+  SEMAPHORE_ACCESS_KEY_ENCRYPTION: gs72mPntFATGJs9qK0pQ0rKtfidlexiMjYCH9gWKhTU=
+  SEMAPHORE_LDAP_ACTIVATED: 'no' # if you wish to use ldap, set to: 'yes' 
+  #SEMAPHORE_LDAP_HOST: dc01.local.example.com
+  #SEMAPHORE_LDAP_PORT: '636'
+  #SEMAPHORE_LDAP_NEEDTLS: 'yes'
+  #SEMAPHORE_LDAP_DN_BIND: 'uid=bind_user,cn=users,cn=accounts,dc=local,dc=shiftsystems,dc=net'
+  #SEMAPHORE_LDAP_PASSWORD: 'ldap_bind_account_password'
+  #SEMAPHORE_LDAP_DN_SEARCH: 'dc=local,dc=example,dc=com'
+  #SEMAPHORE_LDAP_SEARCH_FILTER: "(\u0026(uid=%s)(memberOf=cn=ipausers,cn=groups,cn=accounts,dc=local,dc=example,dc=com))"
+
+# -- Configures service settings for the chart.
+# @default -- See values.yaml
+service:
+  main:
+    ports:
+      http:
+        port: 3000
+
+ingress:
+  # -- Enable and configure ingress settings for the chart under this key.
+  # @default -- See values.yaml
+  main:
+    enabled: false
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: "kubernetes.io/arch"
+            operator: In
+            values:
+              - amd64
+
+postgresql:
+  image:
+    repository: postgres
+    tag: 15.1
+  auth:
+    postgresPassword: "7y32d4Ki95ZH8uSKPnm"
+    username: semaphore
+    password: semaphore
+    database: semaphore
+  primary:
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      size: 1Gi

@@ -1,0 +1,20 @@
+---
+apiVersion: v2
+description: Semaphore is a responsive web UI for running Ansible playbooks.
+name: semaphore
+version: 0.0.1
+maintainers:
+  - name: AntorFR
+    email: contact@antor.fr
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.5.8
+  - name: postgresql
+    version: 12.5.7
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+annotations:
+  artifacthub.io/changes: |-
+    - kind: changed
+      description: First chart release
