@@ -902,6 +902,42 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/minecraft-server-0.0.1/minecraft-server-0.0.1.tgz
     version: 0.0.1
+  platerec:
+  - apiVersion: v1
+    appVersion: latest
+    created: "2023-07-17T23:00:26.929324728Z"
+    description: Accurate, Fast, Developer-Friendly ANPR
+    digest: 2786881b3044b342ba3accc1eca05d9ec470d848637da7c9455d0b1f4d79633a
+    home: https://platerecognizer.com/
+    name: platerec
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/platerec-0.1.0/platerec-0.1.0.tgz
+    version: 0.1.0
+  semaphore:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    created: "2023-07-17T23:00:27.065374424Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.5.7
+    description: Semaphore is a responsive web UI for running Ansible playbooks.
+    digest: 56f3848cd6968ecf9dfdefa13d4d2f88b3371a1bf07fdd3ba40dfadf58ff3aae
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: semaphore
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/semaphore-0.0.1/semaphore-0.0.1.tgz
+    version: 0.0.1
   smartiot-config:
   - annotations:
       artifacthub.io/changes: |-
@@ -1308,4 +1344,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
-generated: "2023-04-12T07:49:23.28574971Z"
+generated: "2023-07-17T23:00:27.065491325Z"
