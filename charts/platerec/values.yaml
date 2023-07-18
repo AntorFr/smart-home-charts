@@ -18,16 +18,13 @@ env:
   TZ: UTC
 
 envFrom: 
- - secretRef: TOKEN
-   name: platerec
- - secretRef: LICENSE_KEY
-   name: platerec
+ - secretRef: 
+    name: platerec
 
 service:
   main:
     enabled: true
     type: ClusterIP
-    externalTrafficPolicy: Cluster
 
     ports:
       http:
@@ -52,6 +49,15 @@ persistence:
     size: 10Gi
     retain: false
 
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: "kubernetes.io/arch"
+            operator: In
+            values:
+              - amd64
 
 probes:
   liveness:
