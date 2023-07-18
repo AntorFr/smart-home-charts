@@ -905,6 +905,23 @@ entries:
   platerec:
   - apiVersion: v2
     appVersion: latest
+    created: "2023-07-18T00:48:11.310655384Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Accurate, Fast, Developer-Friendly ANPR
+    digest: c03b159d8511bd363d89582d809cb1e8cc23d269fd9bb6652c57215dab8c21d2
+    home: https://platerecognizer.com/
+    name: platerec
+    sources:
+    - https://github.com/parkpow/deep-license-plate-recognition
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/platerec-0.2.1/platerec-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: latest
     created: "2023-07-18T00:31:36.965484507Z"
     dependencies:
     - name: common
@@ -1361,4 +1378,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
-generated: "2023-07-18T00:31:36.965597611Z"
+generated: "2023-07-18T00:48:11.310792287Z"
