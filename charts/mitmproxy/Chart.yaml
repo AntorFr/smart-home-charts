@@ -1,0 +1,13 @@
+apiVersion: v2
+name: mitmproxy
+description: mitmproxy is a free and open source interactive HTTPS proxy
+type: application
+version: 0.0.1
+appVersion: latest
+home: https://mitmproxy.org/
+sources:
+  - https://github.com/mitmproxy/mitmproxy
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.5.8
