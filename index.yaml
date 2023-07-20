@@ -902,6 +902,24 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/minecraft-server-0.0.1/minecraft-server-0.0.1.tgz
     version: 0.0.1
+  mitmproxy:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2023-07-20T17:00:58.43564646Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: mitmproxy is a free and open source interactive HTTPS proxy
+    digest: 512d7a839380e31147a81561461ddb8e8ce6403a9108aab43efc31cbbc4434e3
+    home: https://mitmproxy.org/
+    name: mitmproxy
+    sources:
+    - https://github.com/mitmproxy/mitmproxy
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/mitmproxy-0.0.1/mitmproxy-0.0.1.tgz
+    version: 0.0.1
   platerec:
   - apiVersion: v2
     appVersion: latest
@@ -1378,4 +1396,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
-generated: "2023-07-18T00:48:11.310792287Z"
+generated: "2023-07-20T17:00:58.435897874Z"
