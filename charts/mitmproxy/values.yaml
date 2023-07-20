@@ -21,7 +21,7 @@ service:
 
     ports:
       http:
-        enabled: flase
+        enabled: false
         primary: false
       proxy:
         primary: true
@@ -38,10 +38,10 @@ ingress:
     enabled: false
 
 persistence:
-  data:
+  logs:
     enabled: false
     type: pvc
-    mountPath: /license
+    mountPath: /logs
     storageClass:  # "-"
     accessMode: ReadWriteOnce
     size: 100Mi
