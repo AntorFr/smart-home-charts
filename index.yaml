@@ -560,6 +560,24 @@ entries:
   lldap:
   - apiVersion: v2
     appVersion: latest
+    created: "2023-08-05T22:15:58.846473439Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: lldap lightweight is a authentication server that provides an opinionated,
+      simplified LDAP interface for authentication
+    digest: 610cb6fac40d3de02a61412f211a76d8fcabc78c20e37a56d7266293ff8842a4
+    home: https://github.com/lldap/lldap
+    name: lldap
+    sources:
+    - https://github.com/lldap/lldap
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/lldap-0.0.2/lldap-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: latest
     created: "2023-08-05T22:10:42.122634511Z"
     dependencies:
     - name: common
@@ -1432,4 +1450,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
-generated: "2023-08-05T22:10:42.122776713Z"
+generated: "2023-08-05T22:15:58.847030586Z"
