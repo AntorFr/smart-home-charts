@@ -41,7 +41,7 @@ ingress:
     enabled: false
 
 persistence:
-  logs:
+  data:
     enabled: false
     type: pvc
     mountPath: /data
