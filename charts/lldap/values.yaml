@@ -1,0 +1,54 @@
+controller:
+  replicas: 1
+
+image:
+  repository: nitnelave/lldap
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+secret:
+  LLDAP_JWT_SECRET: REPLACE_WITH_RANDOM
+  LLDAP_LDAP_BASE_DN: "dc=example,dc=com"
+  LLDAP_LDAP_USER_PASS: REPLACE_WITH_PASSWORD
+
+env:
+  TZ: UTC
+  UID: 1001
+  GID: 1001
+
+envFrom: 
+ - secretRef: 
+    name: lldap
+
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+
+    ports:
+      http:
+        enabled: true
+        primary: true
+        protocol: TCP
+        port: 17170
+      ldap:
+        enabled: true
+        protocol: TCP
+        port: 3890        
+
+ingress:
+  main:
+    enabled: false
+
+persistence:
+  logs:
+    enabled: false
+    type: pvc
+    mountPath: /data
+    storageClass:  # "-"
+    accessMode: ReadWriteOnce
+    size: 100Mi
+    retain: false
+
+
+
