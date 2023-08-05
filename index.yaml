@@ -557,6 +557,25 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/frigate-8.2.0/frigate-8.2.0.tgz
     version: 8.2.0
+  lldap:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2023-08-05T22:10:42.122634511Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: lldap lightweight is a authentication server that provides an opinionated,
+      simplified LDAP interface for authentication
+    digest: 862ce9f67c5eac12b99d023c7fb722712861f740f9efdf99232fbfd0e22ffc9b
+    home: https://github.com/lldap/lldap
+    name: lldap
+    sources:
+    - https://github.com/lldap/lldap
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/lldap-0.0.1/lldap-0.0.1.tgz
+    version: 0.0.1
   marytts:
   - annotations:
       artifacthub.io/changes: |-
@@ -1413,4 +1432,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
-generated: "2023-07-20T17:30:30.204041759Z"
+generated: "2023-08-05T22:10:42.122776713Z"
