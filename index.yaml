@@ -942,6 +942,23 @@ entries:
   mitmproxy:
   - apiVersion: v2
     appVersion: latest
+    created: "2023-08-10T20:43:55.660276806Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: mitmproxy is a free and open source interactive HTTPS proxy
+    digest: 90579be16e19c9787f7a01cd7c8161ad503e463336182539abee58e15f077027
+    home: https://mitmproxy.org/
+    name: mitmproxy
+    sources:
+    - https://github.com/mitmproxy/mitmproxy
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/mitmproxy-0.0.3/mitmproxy-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: latest
     created: "2023-07-20T17:30:30.203926561Z"
     dependencies:
     - name: common
@@ -1450,4 +1467,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
-generated: "2023-08-05T22:15:58.847030586Z"
+generated: "2023-08-10T20:43:55.660409308Z"
