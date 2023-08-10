@@ -21,17 +21,14 @@ service:
 
     ports:
       http:
-        enabled: false
+        enabled: true
         primary: false
+        port: 8081 
       proxy:
         primary: true
         enabled: true
         protocol: TCP
-        port: 8080
-      web:
-        enabled: true
-        protocol: TCP
-        port: 8081        
+        port: 8080     
 
 ingress:
   main:
