@@ -1,0 +1,13 @@
+apiVersion: v2
+name: wyoming-piper
+description: Piper uses modern machine learning algorithms for realistic-sounding speech but can still generate audio quickly.
+type: application
+version: 0.0.2
+appVersion: latest
+home: https://github.com/home-assistant/addons/blob/master/piper/DOCS.md
+sources:
+  - https://github.com/home-assistant/addons/blob/master/piper
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.5.8

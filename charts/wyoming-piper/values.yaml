@@ -2,42 +2,32 @@ controller:
   replicas: 1
 
 image:
-  repository: mitmproxy/mitmproxy
+  repository: rhasspy/wyoming-piper
   tag: "latest"
-  pullPolicy: Always
-
-args:
-  - mitmweb
-  - --web-host
-  - 0.0.0.0
-
-env:
-  TZ: UTC
+  pullPolicy: IfNotPresent
+  args: ["--voice", "en_US-lessac-medium"]
 
 service:
   main:
     enabled: true
     type: ClusterIP
+
     ports:
       http:
         enabled: true
-        primary: false
-        port: 8081 
-      proxy:
         primary: true
-        enabled: true
         protocol: TCP
-        port: 8080     
-
+        port: 10200
+     
 ingress:
   main:
     enabled: false
 
 persistence:
-  logs:
+  data:
     enabled: false
     type: pvc
-    mountPath: /logs
+    mountPath: /data
     storageClass:  # "-"
     accessMode: ReadWriteOnce
     size: 100Mi

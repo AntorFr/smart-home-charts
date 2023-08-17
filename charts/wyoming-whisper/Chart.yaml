@@ -1,0 +1,13 @@
+apiVersion: v2
+name: wyoming-whisper
+description: Whisper is an open source speech-to-text model created by OpenAI that runs locally.
+type: application
+version: 0.0.2
+appVersion: latest
+home: https://hub.docker.com/r/rhasspy/wyoming-whisper
+sources:
+  - https://github.com/home-assistant/addons/tree/master/whisper
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.5.8

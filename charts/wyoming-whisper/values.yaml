@@ -2,42 +2,32 @@ controller:
   replicas: 1
 
 image:
-  repository: mitmproxy/mitmproxy
+  repository: rhasspy/wyoming-whisper
   tag: "latest"
-  pullPolicy: Always
-
-args:
-  - mitmweb
-  - --web-host
-  - 0.0.0.0
-
-env:
-  TZ: UTC
+  pullPolicy: IfNotPresent
+  args: ["--model", "tiny-int8", "--language en"]
 
 service:
   main:
     enabled: true
     type: ClusterIP
+
     ports:
       http:
         enabled: true
-        primary: false
-        port: 8081 
-      proxy:
         primary: true
-        enabled: true
         protocol: TCP
-        port: 8080     
-
+        port: 10300
+     
 ingress:
   main:
     enabled: false
 
 persistence:
-  logs:
+  data:
     enabled: false
     type: pvc
-    mountPath: /logs
+    mountPath: /data
     storageClass:  # "-"
     accessMode: ReadWriteOnce
     size: 100Mi
