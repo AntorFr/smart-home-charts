@@ -2,7 +2,7 @@ apiVersion: v2
 name: wyoming-whisper
 description: Whisper is an open source speech-to-text model created by OpenAI that runs locally.
 type: application
-version: 0.0.2
+version: 0.0.3
 appVersion: latest
 home: https://hub.docker.com/r/rhasspy/wyoming-whisper
 sources:
