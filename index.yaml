@@ -1487,6 +1487,24 @@ entries:
   wyoming-piper:
   - apiVersion: v2
     appVersion: latest
+    created: "2023-08-17T22:46:18.870182981Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Piper uses modern machine learning algorithms for realistic-sounding
+      speech but can still generate audio quickly.
+    digest: eb5961d0af706e18fc0fa05f836e4e5d2cc51d0051f2bf5bc377b38ad793e273
+    home: https://github.com/home-assistant/addons/blob/master/piper/DOCS.md
+    name: wyoming-piper
+    sources:
+    - https://github.com/home-assistant/addons/blob/master/piper
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-piper-0.0.3/wyoming-piper-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: latest
     created: "2023-08-17T21:12:49.049990495Z"
     dependencies:
     - name: common
@@ -1506,6 +1524,24 @@ entries:
   wyoming-whisper:
   - apiVersion: v2
     appVersion: latest
+    created: "2023-08-17T22:46:18.987797267Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Whisper is an open source speech-to-text model created by OpenAI
+      that runs locally.
+    digest: 06b8f73d6e7f74bfa801b4c658fe5c9babb83ffc90eb61cdd42a5bf606c29f3f
+    home: https://hub.docker.com/r/rhasspy/wyoming-whisper
+    name: wyoming-whisper
+    sources:
+    - https://github.com/home-assistant/addons/tree/master/whisper
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.4/wyoming-whisper-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
+    appVersion: latest
     created: "2023-08-17T21:12:49.201023261Z"
     dependencies:
     - name: common
@@ -1522,4 +1558,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2023-08-17T21:12:49.201234363Z"
+generated: "2023-08-17T22:46:18.987941069Z"
