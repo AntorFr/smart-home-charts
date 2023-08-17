@@ -5,7 +5,7 @@ image:
   repository: rhasspy/wyoming-whisper
   tag: "latest"
   pullPolicy: IfNotPresent
-  args: ["--model", "tiny-int8", "--language", "en"]
+args: ["--model", "tiny-int8", "--language", "en"]
 
 service:
   main:

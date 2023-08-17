@@ -5,7 +5,7 @@ image:
   repository: rhasspy/wyoming-piper
   tag: "latest"
   pullPolicy: IfNotPresent
-  args: ["--voice", "en_US-lessac-medium"]
+args: ["--voice", "en_US-lessac-medium"]
 
 service:
   main:
