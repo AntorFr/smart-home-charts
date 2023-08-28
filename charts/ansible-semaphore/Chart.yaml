@@ -1,0 +1,17 @@
+apiVersion: v2
+name: ansible-semaphore
+description: Ansible Semaphore is a modern UI for Ansible. It lets you easily run Ansible playbooks, get notifications about fails, control access to deployment system.
+type: application
+version: 0.0.1
+appVersion: latest
+home: https://www.ansible-semaphore.com/
+sources:
+  - https://github.com/ansible-semaphore/semaphore
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.5.8
+  - name: postgresql
+    version: 12.10.0
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
