@@ -1055,6 +1055,45 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/mitmproxy-0.0.1/mitmproxy-0.0.1.tgz
     version: 0.0.1
+  photoprism:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: Upgraded `mariadb` chart dependency to version 11.0.14
+        - kind: changed
+          description: Upgraded `mariadb` chart dependency to version 13.1.2
+    apiVersion: v2
+    appVersion: "230719"
+    created: "2023-08-28T23:27:27.837197065Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    - condition: mariadb.enabled
+      name: mariadb
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.1.2
+    description: PhotoPrism® is a server-based application for browsing, organizing
+      and sharing your personal photo collection
+    digest: 651925861b6b972ab1f198afc535c134c3e39f12e3869a6ff148c89950ac0351
+    home: https://github.com/k8s-at-home/charts/tree/master/charts/stable/photoprism
+    icon: https://demo.photoprism.org/static/img/logo-avatar.svg
+    keywords:
+    - photos
+    - photoprism
+    - pictures
+    - sharing
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: jeff@billimek.com
+      name: billimek
+    name: photoprism
+    sources:
+    - https://github.com/photoprism/photoprism
+    - https://hub.docker.com/r/photoprism/photoprism
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/photoprism-7.0.1/photoprism-7.0.1.tgz
+    version: 7.0.1
   platerec:
   - apiVersion: v2
     appVersion: latest
@@ -1605,4 +1644,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2023-08-28T22:20:46.30969065Z"
+generated: "2023-08-28T23:27:27.83746327Z"
