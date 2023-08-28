@@ -10,7 +10,7 @@ env:
   TZ: UTC
   SEMAPHORE_DB_USER: semaphore
   SEMAPHORE_DB_PASS: semaphore
-  SEMAPHORE_DB_HOST: mysql # for postgres, change to: postgres
+  SEMAPHORE_DB_HOST: postgres # for mysql, change to: mysql
   SEMAPHORE_DB_PORT: 5432  # change to 3306 for mysql
   SEMAPHORE_DB_DIALECT: postgres  # for mysql, change to: mysql
   SEMAPHORE_DB: semaphore
@@ -43,16 +43,6 @@ service:
 ingress:
   main:
     enabled: false
-
-persistence:
-  logs:
-    enabled: false
-    type: pvc
-    mountPath: /logs
-    storageClass:  # "-"
-    accessMode: ReadWriteOnce
-    size: 100Mi
-    retain: false
 
 postgresql:
   enabled: true
