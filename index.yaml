@@ -58,6 +58,30 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/adminer-0.0.1/adminer-0.0.1.tgz
     version: 0.0.1
+  ansible-semaphore:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2023-08-28T22:05:52.447396879Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.10.0
+    description: Ansible Semaphore is a modern UI for Ansible. It lets you easily
+      run Ansible playbooks, get notifications about fails, control access to deployment
+      system.
+    digest: f547665f0cf93b2bae8fa7218e5bf3f3d78a67dcd2eac57380765bf756e8e47b
+    home: https://www.ansible-semaphore.com/
+    name: ansible-semaphore
+    sources:
+    - https://github.com/ansible-semaphore/semaphore
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/ansible-semaphore-0.0.2/ansible-semaphore-0.0.2.tgz
+    version: 0.0.2
   common:
   - apiVersion: v2
     created: "2023-02-21T02:07:42.234023903Z"
@@ -1558,4 +1582,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2023-08-17T22:46:18.987941069Z"
+generated: "2023-08-28T22:05:52.44756898Z"
