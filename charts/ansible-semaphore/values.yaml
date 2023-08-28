@@ -67,7 +67,7 @@ postgresql:
   primary:
     persistence:
       enabled: false
-      storageClass: -
+      storageClass: "-"
       size: 1Gi
 
 
