@@ -1570,6 +1570,27 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
+  wyoming-openwakeword:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2023-10-24T20:45:37.147346573Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Wyoming protocol server for the openWakeWord wake word detection
+      system. openWakeWord is an open-source wakeword library that can be used to
+      create voice-enabled applications and interfaces. It includes pre-trained models
+      for common words & phrases that work well in real-world environments.
+    digest: 854db29b696c1b72072bbb94533ad031ce51e1efa86965a03b9f339a5b38cebb
+    home: https://github.com/rhasspy/wyoming-openwakeword
+    name: wyoming-openwakeword
+    sources:
+    - https://github.com/dscripka/openWakeWord
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-openwakeword-0.0.1/wyoming-openwakeword-0.0.1.tgz
+    version: 0.0.1
   wyoming-piper:
   - apiVersion: v2
     appVersion: latest
@@ -1644,4 +1665,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2023-08-28T23:27:27.83746327Z"
+generated: "2023-10-24T20:45:37.147652181Z"
