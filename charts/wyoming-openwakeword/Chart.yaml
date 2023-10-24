@@ -1,0 +1,13 @@
+apiVersion: v2
+name: wyoming-openwakeword
+description: Wyoming protocol server for the openWakeWord wake word detection system. openWakeWord is an open-source wakeword library that can be used to create voice-enabled applications and interfaces. It includes pre-trained models for common words & phrases that work well in real-world environments.
+type: application
+version: 0.0.1
+appVersion: latest
+home: https://github.com/rhasspy/wyoming-openwakeword
+sources:
+  - https://github.com/dscripka/openWakeWord
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.5.8

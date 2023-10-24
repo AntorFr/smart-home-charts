@@ -1,0 +1,37 @@
+controller:
+  replicas: 1
+
+image:
+  repository: rhasspy/wyoming-openwakeword
+  tag: "latest"
+  pullPolicy: IfNotPresent
+args: [" --preload-model", "'ok_nabu'"]
+
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+
+    ports:
+      http:
+        enabled: true
+        primary: true
+        protocol: TCP
+        port: 10400
+     
+ingress:
+  main:
+    enabled: false
+
+persistence:
+  custom:
+    enabled: false
+    type: pvc
+    mountPath: /custom
+    storageClass:  # "-"
+    accessMode: ReadWriteOnce
+    size: 100Mi
+    retain: false
+
+
+
