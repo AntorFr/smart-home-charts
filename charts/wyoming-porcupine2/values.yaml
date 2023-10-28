@@ -2,8 +2,8 @@ controller:
   replicas: 1
 
 image:
-  repository: ghcr.io/antorfr/wyoming-porcupine2
-  tag: "main"
+  repository: "ghcr.io/antorfr/wyoming-porcupine2"
+  tag: "latest"
   pullPolicy: IfNotPresent
 
 service:
