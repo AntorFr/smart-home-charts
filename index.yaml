@@ -1631,6 +1631,24 @@ entries:
   wyoming-porcupine2:
   - apiVersion: v2
     appVersion: latest
+    created: "2023-10-28T15:35:35.965401005Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Home Assistant wyoming server that uses Porcupine 2 for wake word
+      detection.
+    digest: ff6dcafc600fc4800dd2e8556d568416c50579fe0c2e0ccc2e1f7e5fc9acfcc7
+    home: https://github.com/AntorFr/wyoming-porcupine2
+    name: wyoming-porcupine2
+    sources:
+    - https://github.com/AntorFr/wyoming-porcupine2
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-porcupine2-0.0.2/wyoming-porcupine2-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: latest
     created: "2023-10-28T14:50:02.812344005Z"
     dependencies:
     - name: common
@@ -1684,4 +1702,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2023-10-28T14:50:02.81260221Z"
+generated: "2023-10-28T15:35:35.965534203Z"
