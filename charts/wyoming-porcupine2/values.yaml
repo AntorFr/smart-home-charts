@@ -1,0 +1,36 @@
+controller:
+  replicas: 1
+
+image:
+  repository: ghcr.io/antorfr/wyoming-porcupine2
+  tag: "main"
+  pullPolicy: IfNotPresent
+
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+
+    ports:
+      http:
+        enabled: true
+        primary: true
+        protocol: TCP
+        port: 10400
+     
+ingress:
+  main:
+    enabled: false
+
+persistence:
+  data:
+    enabled: false
+    type: pvc
+    mountPath: /data
+    storageClass:  # "-"
+    accessMode: ReadWriteOnce
+    size: 100Mi
+    retain: false
+
+
+

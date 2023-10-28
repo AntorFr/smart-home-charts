@@ -1,0 +1,13 @@
+apiVersion: v2
+name: wyoming-porcupine2
+description: Home Assistant wyoming server that uses Porcupine 2 for wake word detection.
+type: application
+version: 0.0.1
+appVersion: latest
+home: https://github.com/AntorFr/wyoming-porcupine2
+sources:
+  - https://github.com/AntorFr/wyoming-porcupine2
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.5.8
