@@ -1,0 +1,10 @@
+apiVersion: v2
+name: nginx-basic
+description: Basic nginx hosting
+type: application
+version: 0.0.1
+appVersion: latest
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.5.8

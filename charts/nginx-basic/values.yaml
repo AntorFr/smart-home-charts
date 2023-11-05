@@ -1,0 +1,63 @@
+controller:
+  replicas: 1
+
+image:
+  repository: nginx
+  tag: "latest"
+  pullPolicy: Allways
+
+
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        primary: true
+        protocol: TCP
+        port: 8080
+     
+ingress:
+  main:
+    enabled: false
+
+configmap:
+  config:
+    enabled: true
+    data:
+      nginx.conf: |
+        user nginx;
+        worker_processes 1;
+        events {
+          worker_connections  10240;
+        }
+        http {
+          server {
+            listen       8080;
+            server_name  _;
+            location / {
+              root   /usr/share/nginx/html;
+              index  index.html index.htm;
+            }
+          }
+        }
+
+persistence:
+  files:
+    enabled: false
+    type: pvc
+    mountPath: /usr/share/nginx/html
+    storageClass:  # "-"
+    accessMode: ReadWriteOnce
+    size: 100Mi
+    retain: false
+  nginx-config:
+    enabled: true
+    type: custom
+    volumeSpec:
+      configMap:
+        name: nginx-basic-config
+        mountPath: /etc/nginx
+
+
