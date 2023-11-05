@@ -4,7 +4,7 @@ controller:
 image:
   repository: nginx
   tag: "latest"
-  pullPolicy: Allways
+  pullPolicy: Always
 
 
 service:
@@ -54,10 +54,8 @@ persistence:
     retain: false
   nginx-config:
     enabled: true
-    type: custom
-    volumeSpec:
-      configMap:
-        name: nginx-basic-config
-        mountPath: /etc/nginx
+    type: configMap
+    name: nginx-basic-config
+    mountPath: /etc/nginx
 
 

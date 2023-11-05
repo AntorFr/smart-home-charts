@@ -2,7 +2,7 @@ apiVersion: v2
 name: nginx-basic
 description: Basic nginx hosting
 type: application
-version: 0.0.1
+version: 0.0.2
 appVersion: latest
 dependencies:
   - name: common
