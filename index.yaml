@@ -1055,6 +1055,21 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/mitmproxy-0.0.1/mitmproxy-0.0.1.tgz
     version: 0.0.1
+  nginx-basic:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2023-11-05T10:11:31.763900274Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Basic nginx hosting
+    digest: 2e2e3aa80fb2925b00eeaabb2931a9c227b695c3f0303e07b640b815a743cf2b
+    name: nginx-basic
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/nginx-basic-0.0.1/nginx-basic-0.0.1.tgz
+    version: 0.0.1
   photoprism:
   - annotations:
       artifacthub.io/changes: |-
@@ -1702,4 +1717,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2023-10-28T15:35:35.965534203Z"
+generated: "2023-11-05T10:11:31.764049783Z"
