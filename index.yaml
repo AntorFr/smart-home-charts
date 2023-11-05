@@ -1058,6 +1058,20 @@ entries:
   nginx-basic:
   - apiVersion: v2
     appVersion: latest
+    created: "2023-11-05T11:09:57.222734689Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Basic nginx hosting
+    digest: 425da0de1deba012af980b4cb6df4569d55a4fad34f1bdeed5fefe6f78917b71
+    name: nginx-basic
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/nginx-basic-0.0.2/nginx-basic-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: latest
     created: "2023-11-05T10:11:31.763900274Z"
     dependencies:
     - name: common
@@ -1717,4 +1731,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2023-11-05T10:11:31.764049783Z"
+generated: "2023-11-05T11:09:57.223015588Z"
