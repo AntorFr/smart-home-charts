@@ -2,9 +2,14 @@ controller:
   replicas: 1
 
 image:
-  repository: "ghcr.io/antorfr/wyoming-porcupine2"
+  repository: "ghcr.io/antorfr/wyoming-porcupine3/amd64"
   tag: "latest"
   pullPolicy: IfNotPresent
+
+env:
+  TZ: UTC
+  SENSITIVITY: 0.5
+  ACCESS_KEY: "ACCESS_KEY"
 
 service:
   main:
@@ -26,7 +31,7 @@ persistence:
   data:
     enabled: false
     type: pvc
-    mountPath: /data
+    mountPath: /app/src/data/resources
     storageClass:  # "-"
     accessMode: ReadWriteOnce
     size: 100Mi
