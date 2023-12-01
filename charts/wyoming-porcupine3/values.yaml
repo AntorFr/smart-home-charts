@@ -31,7 +31,7 @@ persistence:
   data:
     enabled: false
     type: pvc
-    mountPath: /app/src/data/resources
+    mountPath: /usr/src/data/resources
     storageClass:  # "-"
     accessMode: ReadWriteOnce
     size: 100Mi
