@@ -27,6 +27,11 @@ Main entrypoint for the common library chart. It will render all underlying temp
 
   {{ include "common.configmap" . | nindent 0 }}
 
+  {{- /* create Storage class if required */ -}}
+  {{- if .Values.storageclass.create -}}
+    {{- include "common.storageclass" . }}
+  {{- end -}}
+
   {{- /* Build the templates */ -}}
   {{- include "common.pvc" . }}
 

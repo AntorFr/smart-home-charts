@@ -472,6 +472,10 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+# -- Create Storage Class resource (usefull for zfs pvc) requests
+storageclass:
+  create: false
+
 # -- The common chart supports several add-ons. These can be configured under this key.
 # @default -- See below
 addons:
