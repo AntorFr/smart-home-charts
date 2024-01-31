@@ -1055,6 +1055,27 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/mitmproxy-0.0.1/mitmproxy-0.0.1.tgz
     version: 0.0.1
+  music-assistant-server:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2024-01-31T20:16:21.413496237Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Music Assistant is a free, opensource Media library manager that
+      connects to your streaming services and a wide range of connected speakers.
+      The server is the beating heart, the core of Music Assistant and must run on
+      an always-on device like a Raspberry Pi, a NAS or an Intel NUC or alike.
+    digest: 95333b54d8f4c7c3ae64c7c9b9807939103ca57198c995f789790ae4d1d6c6e8
+    home: https://github.com/music-assistant/server
+    name: music-assistant-server
+    sources:
+    - https://github.com/music-assistant/server
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/music-assistant-server-0.0.1/music-assistant-server-0.0.1.tgz
+    version: 0.0.1
   nginx-basic:
   - apiVersion: v2
     appVersion: latest
@@ -1768,4 +1789,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2023-12-01T23:44:07.207584823Z"
+generated: "2024-01-31T20:16:21.413797503Z"
