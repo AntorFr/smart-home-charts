@@ -5,7 +5,7 @@
 {{/* Render secrets for cloudflareddns */}}
 {{- $secrets := include "cloudflareddns.secret" . | fromYaml -}}
 {{- if $secrets -}}
-  {{- $_ := set .Values.secret "secret" $secrets -}}
+  {{- $_ := set .Values "secret" $secrets -}}
 {{- end -}}
 
 {{/* Render the templates */}}
