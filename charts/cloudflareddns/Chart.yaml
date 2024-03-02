@@ -3,7 +3,7 @@ apiVersion: v2
 description: Automate Cloudflare DNS records for those with a dynamic IP.
 name: cloudflareddns
 type: application
-version: 0.0.1
+version: 0.0.2
 maintainers:
   - name: AntorFR
     email: contact@antor.fr
