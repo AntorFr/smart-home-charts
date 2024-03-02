@@ -105,6 +105,29 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/ansible-semaphore-0.0.2/ansible-semaphore-0.0.2.tgz
     version: 0.0.2
+  cloudflareddns:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    created: "2024-03-02T15:09:20.438444666Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Automate Cloudflare DNS records for those with a dynamic IP.
+    digest: bdc646f5d8517763c3e305846a28ef4f54608ba67d8e2609d5d034eca9cbf032
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: cloudflareddns
+    sources:
+    - https://github.com/hotio/cloudflareddns
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/cloudflareddns-0.0.1/cloudflareddns-0.0.1.tgz
+    version: 0.0.1
   common:
   - apiVersion: v2
     created: "2023-02-21T02:07:42.234023903Z"
@@ -1840,4 +1863,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2024-03-02T10:13:11.280803648Z"
+generated: "2024-03-02T15:09:20.438636997Z"
