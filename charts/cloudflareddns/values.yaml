@@ -1,0 +1,45 @@
+#
+# IMPORTANT NOTE
+#
+# This chart inherits from our common library chart. You can check the default values/options here:
+# https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
+#
+
+image:
+  # -- image repository
+  repository: ghcr.io/hotio/cloudflareddns
+  # -- image tag
+  tag: latest@sha256:339e2f93800aa55e1fc3fe3d711627ff5c7fb9d23bb090731c9648ae9fb296b8
+  # -- image pull policy
+  pullPolicy: IfNotPresent
+
+cloudflareddns:
+  user: your.cf.email@example.com
+  api_token: ""
+  api_key: ""
+  api_token_zone: ""
+  interval: 300
+  detect_mode: dig-whoami.cloudflare
+  detect_override: ""
+  log_level: 3
+  host_zone_record: []
+
+# -- environment variables. See more environment variables in the [teamspeak image documentation](https://hub.docker.com/_/teamspeak).
+# @default -- See below
+envFrom:
+  - secretRef:
+      name: '{{ .Release.Name }}'
+
+# -- Configures service settings for the chart.
+# @default -- See values.yaml
+service:
+  main:
+    enabled: false
+
+ingress:
+  # -- Enable and configure ingress settings for the chart under this key.
+  # @default -- See values.yaml
+  main:
+    enabled: false
+
+
