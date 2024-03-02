@@ -111,6 +111,28 @@ entries:
         - kind: changed
           description: First chart release
     apiVersion: v2
+    created: "2024-03-02T15:16:57.78431133Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Automate Cloudflare DNS records for those with a dynamic IP.
+    digest: ed6aced11a7f76cf51211ce77429c7709d66e0a79cf2a90dd48981bd62fa2225
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: cloudflareddns
+    sources:
+    - https://github.com/hotio/cloudflareddns
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/cloudflareddns-0.0.2/cloudflareddns-0.0.2.tgz
+    version: 0.0.2
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
     created: "2024-03-02T15:09:20.438444666Z"
     dependencies:
     - name: common
@@ -1863,4 +1885,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2024-03-02T15:09:20.438636997Z"
+generated: "2024-03-02T15:16:57.784486327Z"
