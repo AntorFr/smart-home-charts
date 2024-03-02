@@ -1,0 +1,60 @@
+#
+# IMPORTANT NOTE
+#
+# This chart inherits from our common library chart. You can check the default values/options here:
+# https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
+#
+
+image:
+  # -- image repository
+  repository: ghcr.io/wg-easy/wg-easy
+  # -- image tag
+  tag: 11
+  # -- image pull policy
+  pullPolicy: IfNotPresent
+
+# -- environment variables. See more environment variables in the [teamspeak image documentation](https://hub.docker.com/_/teamspeak).
+# @default -- See below
+env:
+  TZ: UTC
+  WG_HOST: "localhost"
+  PORT: "{{ .Values.service.main.ports.http.port }}"
+  WG_PORT: "{{ .Values.service.main.ports.vpn.port }}"
+  WG_MTU: 0
+  WG_PERSISTENT_KEEPALIVE: 0
+  WG_DEFAULT_ADDRESS: "10.8.0.x"
+  WG_DEFAULT_DNS: "1.1.1.1"
+  WG_ALLOWED_IPS: "0.0.0.0/0, ::/0"
+  PASSWORD: "secretpass"
+
+securityContext:
+  capabilities:
+    add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_MODULE
+
+# -- Configures service settings for the chart.
+# @default -- See values.yaml
+service:
+  main:
+    ports:
+      http:
+        port: 51821
+      vpn:
+        enabled: true
+        port: 51820
+        protocol: UDP
+
+ingress:
+  # -- Enable and configure ingress settings for the chart under this key.
+  # @default -- See values.yaml
+  main:
+    enabled: false
+
+# -- Configure persistence settings for the chart under this key.
+# @default -- See values.yaml
+persistence:
+  config:
+    enabled: false
+    mountPath: /etc/wireguard
