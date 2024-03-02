@@ -1620,6 +1620,30 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
+  wg-easy:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    created: "2024-03-02T10:13:11.280620626Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: The easiest way to run WireGuard VPN + Web-based Admin UI.
+    digest: edca56265a395d84533bb3a1e4e85103e1fb333ecccb8ccbbb56f06289c5aaab
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: wg-easy
+    sources:
+    - https://github.com/WeeJeWel/wg-easy
+    - https://ghcr.io/wg-easy/wg-easy
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/wg-easy-0.0.1/wg-easy-0.0.1.tgz
+    version: 0.0.1
   wireguard:
   - annotations:
       artifacthub.io/changes: |-
@@ -1816,4 +1840,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2024-02-25T15:20:49.369573119Z"
+generated: "2024-03-02T10:13:11.280803648Z"
