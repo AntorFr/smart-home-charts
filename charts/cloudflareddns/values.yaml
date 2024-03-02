@@ -28,7 +28,7 @@ cloudflareddns:
 # @default -- See below
 envFrom:
   - secretRef:
-      name: '{{ .Release.Name }}'
+      name: cloudflareddns
 
 # -- Configures service settings for the chart.
 # @default -- See values.yaml
