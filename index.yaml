@@ -819,6 +819,29 @@ entries:
         - kind: changed
           description: First chart release
     apiVersion: v2
+    created: "2024-03-03T10:18:00.256105426Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    - condition: mapViz.enabled
+      name: nginx
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.2.30
+    description: The chart will run a Minecraft Bedrock Dedicated Server (MBDS)
+    digest: 11a9fa07d8fd8bf85ccc94060bf2610b44d2e2b2a1920f514c665588f471d7dd
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: minecraft-server
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/minecraft-server-0.1.4/minecraft-server-0.1.4.tgz
+    version: 0.1.4
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
     created: "2023-03-22T23:23:38.660241487Z"
     dependencies:
     - name: common
@@ -1951,4 +1974,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2024-03-02T15:33:25.160069241Z"
+generated: "2024-03-03T10:18:00.256294449Z"
