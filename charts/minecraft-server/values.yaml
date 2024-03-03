@@ -150,7 +150,7 @@ mapViz:
     # -- image pull policy
     pullPolicy: IfNotPresent
     # -- image pull tag
-    tag: "1.0.0"
+    tag: "1.0.3"
 
   env:
 
