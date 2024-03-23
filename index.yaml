@@ -715,6 +715,29 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/frigate-8.2.0/frigate-8.2.0.tgz
     version: 8.2.0
+  jupyter:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    created: "2024-03-23T18:55:05.187296647Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: The Jupyter Notebook is a web-based interactive computing platform.
+    digest: c299556a35cb86ae72b02a4b279c566a76b7a659fefb4ee7e6afdac0600e7e80
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: jupyter
+    sources:
+    - https://jupyter.org/
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/jupyter-0.0.1/jupyter-0.0.1.tgz
+    version: 0.0.1
   lldap:
   - apiVersion: v2
     appVersion: latest
@@ -1974,4 +1997,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2024-03-03T10:18:00.256294449Z"
+generated: "2024-03-23T18:55:05.187460062Z"
