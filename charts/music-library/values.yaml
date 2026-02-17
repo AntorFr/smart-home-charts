@@ -1,0 +1,45 @@
+controller:
+  replicas: 1
+
+image:
+  repository: ghcr.io/antorfr/music-library
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        primary: true
+        protocol: TCP
+        port: 8000
+
+ingress:
+  main:
+    enabled: false
+
+env:
+  # Database
+  ML_DATABASE_URL: "sqlite+aiosqlite:///data/library.db"
+  ML_COVERS_DIR: "data/covers"
+  # Music Assistant server
+  ML_MUSIC_ASSISTANT_URL: ""
+  ML_MUSIC_ASSISTANT_TOKEN: ""
+  # Home Assistant (optional)
+  ML_HOME_ASSISTANT_URL: ""
+  ML_HOME_ASSISTANT_TOKEN: ""
+  # Debug mode
+  ML_DEBUG: "false"
+
+persistence:
+  data:
+    enabled: false
+    type: pvc
+    mountPath: /app/data
+    storageClass:  # "-"
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    retain: false

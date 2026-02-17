@@ -1,0 +1,13 @@
+apiVersion: v2
+name: music-library
+description: Family media library manager with Home Assistant and Music Assistant integration
+type: application
+version: 0.0.1
+appVersion: "0.5.0-beta"
+home: https://github.com/AntorFr/music-library
+sources:
+  - https://github.com/AntorFr/music-library
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.5.8
