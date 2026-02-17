@@ -715,6 +715,32 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/frigate-8.2.0/frigate-8.2.0.tgz
     version: 8.2.0
+  home-assistant:
+  - apiVersion: v2
+    appVersion: 2026.2.2
+    created: "2026-02-17T03:46:37.648749807Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Home Assistant - Open source home automation that puts local control
+      and privacy first
+    digest: 26ab164d1493e1d66b367f86bba80b2c607c482063821342135fa9cb2393fd26
+    home: https://www.home-assistant.io/
+    icon: https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Home_Assistant_Logo.svg/519px-Home_Assistant_Logo.svg.png
+    keywords:
+    - home-assistant
+    - hass
+    - homeassistant
+    - smart-home
+    - automation
+    name: home-assistant
+    sources:
+    - https://github.com/home-assistant/core
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/home-assistant-0.0.1/home-assistant-0.0.1.tgz
+    version: 0.0.1
   jupyter:
   - annotations:
       artifacthub.io/changes: |-
@@ -2016,4 +2042,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-02-17T02:42:48.884906376Z"
+generated: "2026-02-17T03:46:37.648914524Z"
