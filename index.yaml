@@ -1233,6 +1233,25 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/music-assistant-server-0.0.1/music-assistant-server-0.0.1.tgz
     version: 0.0.1
+  music-library:
+  - apiVersion: v2
+    appVersion: 0.5.0-beta
+    created: "2026-02-17T02:42:48.884677679Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Family media library manager with Home Assistant and Music Assistant
+      integration
+    digest: 6c7309007d3cd3d2b2bec72ab2df430dd67f28dd95efe10fc0e53ae210cae6b1
+    home: https://github.com/AntorFr/music-library
+    name: music-library
+    sources:
+    - https://github.com/AntorFr/music-library
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/music-library-0.0.1/music-library-0.0.1.tgz
+    version: 0.0.1
   nginx-basic:
   - apiVersion: v2
     appVersion: latest
@@ -1997,4 +2016,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2024-03-23T18:55:05.187460062Z"
+generated: "2026-02-17T02:42:48.884906376Z"
