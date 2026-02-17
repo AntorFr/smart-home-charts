@@ -1,0 +1,51 @@
+controller:
+  replicas: 1
+
+image:
+  repository: ghcr.io/home-assistant/home-assistant
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+env:
+  TZ: UTC
+
+# -- Enable devices to be discoverable
+hostNetwork: true
+# -- When hostNetwork is true set dnsPolicy to ClusterFirstWithHostNet
+dnsPolicy: ClusterFirstWithHostNet
+
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        primary: true
+        protocol: TCP
+        port: 8123
+
+ingress:
+  main:
+    enabled: false
+
+securityContext:
+  # -- Privileged securityContext may be required if USB devices are accessed directly
+  privileged: false
+
+persistence:
+  config:
+    enabled: false
+    type: pvc
+    mountPath: /config
+    storageClass:  # "-"
+    accessMode: ReadWriteOnce
+    size: 5Gi
+    retain: false
+  # -- Configure a hostPathMount to mount a USB device in the container.
+  usb:
+    enabled: false
+    type: hostPath
+    hostPath: /path/to/device
+    mountPath: /dev/ttyUSB0
+
