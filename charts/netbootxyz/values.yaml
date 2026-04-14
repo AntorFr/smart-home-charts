@@ -1,0 +1,54 @@
+image:
+  repository: ghcr.io/netbootxyz/netbootxyz
+  tag: "0.7.6"
+  pullPolicy: IfNotPresent
+
+env:
+  TZ: "Europe/Paris"
+  PUID: "1000"
+  PGID: "1000"
+
+service:
+  main:
+    ports:
+      http:
+        enabled: true
+        primary: true
+        port: 3000
+        protocol: TCP
+      assets:
+        enabled: true
+        port: 80
+        protocol: TCP
+
+# TFTP (UDP 69) — exposed via hostPort on the container, not via a Service.
+# kube-proxy does not handle TFTP/UDP well; hostPort binds directly on the node.
+# Set to false to disable hostPort (e.g. if using hostNetwork instead).
+hostPort:
+  tftp:
+    enabled: true
+    containerPort: 69
+    hostPort: 69
+    protocol: UDP
+
+ingress:
+  main:
+    enabled: false
+    # -- Example:
+    # hosts:
+    #   - host: netboot.example.com
+    #     paths:
+    #       - path: /
+    #         pathType: Prefix
+
+persistence:
+  config:
+    enabled: false
+    type: hostPath
+    hostPath: /mnt/data/netbootxyz/config
+    mountPath: /config
+  assets:
+    enabled: false
+    type: hostPath
+    hostPath: /mnt/data/netbootxyz/assets
+    mountPath: /assets

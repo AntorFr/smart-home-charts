@@ -1,0 +1,15 @@
+apiVersion: v2
+name: netbootxyz
+description: Network bootable operating system installer and IPXE server
+type: application
+version: 0.0.1
+appVersion: "0.7.6"
+keywords:
+  - k8s-at-home
+  - netboot
+  - pxe
+  - tftp
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.5.8
