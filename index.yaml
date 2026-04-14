@@ -1278,6 +1278,26 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/music-library-0.0.1/music-library-0.0.1.tgz
     version: 0.0.1
+  netbootxyz:
+  - apiVersion: v2
+    appVersion: 0.7.6
+    created: "2026-04-14T20:51:33.51669591Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Network bootable operating system installer and IPXE server
+    digest: bb545a87e111960ef2b2df7223329e730409c4a7711a87d852f3e8f37acb469f
+    keywords:
+    - k8s-at-home
+    - netboot
+    - pxe
+    - tftp
+    name: netbootxyz
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/netbootxyz-0.0.1/netbootxyz-0.0.1.tgz
+    version: 0.0.1
   nginx-basic:
   - apiVersion: v2
     appVersion: latest
@@ -2042,4 +2062,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-02-17T03:46:37.648914524Z"
+generated: "2026-04-14T20:51:33.516867454Z"
