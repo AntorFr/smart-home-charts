@@ -679,6 +679,34 @@ entries:
   crafty-controller:
   - annotations:
       artifacthub.io/changes: |-
+        - kind: fixed
+          description: Move traefik service.* annotations from Ingress to Service (required by Traefik Kubernetes Ingress provider)
+    apiVersion: v2
+    appVersion: "4"
+    created: "2026-04-18T21:57:55.721559695Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Crafty Controller 4 - web panel for Minecraft Java/Bedrock server
+      management
+    digest: 59256e00bcc6b21ed3e61774aa52deb9e39c4401c9e08f34b96cc3f0a942faad
+    keywords:
+    - k8s-at-home
+    - minecraft
+    - crafty
+    - bedrock
+    - java
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: crafty-controller
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/crafty-controller-0.0.2/crafty-controller-0.0.2.tgz
+    version: 0.0.2
+  - annotations:
+      artifacthub.io/changes: |-
         - kind: added
           description: First chart release
     apiVersion: v2
@@ -2091,4 +2119,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-04-18T20:55:16.27613053Z"
+generated: "2026-04-18T21:57:55.721942899Z"
