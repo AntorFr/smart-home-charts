@@ -23,7 +23,8 @@ service:
 {{- end }}
 
 {{- if and .Values.ingress.main.enabled (hasKey .Values "traefik") .Values.traefik.serversTransport.enabled }}
-ingress:
+{{/* `serversscheme: https` is already added by common/_service.tpl for HTTPS ports, we only need `serverstransport` here. */}}
+service:
   main:
     annotations:
       traefik.ingress.kubernetes.io/service.serverstransport: {{ .Release.Namespace }}-{{ include "common.names.fullname" . }}-insecure@kubernetescrd

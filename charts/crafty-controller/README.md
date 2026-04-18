@@ -1,6 +1,6 @@
 # crafty-controller
 
-![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square) ![AppVersion: 4](https://img.shields.io/badge/AppVersion-4-informational?style=flat-square)
+![Version: 0.0.2](https://img.shields.io/badge/Version-0.0.2-informational?style=flat-square) ![AppVersion: 4](https://img.shields.io/badge/AppVersion-4-informational?style=flat-square)
 
 Crafty Controller 4 — web panel for managing Minecraft Java / Bedrock servers.
 
@@ -102,9 +102,13 @@ must therefore speak HTTPS upstream **and skip certificate verification**.
 
 Enable `ingress.main` and keep `traefik.serversTransport.enabled: true`. The
 chart then:
-1. Sets `traefik.ingress.kubernetes.io/service.serversscheme: https` on the Ingress
-2. Generates a namespace-scoped `ServersTransport` CRD with `insecureSkipVerify: true`
-3. Wires the Ingress annotation to reference that ServersTransport
+1. Generates a namespace-scoped `ServersTransport` CRD with `insecureSkipVerify: true`
+2. Injects `traefik.ingress.kubernetes.io/service.serversscheme: https` and
+   `...service.serverstransport: <ns>-<release>-insecure@kubernetescrd` onto the
+   **panel Service** (Traefik's Kubernetes Ingress provider reads these
+   annotations from the Service, not the Ingress)
+
+You only need to declare hosts / TLS on the Ingress itself:
 
 ```yaml
 ingress:

@@ -88,16 +88,15 @@ service:
 
 # -- Configure the ingress for the web panel. Crafty serves HTTPS self-signed on 8443,
 # so the reverse proxy MUST speak HTTPS upstream and skip cert verification.
-# For Traefik, enable `traefik.serversTransport` below (a ServersTransport CRD is generated).
+# For Traefik, enable `traefik.serversTransport` below: the chart then injects the
+# `serversscheme` + `serverstransport` annotations onto the panel Service (Traefik
+# reads them from the Service, not the Ingress) and ships a ServersTransport CRD.
 # @default -- See values.yaml
 ingress:
   main:
     enabled: false
     ingressClassName: traefik
-    annotations:
-      # Traefik: tell it to speak HTTPS to the backend. The `serverstransport`
-      # annotation is injected automatically when `traefik.serversTransport.enabled` is true.
-      traefik.ingress.kubernetes.io/service.serversscheme: "https"
+    annotations: {}
       # Uncomment for nginx-ingress instead of Traefik:
       # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       # nginx.ingress.kubernetes.io/proxy-ssl-verify: "off"

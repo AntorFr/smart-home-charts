@@ -3,7 +3,7 @@ apiVersion: v2
 name: crafty-controller
 description: Crafty Controller 4 - web panel for Minecraft Java/Bedrock server management
 type: application
-version: 0.0.1
+version: 0.0.2
 appVersion: "4"
 keywords:
   - k8s-at-home
@@ -20,5 +20,5 @@ dependencies:
     version: 4.5.8
 annotations:
   artifacthub.io/changes: |-
-    - kind: added
-      description: First chart release
+    - kind: fixed
+      description: Move traefik service.* annotations from Ingress to Service (required by Traefik Kubernetes Ingress provider)
