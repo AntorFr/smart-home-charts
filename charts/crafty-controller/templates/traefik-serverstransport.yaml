@@ -1,0 +1,11 @@
+{{- include "common.values.setup" . -}}
+{{- if and .Values.ingress.main.enabled .Values.traefik.serversTransport.enabled -}}
+---
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: {{ include "common.names.fullname" . }}-insecure
+  labels: {{- include "common.labels" . | nindent 4 }}
+spec:
+  insecureSkipVerify: {{ .Values.traefik.serversTransport.insecureSkipVerify }}
+{{- end }}

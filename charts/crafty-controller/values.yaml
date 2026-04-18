@@ -1,0 +1,212 @@
+#
+# IMPORTANT NOTE
+#
+# This chart inherits from our common library chart. You can check the default values/options here:
+# https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
+#
+
+image:
+  # -- image repository. Alt: arcadiatechnology/crafty-4 (Docker Hub mirror).
+  repository: registry.gitlab.com/crafty-controller/crafty-4
+  # -- image tag
+  tag: latest
+  # -- image pull policy
+  pullPolicy: IfNotPresent
+
+controller:
+  # Crafty uses a local SQLite DB. Multiple replicas are NOT supported.
+  type: deployment
+  replicas: 1
+
+# -- fsGroup=1000 matches the `crafty` group inside the container. Required so
+# the non-root process can write to mounted volumes.
+podSecurityContext:
+  fsGroup: 1000
+
+# -- environment variables. See https://docs.craftycontrol.com/
+# @default -- See below
+env:
+  TZ: UTC
+
+# -- Configures service settings for the chart.
+# @default -- See values.yaml
+service:
+  # -- Web panel (HTTPS self-signed on 8443). ClusterIP by default, exposed via Ingress.
+  main:
+    enabled: true
+    primary: true
+    type: ClusterIP
+    nameOverride: panel
+    ports:
+      http:
+        enabled: false
+      https:
+        enabled: true
+        primary: true
+        port: 8443
+        protocol: HTTPS
+
+  # -- Minecraft Bedrock server (UDP 19132). LoadBalancer by default so MetalLB / klipper-lb
+  # can expose the port on an external IP.
+  bedrock:
+    enabled: true
+    primary: false
+    type: LoadBalancer
+    nameOverride: bedrock
+    ports:
+      bedrock:
+        enabled: true
+        primary: true
+        port: 19132
+        protocol: UDP
+
+  # -- Minecraft Java server range. Disabled by default (Bedrock-only is the common case).
+  # When enabled, `portRange.size` TCP ports starting from `portRange.start` are generated
+  # as service ports (e.g. start=25565, size=10 -> 25565..25574).
+  java:
+    enabled: false
+    primary: false
+    type: LoadBalancer
+    nameOverride: java
+    portRange:
+      start: 25565
+      size: 10
+    ports: {}
+
+  # -- Dynmap (TCP 8123). Disabled by default.
+  dynmap:
+    enabled: false
+    primary: false
+    type: ClusterIP
+    nameOverride: dynmap
+    ports:
+      dynmap:
+        enabled: true
+        primary: true
+        port: 8123
+        protocol: HTTP
+
+# -- Configure the ingress for the web panel. Crafty serves HTTPS self-signed on 8443,
+# so the reverse proxy MUST speak HTTPS upstream and skip cert verification.
+# For Traefik, enable `traefik.serversTransport` below (a ServersTransport CRD is generated).
+# @default -- See values.yaml
+ingress:
+  main:
+    enabled: false
+    ingressClassName: traefik
+    annotations:
+      # Traefik: tell it to speak HTTPS to the backend. The `serverstransport`
+      # annotation is injected automatically when `traefik.serversTransport.enabled` is true.
+      traefik.ingress.kubernetes.io/service.serversscheme: "https"
+      # Uncomment for nginx-ingress instead of Traefik:
+      # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      # nginx.ingress.kubernetes.io/proxy-ssl-verify: "off"
+    hosts:
+      - host: crafty.chart-example.local
+        paths:
+          - path: /
+            pathType: Prefix
+    tls: []
+    #  - secretName: crafty-tls
+    #    hosts:
+    #      - crafty.chart-example.local
+
+# -- Traefik-specific extras. Generates a ServersTransport CRD (namespace-scoped)
+# so the Ingress can talk HTTPS to Crafty's self-signed backend without a cluster-wide
+# `insecureSkipVerify`. Ignored when `ingress.main.enabled` is false.
+traefik:
+  serversTransport:
+    enabled: true
+    insecureSkipVerify: true
+
+# -- Configure persistence. All 5 Crafty data paths are declared as separate volumes
+# and disabled by default (emptyDir / ephemeral). Enable what you need.
+# Supports the full `common` persistence API: `type: pvc|hostPath|emptyDir`,
+# `existingClaim`, `hostPath`, `storageClass`, `size`, `accessMode`.
+# @default -- See values.yaml
+persistence:
+  # -- Crafty DB + config (SQLite lives here). Losing this wipes users/settings.
+  config:
+    enabled: false
+    type: pvc
+    mountPath: /crafty/app/config
+    accessMode: ReadWriteOnce
+    size: 1Gi
+
+  # -- Minecraft server data (worlds, server.properties, plugins...).
+  servers:
+    enabled: false
+    type: pvc
+    mountPath: /crafty/servers
+    accessMode: ReadWriteOnce
+    size: 10Gi
+
+  # -- Backups written by Crafty's scheduler.
+  backups:
+    enabled: false
+    type: pvc
+    mountPath: /crafty/backups
+    accessMode: ReadWriteOnce
+    size: 10Gi
+
+  # -- Application + server logs.
+  logs:
+    enabled: false
+    type: pvc
+    mountPath: /crafty/logs
+    accessMode: ReadWriteOnce
+    size: 1Gi
+
+  # -- Staging area for server imports (zips).
+  imports:
+    enabled: false
+    type: pvc
+    mountPath: /crafty/import
+    accessMode: ReadWriteOnce
+    size: 2Gi
+
+# -- TCP probes on the panel port. Crafty has no dedicated HTTP health endpoint.
+# Startup probe is generous because first boot initialises the SQLite DB.
+probes:
+  liveness:
+    enabled: true
+    custom: true
+    spec:
+      tcpSocket:
+        port: 8443
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      timeoutSeconds: 5
+      failureThreshold: 3
+  readiness:
+    enabled: true
+    custom: true
+    spec:
+      tcpSocket:
+        port: 8443
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+  startup:
+    enabled: true
+    custom: true
+    spec:
+      tcpSocket:
+        port: 8443
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 60
+
+# -- Resource requests / limits. Minecraft servers are memory-hungry - adjust to your load.
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 2000m
+    memory: 4Gi
+
+serviceAccount:
+  create: true

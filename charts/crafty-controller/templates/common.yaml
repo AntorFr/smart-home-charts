@@ -1,0 +1,35 @@
+---
+{{/* Make sure all variables are set properly */}}
+{{- include "common.values.setup" . }}
+
+{{/* Generate Java service port entries from portRange + wire Traefik ServersTransport ref */}}
+{{- define "crafty.harcodedValues" -}}
+{{- if and (hasKey .Values.service "java") .Values.service.java.enabled -}}
+{{- $start := .Values.service.java.portRange.start | int -}}
+{{- $size := .Values.service.java.portRange.size | int -}}
+service:
+  java:
+    ports:
+{{- range $i, $_ := until $size }}
+{{- $port := add $start $i }}
+      java-{{ $port }}:
+        enabled: true
+        {{- if eq $i 0 }}
+        primary: true
+        {{- end }}
+        port: {{ $port }}
+        protocol: TCP
+{{- end }}
+{{- end }}
+
+{{- if and .Values.ingress.main.enabled (hasKey .Values "traefik") .Values.traefik.serversTransport.enabled }}
+ingress:
+  main:
+    annotations:
+      traefik.ingress.kubernetes.io/service.serverstransport: {{ .Release.Namespace }}-{{ include "common.names.fullname" . }}-insecure@kubernetescrd
+{{- end }}
+{{- end -}}
+{{- $_ := mergeOverwrite .Values (include "crafty.harcodedValues" . | fromYaml) -}}
+
+{{/* Render the templates */}}
+{{ include "common.all" . }}
