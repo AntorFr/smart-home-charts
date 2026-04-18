@@ -676,6 +676,35 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/compreface2-0.0.3/compreface2-0.0.3.tgz
     version: 0.0.3
+  crafty-controller:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: added
+          description: First chart release
+    apiVersion: v2
+    appVersion: "4"
+    created: "2026-04-18T20:55:16.27594897Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Crafty Controller 4 - web panel for Minecraft Java/Bedrock server
+      management
+    digest: abf08642ca20243865cc47f36ecb694f984800d0f35d2bc81cfcef257d5813a7
+    keywords:
+    - k8s-at-home
+    - minecraft
+    - crafty
+    - bedrock
+    - java
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: crafty-controller
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/crafty-controller-0.0.1/crafty-controller-0.0.1.tgz
+    version: 0.0.1
   frigate:
   - annotations:
       artifacthub.io/changes: |-
@@ -2062,4 +2091,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-04-14T20:51:33.516867454Z"
+generated: "2026-04-18T20:55:16.27613053Z"
