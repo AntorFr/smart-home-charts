@@ -152,6 +152,13 @@ spec:
 
 {{- if .Values.worlds }}
 
+{{- /* Enable persistence volumes for cronjob */ -}}
+{{- $_ := set .Values.persistence.worlds "enabled" true -}}
+{{- $_ := set .Values.persistence.output "enabled" true -}}
+{{- if .Values.resourcePack.enabled -}}
+  {{- $_ := set .Values.persistence.resourcepack "enabled" true -}}
+{{- end -}}
+
 {{- /* Build renderer CronJob config */ -}}
 {{- $controller := dict "enabled" true "type" "cronjob" -}}
 {{- $cronjob := dict
@@ -162,15 +169,6 @@ spec:
   "restartPolicy" "OnFailure"
   "backoffLimit" 2
 -}}
-
-{{- /* Volume mounts for renderer */ -}}
-{{- $volumeMounts := list
-  (dict "name" "worlds" "mountPath" "/worlds" "readOnly" true)
-  (dict "name" "output" "mountPath" "/output" "readOnly" false)
--}}
-{{- if .Values.resourcePack.enabled -}}
-  {{- $volumeMounts = append $volumeMounts (dict "name" "resourcepack" "mountPath" .Values.resourcePack.mountPath "readOnly" true) -}}
-{{- end -}}
 
 {{- /* Init containers for resource pack download */ -}}
 {{- $initContainers := dict -}}
@@ -185,24 +183,18 @@ spec:
   ) -}}
 {{- end -}}
 
-{{- /* Renderer container */ -}}
-{{- $rendererContainer := dict
-  "image" (printf "%s:%s" .Values.renderer.image.repository (default .Chart.AppVersion .Values.renderer.image.tag))
-  "imagePullPolicy" .Values.renderer.image.pullPolicy
-  "command" (list "sh" "-c")
-  "args" (list (include "unmined.rendererScript" .))
-  "resources" .Values.renderer.resources
-  "volumeMounts" $volumeMounts
--}}
+{{- /* Render script as main container command */ -}}
+{{- $rendererScript := include "unmined.rendererScript" . -}}
 
 {{- /* Merge all into common values for CronJob */ -}}
 {{- $_ := set .Values "controller" $controller -}}
 {{- $_ := set .Values "image" .Values.renderer.image -}}
+{{- $_ := set .Values "command" (list "sh" "-c") -}}
+{{- $_ := set .Values "args" (list $rendererScript) -}}
 {{- $_ := set .Values "cronjob" $cronjob -}}
 {{- if gt (len $initContainers) 0 -}}
   {{- $_ := set .Values "initContainers" $initContainers -}}
 {{- end -}}
-{{- $_ := set .Values "additionalContainers" (dict "renderer" $rendererContainer) -}}
 {{- $_ := set .Values "resources" .Values.renderer.resources -}}
 
 {{- /* Render CronJob via common */ -}}
