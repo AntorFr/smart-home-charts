@@ -1,0 +1,225 @@
+{{/*
+Renderer script: unmined-cli for each world
+*/}}
+{{- define "unmined.rendererScript" }}
+set -e
+{{- range $world := .Values.worlds }}
+echo "Rendering world: {{ $world.name }}"
+unmined-cli web render \
+  --world="{{ $world.worldPath }}" \
+  --output="/output/{{ $world.name }}" \
+  {{- if $.Values.resourcePack.enabled }}
+  --bedrock-vanilla-pack="{{ $.Values.resourcePack.mountPath }}/bedrock-samples.zip" \
+  {{- end }}
+  {{- range $world.extraArgs }}
+  "{{ . }}" \
+  {{- end }}
+{{- end }}
+echo "Done"
+{{- end }}
+
+{{/*
+Resource pack download script
+*/}}
+{{- define "unmined.resourcePackDownload" }}
+set -e
+ZIP="{{ .Values.resourcePack.mountPath }}/bedrock-samples.zip"
+if [ ! -f "$ZIP" ]; then
+  echo "Downloading Bedrock resource pack..."
+  mkdir -p "{{ .Values.resourcePack.mountPath }}"
+  curl -fL "{{ .Values.resourcePack.url }}" -o "$ZIP"
+  echo "Downloaded to $ZIP"
+else
+  echo "Resource pack already cached at $ZIP"
+fi
+{{- end }}
+
+{{/*
+Nginx config helper
+*/}}
+{{- define "unmined.nginxConfig" }}
+server {
+  listen 80;
+  server_name _;
+
+  # Serve /output contents at root
+  root /usr/share/nginx/html;
+  index index.html index.htm;
+
+  # Auto-index for map listing
+  autoindex on;
+  autoindex_exact_size off;
+  autoindex_localtime on;
+
+  # Gzip compression
+  gzip on;
+  gzip_types text/plain text/css application/json image/svg+xml;
+  gzip_vary on;
+
+  # Cache tiles (immutable, content-addressed)
+  location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+    expires 30d;
+    add_header Cache-Control "public, immutable";
+  }
+
+  location / {
+    try_files $uri $uri/ =404;
+  }
+}
+{{- end }}
+
+{{/*
+Web Deployment helper
+*/}}
+{{- define "unmined.webDeployment" }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "common.names.fullname" . }}-web
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+    app.kubernetes.io/component: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "common.labels.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: web
+  template:
+    metadata:
+      labels:
+        {{- include "common.labels.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: web
+    spec:
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "common.names.serviceAccountName" . }}
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      containers:
+        - name: nginx
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            {{- if .Values.env }}
+            {{- range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- end }}
+          livenessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 3
+          volumeMounts:
+            - name: output
+              mountPath: /usr/share/nginx/html
+              readOnly: true
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+              readOnly: true
+      volumes:
+        - name: output
+          {{- if eq .Values.persistence.output.type "hostPath" }}
+          hostPath:
+            path: {{ .Values.persistence.output.hostPath }}
+          {{- else if eq .Values.persistence.output.type "pvc" }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.output.existingClaim | default (printf "%s-output" (include "common.names.fullname" .)) }}
+          {{- end }}
+        - name: nginx-config
+          configMap:
+            name: {{ include "common.names.fullname" . }}-nginx
+{{- end }}
+
+---
+{{- include "common.values.setup" . }}
+
+{{- if .Values.worlds }}
+
+{{- /* Build renderer CronJob config */ -}}
+{{- $controller := dict "enabled" true "type" "cronjob" -}}
+{{- $cronjob := dict
+  "schedule" .Values.renderer.schedule
+  "concurrencyPolicy" .Values.renderer.concurrencyPolicy
+  "successfulJobsHistoryLimit" .Values.renderer.successfulJobsHistoryLimit
+  "failedJobsHistoryLimit" .Values.renderer.failedJobsHistoryLimit
+  "restartPolicy" "OnFailure"
+  "backoffLimit" 2
+-}}
+
+{{- /* Volume mounts for renderer */ -}}
+{{- $volumeMounts := list
+  (dict "name" "worlds" "mountPath" "/worlds" "readOnly" true)
+  (dict "name" "output" "mountPath" "/output" "readOnly" false)
+-}}
+{{- if .Values.resourcePack.enabled -}}
+  {{- $volumeMounts = append $volumeMounts (dict "name" "resourcepack" "mountPath" .Values.resourcePack.mountPath "readOnly" true) -}}
+{{- end -}}
+
+{{- /* Init containers for resource pack download */ -}}
+{{- $initContainers := dict -}}
+{{- if .Values.resourcePack.enabled -}}
+  {{- $_ := set $initContainers "resourcepack-download" (dict
+    "image" "curlimages/curl:8.9.1"
+    "command" (list "sh" "-c")
+    "args" (list (include "unmined.resourcePackDownload" .))
+    "volumeMounts" (list
+      (dict "name" "resourcepack" "mountPath" .Values.resourcePack.mountPath)
+    )
+  ) -}}
+{{- end -}}
+
+{{- /* Renderer container */ -}}
+{{- $rendererContainer := dict
+  "image" (printf "%s:%s" .Values.renderer.image.repository (default .Chart.AppVersion .Values.renderer.image.tag))
+  "imagePullPolicy" .Values.renderer.image.pullPolicy
+  "command" (list "sh" "-c")
+  "args" (list (include "unmined.rendererScript" .))
+  "resources" .Values.renderer.resources
+  "volumeMounts" $volumeMounts
+-}}
+
+{{- /* Merge all into common values for CronJob */ -}}
+{{- $_ := set .Values "controller" $controller -}}
+{{- $_ := set .Values "image" .Values.renderer.image -}}
+{{- $_ := set .Values "cronjob" $cronjob -}}
+{{- if gt (len $initContainers) 0 -}}
+  {{- $_ := set .Values "initContainers" $initContainers -}}
+{{- end -}}
+{{- $_ := set .Values "additionalContainers" (dict "renderer" $rendererContainer) -}}
+{{- $_ := set .Values "resources" .Values.renderer.resources -}}
+
+{{- /* Render CronJob via common */ -}}
+{{ include "common.all" . }}
+
+{{- /* Render Web Deployment */ -}}
+{{ include "unmined.webDeployment" . }}
+
+{{- /* Render nginx ConfigMap */ -}}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "common.names.fullname" . }}-nginx
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+data:
+  default.conf: {{ include "unmined.nginxConfig" . | quote }}
+
+{{- end }}

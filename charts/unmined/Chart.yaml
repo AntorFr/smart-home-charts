@@ -1,0 +1,24 @@
+---
+apiVersion: v2
+name: unmined
+description: Unmined web map renderer for Minecraft Bedrock servers
+type: application
+version: 0.0.1
+appVersion: "0.19.60"
+keywords:
+  - k8s-at-home
+  - minecraft
+  - bedrock
+  - map
+  - unmined
+maintainers:
+  - name: AntorFR
+    email: contact@antor.fr
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.6.0
+annotations:
+  artifacthub.io/changes: |-
+    - kind: added
+      description: First chart release

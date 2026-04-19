@@ -1,0 +1,101 @@
+# Renderer (CronJob) configuration
+renderer:
+  image:
+    repository: kylrth/unmined_docker
+    tag: latest
+    pullPolicy: IfNotPresent
+  schedule: "*/30 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 2000m
+      memory: 2Gi
+  extraArgs: []
+
+# Web server (Deployment nginx) configuration
+image:
+  repository: nginx
+  tag: 1.27-alpine
+  pullPolicy: IfNotPresent
+
+env:
+  TZ: UTC
+
+# List of Minecraft worlds to render
+# Each world produces tiles in output/<name>/
+worlds:
+  - name: example
+    worldPath: /worlds/<uuid>/worlds/Bedrock level
+    extraArgs: []
+  # - name: survival
+  #   worldPath: /worlds/<uuid>/worlds/Survival
+
+# Bedrock resource pack (optional but recommended for Bedrock textures)
+resourcePack:
+  enabled: true
+  # URL of bedrock-samples release to download
+  url: https://github.com/Mojang/bedrock-samples/archive/refs/tags/v1.26.0.2.zip
+  mountPath: /resourcepack
+
+# Pod security context
+podSecurityContext:
+  fsGroup: 1000
+
+# Service configuration
+service:
+  main:
+    enabled: true
+    primary: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        primary: true
+        port: 80
+        protocol: HTTP
+
+# Ingress configuration
+ingress:
+  main:
+    enabled: false
+    ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    hosts:
+      - host: maps.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: unmined-tls
+        hosts:
+          - maps.example.com
+
+# Persistence configuration
+persistence:
+  # Minecraft worlds (mounted read-only for renderer)
+  worlds:
+    enabled: false
+    type: hostPath
+    mountPath: /worlds
+    hostPath: /mnt/data/crafty/servers
+    readOnly: true
+
+  # Renderer output (shared RW between renderer and RO for nginx)
+  output:
+    enabled: false
+    type: hostPath
+    mountPath: /output
+    hostPath: /mnt/data/unmined
+
+  # Bedrock resource pack cache
+  resourcepack:
+    enabled: false
+    type: hostPath
+    mountPath: /resourcepack
+    hostPath: /mnt/data/unmined-resourcepack
