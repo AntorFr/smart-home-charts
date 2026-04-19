@@ -7,16 +7,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Unmined version (override with --build-arg)
-ARG UNMINED_VERSION=0.19.60
-ARG UNMINED_ARCH=linux-x64
+ARG UNMINED_VERSION=dev
 
 # Download and extract unmined-cli
+# Format: https://unmined.net/download/unmined-cli-linux-x64-${UNMINED_VERSION}/
+# Downloads as gzipped tar
 RUN mkdir -p /opt/unmined && \
-    curl -fL "https://unmined.net/download/unmined-cli_${UNMINED_ARCH}_${UNMINED_VERSION}.zip" \
-      -o /tmp/unmined.zip && \
-    unzip -q /tmp/unmined.zip -d /opt/unmined && \
+    curl -fL "https://unmined.net/download/unmined-cli-linux-x64-${UNMINED_VERSION}/" \
+      -o /tmp/unmined.tar.gz && \
+    tar -xzf /tmp/unmined.tar.gz -C /opt/unmined && \
     chmod +x /opt/unmined/unmined-cli && \
-    rm /tmp/unmined.zip
+    rm /tmp/unmined.tar.gz
 
 ENV PATH="/opt/unmined:${PATH}"
 

@@ -5,8 +5,8 @@ Builds and publishes a containerized `unmined-cli` image to GitHub Container Reg
 ## Image Details
 
 - **Base image**: `mcr.microsoft.com/dotnet/runtime:8.0-jammy` (.NET 8 runtime on Debian Jammy)
-- **Unmined version**: 0.19.60 (override with build-arg `UNMINED_VERSION`)
-- **Architecture**: linux-x64
+- **Unmined version**: `dev` (latest development build from unmined.net)
+- **Architecture**: linux-x64 (glibc)
 - **Non-root user**: `unmined` (UID 1000, matches common fsGroup default)
 - **Registry**: `ghcr.io/antorfr/smart-home-charts/unmined-cli`
 
@@ -15,14 +15,9 @@ Builds and publishes a containerized `unmined-cli` image to GitHub Container Reg
 Automatic on push to `images/unmined/` or `.github/workflows/build-unmined-image.yml`:
 
 ```bash
-# Manual build
-docker build -t ghcr.io/antorfr/smart-home-charts/unmined-cli:0.19.60 \
-  --build-arg UNMINED_VERSION=0.19.60 \
-  images/unmined/
-
-# With custom version
-docker build -t ghcr.io/antorfr/smart-home-charts/unmined-cli:0.20.0 \
-  --build-arg UNMINED_VERSION=0.20.0 \
+# Manual build (downloads latest dev version)
+docker build -t ghcr.io/antorfr/smart-home-charts/unmined-cli:dev \
+  --build-arg UNMINED_VERSION=dev \
   images/unmined/
 ```
 
@@ -34,24 +29,20 @@ Reference in `values.yaml`:
 renderer:
   image:
     repository: ghcr.io/antorfr/smart-home-charts/unmined-cli
-    tag: "0.19.60"
+    tag: "dev"
 ```
 
-Or just `latest`:
-
-```yaml
-renderer:
-  image:
-    repository: ghcr.io/antorfr/smart-home-charts/unmined-cli
-    tag: latest
-```
+Tags available:
+- `dev` — latest development build (auto-updated on each push)
+- `latest` — most recent build from main branch
+- `main` — build from current main branch
 
 ## Publishing
 
 GitHub Actions workflow (`build-unmined-image.yml`):
 - Triggers on changes to `images/unmined/` or workflow itself
-- Publishes to `ghcr.io/antorfr/smart-home-charts/unmined-cli:latest` on main branch
-- Supports manual dispatch with custom tag override
+- Publishes to `ghcr.io/antorfr/smart-home-charts/unmined-cli:dev` (and `:latest` on main branch)
+- Supports manual dispatch with custom tag override via workflow_dispatch
 
 First push requires:
 1. GitHub Actions enabled on repository

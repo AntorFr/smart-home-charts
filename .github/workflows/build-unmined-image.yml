@@ -46,7 +46,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
-            type=semver,pattern={{version}},value=0.19.60
+            type=semver,pattern={{version}},value=dev
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value=${{ github.event.inputs.tag }},enable=${{ github.event.inputs.tag != '' }}
 
@@ -58,7 +58,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            UNMINED_VERSION=0.19.60
-            UNMINED_ARCH=linux-x64
+            UNMINED_VERSION=dev
           cache-from: type=gha
           cache-to: type=gha,mode=max
