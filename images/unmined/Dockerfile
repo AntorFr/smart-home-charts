@@ -11,13 +11,14 @@ ARG UNMINED_VERSION=dev
 
 # Download and extract unmined-cli
 # Format: https://unmined.net/download/unmined-cli-linux-x64-${UNMINED_VERSION}/
-# Downloads as gzipped tar
+# Downloads as gzipped tar containing unmined-cli_${VERSION}_linux-x64/ subdirectory
 RUN mkdir -p /opt/unmined && \
     curl -fL "https://unmined.net/download/unmined-cli-linux-x64-${UNMINED_VERSION}/" \
       -o /tmp/unmined.tar.gz && \
-    tar -xzf /tmp/unmined.tar.gz -C /opt/unmined && \
+    tar -xzf /tmp/unmined.tar.gz -C /tmp && \
+    mv /tmp/unmined-cli_*_linux-x64/* /opt/unmined/ && \
     chmod +x /opt/unmined/unmined-cli && \
-    rm /tmp/unmined.tar.gz
+    rm -rf /tmp/unmined.tar.gz /tmp/unmined-cli_*
 
 ENV PATH="/opt/unmined:${PATH}"
 
