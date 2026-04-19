@@ -3,8 +3,8 @@ apiVersion: v2
 name: unmined
 description: Unmined web map renderer for Minecraft Bedrock servers
 type: application
-version: 0.0.1
-appVersion: "0.19.60"
+version: 0.1.1
+appVersion: "0.19.60-dev"
 keywords:
   - k8s-at-home
   - minecraft
@@ -20,5 +20,7 @@ dependencies:
     version: 4.6.0
 annotations:
   artifacthub.io/changes: |-
-    - kind: added
-      description: First chart release
+    - kind: changed
+      description: Add Docker image build pipeline + auto-download resource pack on first run
+    - kind: changed
+      description: Fix unmined-cli download URL and tar.gz extraction
