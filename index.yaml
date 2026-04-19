@@ -1927,6 +1927,34 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
+  unmined:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: added
+          description: First chart release
+    apiVersion: v2
+    appVersion: 0.19.60
+    created: "2026-04-19T19:07:59.898466343Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.6.0
+    description: Unmined web map renderer for Minecraft Bedrock servers
+    digest: d16a2cd4ca5e678720357b80920369560c1c5f3347c0b66d1e234da344c09de6
+    keywords:
+    - k8s-at-home
+    - minecraft
+    - bedrock
+    - map
+    - unmined
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: unmined
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/unmined-0.0.1/unmined-0.0.1.tgz
+    version: 0.0.1
   wg-easy:
   - annotations:
       artifacthub.io/changes: |-
@@ -2147,4 +2175,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-04-19T18:29:28.851508941Z"
+generated: "2026-04-19T19:07:59.898654533Z"
