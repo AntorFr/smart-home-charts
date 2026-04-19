@@ -4,7 +4,7 @@ name: unmined
 description: Unmined web map renderer for Minecraft Bedrock servers
 type: application
 version: 0.1.2
-appVersion: "0.19.60-dev"
+appVersion: "0.19.60"
 keywords:
   - k8s-at-home
   - minecraft
