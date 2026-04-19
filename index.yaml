@@ -217,6 +217,34 @@ entries:
     - https://github.com/AntorFr/smart-home-charts/releases/download/cloudflareddns-0.0.1/cloudflareddns-0.0.1.tgz
     version: 0.0.1
   common:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: added
+          description: Support `controller.type: cronjob` — renders a CronJob reusing the common pod spec (initContainers, additionalContainers, volumes, persistence). New `cronjob.*` values block (schedule, concurrencyPolicy, history limits, restartPolicy, backoffLimit, ttlSecondsAfterFinished, timeZone, suspend...).
+        - kind: changed
+          description: Bumped minimum kubeVersion to 1.21 (required for `batch/v1` CronJob GA).
+    apiVersion: v2
+    created: "2026-04-19T18:29:28.851229799Z"
+    description: Function library for k8s-at-home charts
+    digest: 9f57ed4132b73a0a2a1e8d3ca330b493e8548eb3012f4f1079e29f55b0a5d4c0
+    home: https://github.com/k8s-at-home/library-charts/tree/main/stable/common
+    keywords:
+    - k8s-at-home
+    - common
+    kubeVersion: '>=1.21.0-0'
+    maintainers:
+    - email: me@bjw-s.dev
+      name: bjw-s
+    - email: devin.kray@gmail.com
+      name: onedr0p
+    - email: nick@cajun.pro
+      name: dirtycajunrice
+    - name: AntorFR
+    name: common
+    type: library
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/common-4.6.0/common-4.6.0.tgz
+    version: 4.6.0
   - apiVersion: v2
     created: "2023-02-21T02:07:42.234023903Z"
     description: Function library for k8s-at-home charts
@@ -2119,4 +2147,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-04-18T21:57:55.721942899Z"
+generated: "2026-04-19T18:29:28.851508941Z"
