@@ -41,6 +41,8 @@ Main entrypoint for the common library chart. It will render all underlying temp
       {{- include "common.daemonset" . | nindent 0 }}
     {{ else if eq .Values.controller.type "statefulset"  }}
       {{- include "common.statefulset" . | nindent 0 }}
+    {{ else if eq .Values.controller.type "cronjob"  }}
+      {{- include "common.cronjob" . | nindent 0 }}
     {{ else }}
       {{- fail (printf "Not a valid controller.type (%s)" .Values.controller.type) }}
     {{- end -}}

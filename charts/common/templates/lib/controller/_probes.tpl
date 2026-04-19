@@ -2,6 +2,9 @@
 Probes selection logic.
 */}}
 {{- define "common.controller.probes" -}}
+{{- if eq .Values.controller.type "cronjob" -}}
+  {{- /* Probes do not apply to CronJob pods — they run to completion. */ -}}
+{{- else -}}
 {{- $primaryService := get .Values.service (include "common.service.primary" .) -}}
 {{- $primaryPort := "" -}}
 {{- if $primaryService -}}
@@ -29,5 +32,6 @@ Probes selection logic.
       {{- end }}
     {{- end }}
   {{- end }}
+{{- end }}
 {{- end }}
 {{- end }}

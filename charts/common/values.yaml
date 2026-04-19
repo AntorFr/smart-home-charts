@@ -12,7 +12,7 @@ controller:
   # -- enable the controller.
   enabled: true
   # -- Set the controller type.
-  # Valid options are deployment, daemonset or statefulset
+  # Valid options are deployment, daemonset, statefulset or cronjob
   type: deployment
   # -- Set annotations on the deployment/statefulset/daemonset
   annotations: {}
@@ -36,6 +36,50 @@ controller:
   revisionHistoryLimit: 3
   # -- Set statefulset podManagementPolicy, valid values are Parallel and OrderedReady (default).
   podManagementPolicy:
+
+# -- CronJob-specific settings. Only used when `controller.type` is `cronjob`.
+# [[ref]](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/)
+# @default -- See below
+cronjob:
+  # -- Cron expression (required when controller.type is cronjob).
+  schedule:  # "*/30 * * * *"
+
+  # -- Concurrency policy. Valid options are `Allow`, `Forbid`, `Replace`.
+  concurrencyPolicy: Allow
+
+  # -- Number of successful finished jobs to retain.
+  successfulJobsHistoryLimit: 3
+
+  # -- Number of failed finished jobs to retain.
+  failedJobsHistoryLimit: 1
+
+  # -- Deadline in seconds for starting the job if it misses its scheduled time.
+  startingDeadlineSeconds:
+
+  # -- IANA time zone name (e.g. "Europe/Paris"). Requires Kubernetes >= 1.27.
+  # [[ref]](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#time-zones)
+  timeZone:
+
+  # -- Suspend the cronjob. Set to true to pause the schedule.
+  suspend:
+
+  # -- Pod restart policy inside the Job. Valid options are `OnFailure`, `Never`.
+  restartPolicy: OnFailure
+
+  # -- Number of retries before marking the job as failed.
+  backoffLimit: 6
+
+  # -- Active deadline for the Job (pod gets killed after this many seconds).
+  activeDeadlineSeconds:
+
+  # -- TTL in seconds after a finished Job becomes eligible for garbage collection.
+  ttlSecondsAfterFinished:
+
+  # -- Pod parallelism for the Job.
+  parallelism:
+
+  # -- Number of successful completions required for the Job to be considered complete.
+  completions:
 
 image:
   # -- image repository
