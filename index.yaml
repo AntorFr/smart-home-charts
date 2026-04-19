@@ -1930,6 +1930,35 @@ entries:
   unmined:
   - annotations:
       artifacthub.io/changes: |-
+        - kind: fixed
+          description: Renderer is now the main container (fixes SIGABRT crash from unmined-cli without args)
+        - kind: fixed
+          description: Persistence volumes (worlds, output, resourcepack) properly mounted on CronJob
+    apiVersion: v2
+    appVersion: 0.19.60
+    created: "2026-04-19T23:37:07.763476219Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.6.0
+    description: Unmined web map renderer for Minecraft Bedrock servers
+    digest: 33b78ec1d0c8d794ee04ba960d5bab644acb59475f7812d3722d5301015fe854
+    keywords:
+    - k8s-at-home
+    - minecraft
+    - bedrock
+    - map
+    - unmined
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: unmined
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/unmined-0.1.2/unmined-0.1.2.tgz
+    version: 0.1.2
+  - annotations:
+      artifacthub.io/changes: |-
         - kind: changed
           description: Add Docker image build pipeline + auto-download resource pack on first run
         - kind: changed
@@ -2204,4 +2233,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-04-19T22:31:03.518600698Z"
+generated: "2026-04-19T23:37:07.763945734Z"
