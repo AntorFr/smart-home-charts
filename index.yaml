@@ -1930,6 +1930,35 @@ entries:
   unmined:
   - annotations:
       artifacthub.io/changes: |-
+        - kind: changed
+          description: Add Docker image build pipeline + auto-download resource pack on first run
+        - kind: changed
+          description: Fix unmined-cli download URL and tar.gz extraction
+    apiVersion: v2
+    appVersion: 0.19.60-dev
+    created: "2026-04-19T22:31:03.518403375Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.6.0
+    description: Unmined web map renderer for Minecraft Bedrock servers
+    digest: f5f016fb192261ff3808556869df39b7bd00422a19d466b4172bdd86e29f7db2
+    keywords:
+    - k8s-at-home
+    - minecraft
+    - bedrock
+    - map
+    - unmined
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: unmined
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/unmined-0.1.1/unmined-0.1.1.tgz
+    version: 0.1.1
+  - annotations:
+      artifacthub.io/changes: |-
         - kind: added
           description: First chart release
     apiVersion: v2
@@ -2175,4 +2204,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-04-19T19:07:59.898654533Z"
+generated: "2026-04-19T22:31:03.518600698Z"
