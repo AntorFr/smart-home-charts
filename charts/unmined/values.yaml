@@ -1,8 +1,8 @@
 # Renderer (CronJob) configuration
 renderer:
   image:
-    repository: kylrth/unmined_docker
-    tag: latest
+    repository: ghcr.io/antorfr/smart-home-charts/unmined-cli
+    tag: "0.19.60"
     pullPolicy: IfNotPresent
   schedule: "*/30 * * * *"
   concurrencyPolicy: Forbid
