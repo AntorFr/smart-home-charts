@@ -7,12 +7,12 @@ set -e
 echo "Rendering world: {{ $world.name }}"
 unmined-cli web render \
   --world="{{ $world.worldPath }}" \
-  --output="/output/{{ $world.name }}" \
-  {{- if $.Values.resourcePack.enabled }}
-  --bedrock-vanilla-pack="{{ $.Values.resourcePack.mountPath }}/bedrock-samples.zip" \
+  --output="/output/{{ $world.name }}"
+  {{- if $.Values.resourcePack.enabled }} \
+  --bedrock-vanilla-pack="{{ $.Values.resourcePack.mountPath }}/bedrock-samples.zip"
   {{- end }}
-  {{- range $world.extraArgs }}
-  "{{ . }}" \
+  {{- range $world.extraArgs }} \
+  "{{ . }}"
   {{- end }}
 {{- end }}
 echo "Done"
