@@ -1,22 +1,3 @@
-# Renderer (CronJob) configuration
-renderer:
-  image:
-    repository: ghcr.io/antorfr/smart-home-charts/unmined-cli
-    tag: "dev"
-    pullPolicy: IfNotPresent
-  schedule: "*/30 * * * *"
-  concurrencyPolicy: Forbid
-  successfulJobsHistoryLimit: 1
-  failedJobsHistoryLimit: 3
-  resources:
-    requests:
-      cpu: 200m
-      memory: 512Mi
-    limits:
-      cpu: 2000m
-      memory: 2Gi
-  extraArgs: []
-
 # Web server (Deployment nginx) configuration
 image:
   repository: nginx
@@ -42,9 +23,80 @@ resourcePack:
   url: https://github.com/Mojang/bedrock-samples/archive/refs/tags/v1.26.0.2.zip
   mountPath: /resourcepack
 
+# CronJob for map rendering (managed by common's cronjobs: section)
+cronjobs:
+  renderer:
+    enabled: true
+    image:
+      repository: ghcr.io/antorfr/smart-home-charts/unmined-cli
+      tag: "dev"
+      pullPolicy: IfNotPresent
+    command:
+      - sh
+      - -c
+    # args is dynamically set from worlds config in templates/common.yaml
+    args: []
+    schedule: "*/30 * * * *"
+    concurrencyPolicy: Forbid
+    restartPolicy: OnFailure
+    backoffLimit: 2
+    successfulJobsHistoryLimit: 1
+    failedJobsHistoryLimit: 3
+    resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+      limits:
+        cpu: 2000m
+        memory: 2Gi
+    persistence:
+      worlds:
+        enabled: true
+        type: hostPath
+        mountPath: /worlds
+        hostPath: /mnt/data/crafty/servers
+        readOnly: true
+      output:
+        enabled: true
+        type: hostPath
+        mountPath: /output
+        hostPath: /mnt/data/unmined
+      resourcepack:
+        enabled: true
+        type: hostPath
+        mountPath: /resourcepack
+        hostPath: /mnt/data/unmined-resourcepack
+    initContainers: {}
+    # initContainers is dynamically set for resourcepack download in templates/common.yaml
+
 # Pod security context
 podSecurityContext:
   fsGroup: 1000
+
+# Persistence for the main Deployment (nginx web server)
+persistence:
+  # Renderer output (mounted read-only in nginx)
+  output:
+    enabled: true
+    type: hostPath
+    mountPath: /usr/share/nginx/html
+    hostPath: /mnt/data/unmined
+    readOnly: true
+
+  # Minecraft worlds (not mounted in nginx, only used by cronjob)
+  worlds:
+    enabled: false
+    type: hostPath
+    mountPath: /worlds
+    hostPath: /mnt/data/crafty/servers
+    readOnly: true
+
+  # Bedrock resource pack cache (not mounted in nginx, only used by cronjob)
+  resourcepack:
+    enabled: false
+    type: hostPath
+    mountPath: /resourcepack
+    hostPath: /mnt/data/unmined-resourcepack
 
 # Service configuration
 service:
@@ -75,27 +127,3 @@ ingress:
       - secretName: unmined-tls
         hosts:
           - maps.example.com
-
-# Persistence configuration
-persistence:
-  # Minecraft worlds (mounted read-only for renderer)
-  worlds:
-    enabled: false
-    type: hostPath
-    mountPath: /worlds
-    hostPath: /mnt/data/crafty/servers
-    readOnly: true
-
-  # Renderer output (shared RW between renderer and RO for nginx)
-  output:
-    enabled: false
-    type: hostPath
-    mountPath: /output
-    hostPath: /mnt/data/unmined
-
-  # Bedrock resource pack cache
-  resourcepack:
-    enabled: false
-    type: hostPath
-    mountPath: /resourcepack
-    hostPath: /mnt/data/unmined-resourcepack

@@ -73,65 +73,25 @@ server {
 
 {{- if .Values.worlds }}
 
-{{- /* Build renderer CronJob persistence */ -}}
-{{- $cronjobPersistence := dict -}}
-{{- $_ := set $cronjobPersistence "worlds" (dict
-  "enabled" true
-  "type" .Values.persistence.worlds.type
-  "mountPath" .Values.persistence.worlds.mountPath
-  "hostPath" .Values.persistence.worlds.hostPath
-  "readOnly" (default false .Values.persistence.worlds.readOnly)
-) -}}
-{{- $_ := set $cronjobPersistence "output" (dict
-  "enabled" true
-  "type" .Values.persistence.output.type
-  "mountPath" .Values.persistence.output.mountPath
-  "hostPath" .Values.persistence.output.hostPath
-) -}}
-{{- if .Values.resourcePack.enabled -}}
-  {{- $_ := set $cronjobPersistence "resourcepack" (dict
-    "enabled" true
-    "type" .Values.persistence.resourcepack.type
-    "mountPath" .Values.persistence.resourcepack.mountPath
-    "hostPath" .Values.persistence.resourcepack.hostPath
-  ) -}}
-{{- end -}}
+{{- /* Inject dynamic renderer script into cronjobs.renderer.args */ -}}
+{{- $rendererScript := include "unmined.rendererScript" . -}}
+{{- $_ := set .Values.cronjobs.renderer "args" (list $rendererScript) -}}
 
-{{- /* Build init containers for resource pack download */ -}}
-{{- $initContainers := dict -}}
+{{- /* Inject resourcepack init container if enabled */ -}}
 {{- if .Values.resourcePack.enabled -}}
-  {{- $_ := set $initContainers "resourcepack-download" (dict
-    "image" "curlimages/curl:8.9.1"
-    "command" (list "sh" "-c")
-    "args" (list (include "unmined.resourcePackDownload" .))
-    "volumeMounts" (list
-      (dict "name" "resourcepack" "mountPath" .Values.resourcePack.mountPath)
+  {{- $_ := set .Values.cronjobs.renderer "initContainers" (dict
+    "resourcepack-download" (dict
+      "image" "curlimages/curl:8.9.1"
+      "command" (list "sh" "-c")
+      "args" (list (include "unmined.resourcePackDownload" .))
+      "volumeMounts" (list
+        (dict "name" "resourcepack" "mountPath" .Values.resourcePack.mountPath)
+      )
     )
   ) -}}
 {{- end -}}
 
-{{- /* Inject renderer cronjob into .Values.cronjobs */ -}}
-{{- $rendererScript := include "unmined.rendererScript" . -}}
-{{- $_ := set .Values "cronjobs" (dict "renderer" (dict
-  "enabled" true
-  "image" .Values.renderer.image
-  "command" (list "sh" "-c")
-  "args" (list $rendererScript)
-  "schedule" .Values.renderer.schedule
-  "concurrencyPolicy" (default "Forbid" .Values.renderer.concurrencyPolicy)
-  "successfulJobsHistoryLimit" (default 1 .Values.renderer.successfulJobsHistoryLimit)
-  "failedJobsHistoryLimit" (default 3 .Values.renderer.failedJobsHistoryLimit)
-  "restartPolicy" "OnFailure"
-  "backoffLimit" 2
-  "resources" .Values.renderer.resources
-  "persistence" $cronjobPersistence
-  "initContainers" $initContainers
-)) -}}
-
-{{- /* Enable output persistence for the main Deployment (nginx) */ -}}
-{{- $_ := set .Values.persistence.output "enabled" true -}}
-
-{{- /* Configure nginx config as a configMap volume */ -}}
+{{- /* Configure nginx config volume for the Deployment */ -}}
 {{- $_ := set .Values.persistence "nginx-config" (dict
   "enabled" true
   "type" "configMap"
@@ -139,10 +99,6 @@ server {
   "mountPath" "/etc/nginx/conf.d"
   "readOnly" true
 ) -}}
-
-{{- /* Map output to nginx html dir for the Deployment */ -}}
-{{- $_ := set .Values.persistence.output "mountPath" "/usr/share/nginx/html" -}}
-{{- $_ := set .Values.persistence.output "readOnly" true -}}
 
 {{- /* Render everything via common */ -}}
 {{ include "common.all" . }}
