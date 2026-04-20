@@ -68,109 +68,36 @@ server {
 }
 {{- end }}
 
-{{/*
-Web Deployment helper
-*/}}
-{{- define "unmined.webDeployment" }}
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ include "common.names.fullname" . }}-web
-  labels:
-    {{- include "common.labels" . | nindent 4 }}
-    app.kubernetes.io/component: web
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      {{- include "common.labels.selectorLabels" . | nindent 6 }}
-      app.kubernetes.io/component: web
-  template:
-    metadata:
-      labels:
-        {{- include "common.labels.selectorLabels" . | nindent 8 }}
-        app.kubernetes.io/component: web
-    spec:
-      {{- with .Values.podSecurityContext }}
-      securityContext:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "common.names.serviceAccountName" . }}
-      dnsPolicy: ClusterFirst
-      enableServiceLinks: true
-      containers:
-        - name: nginx
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          env:
-            {{- if .Values.env }}
-            {{- range $key, $value := .Values.env }}
-            - name: {{ $key }}
-              value: {{ $value | quote }}
-            {{- end }}
-            {{- end }}
-          livenessProbe:
-            tcpSocket:
-              port: 80
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            failureThreshold: 3
-          readinessProbe:
-            tcpSocket:
-              port: 80
-            initialDelaySeconds: 5
-            periodSeconds: 5
-            failureThreshold: 3
-          volumeMounts:
-            - name: output
-              mountPath: /usr/share/nginx/html
-              readOnly: true
-            - name: nginx-config
-              mountPath: /etc/nginx/conf.d
-              readOnly: true
-      volumes:
-        - name: output
-          {{- if eq .Values.persistence.output.type "hostPath" }}
-          hostPath:
-            path: {{ .Values.persistence.output.hostPath }}
-          {{- else if eq .Values.persistence.output.type "pvc" }}
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.output.existingClaim | default (printf "%s-output" (include "common.names.fullname" .)) }}
-          {{- end }}
-        - name: nginx-config
-          configMap:
-            name: {{ include "common.names.fullname" . }}-nginx
-{{- end }}
-
 ---
 {{- include "common.values.setup" . }}
 
 {{- if .Values.worlds }}
 
-{{- /* Enable persistence volumes for cronjob */ -}}
-{{- $_ := set .Values.persistence.worlds "enabled" true -}}
-{{- $_ := set .Values.persistence.output "enabled" true -}}
+{{- /* Build renderer CronJob persistence */ -}}
+{{- $cronjobPersistence := dict -}}
+{{- $_ := set $cronjobPersistence "worlds" (dict
+  "enabled" true
+  "type" .Values.persistence.worlds.type
+  "mountPath" .Values.persistence.worlds.mountPath
+  "hostPath" .Values.persistence.worlds.hostPath
+  "readOnly" (default false .Values.persistence.worlds.readOnly)
+) -}}
+{{- $_ := set $cronjobPersistence "output" (dict
+  "enabled" true
+  "type" .Values.persistence.output.type
+  "mountPath" .Values.persistence.output.mountPath
+  "hostPath" .Values.persistence.output.hostPath
+) -}}
 {{- if .Values.resourcePack.enabled -}}
-  {{- $_ := set .Values.persistence.resourcepack "enabled" true -}}
+  {{- $_ := set $cronjobPersistence "resourcepack" (dict
+    "enabled" true
+    "type" .Values.persistence.resourcepack.type
+    "mountPath" .Values.persistence.resourcepack.mountPath
+    "hostPath" .Values.persistence.resourcepack.hostPath
+  ) -}}
 {{- end -}}
 
-{{- /* Build renderer CronJob config */ -}}
-{{- $controller := dict "enabled" true "type" "cronjob" -}}
-{{- $cronjob := dict
-  "schedule" .Values.renderer.schedule
-  "concurrencyPolicy" .Values.renderer.concurrencyPolicy
-  "successfulJobsHistoryLimit" .Values.renderer.successfulJobsHistoryLimit
-  "failedJobsHistoryLimit" .Values.renderer.failedJobsHistoryLimit
-  "restartPolicy" "OnFailure"
-  "backoffLimit" 2
--}}
-
-{{- /* Init containers for resource pack download */ -}}
+{{- /* Build init containers for resource pack download */ -}}
 {{- $initContainers := dict -}}
 {{- if .Values.resourcePack.enabled -}}
   {{- $_ := set $initContainers "resourcepack-download" (dict
@@ -183,25 +110,42 @@ spec:
   ) -}}
 {{- end -}}
 
-{{- /* Render script as main container command */ -}}
+{{- /* Inject renderer cronjob into .Values.cronjobs */ -}}
 {{- $rendererScript := include "unmined.rendererScript" . -}}
+{{- $_ := set .Values "cronjobs" (dict "renderer" (dict
+  "enabled" true
+  "image" .Values.renderer.image
+  "command" (list "sh" "-c")
+  "args" (list $rendererScript)
+  "schedule" .Values.renderer.schedule
+  "concurrencyPolicy" (default "Forbid" .Values.renderer.concurrencyPolicy)
+  "successfulJobsHistoryLimit" (default 1 .Values.renderer.successfulJobsHistoryLimit)
+  "failedJobsHistoryLimit" (default 3 .Values.renderer.failedJobsHistoryLimit)
+  "restartPolicy" "OnFailure"
+  "backoffLimit" 2
+  "resources" .Values.renderer.resources
+  "persistence" $cronjobPersistence
+  "initContainers" $initContainers
+)) -}}
 
-{{- /* Merge all into common values for CronJob */ -}}
-{{- $_ := set .Values "controller" $controller -}}
-{{- $_ := set .Values "image" .Values.renderer.image -}}
-{{- $_ := set .Values "command" (list "sh" "-c") -}}
-{{- $_ := set .Values "args" (list $rendererScript) -}}
-{{- $_ := set .Values "cronjob" $cronjob -}}
-{{- if gt (len $initContainers) 0 -}}
-  {{- $_ := set .Values "initContainers" $initContainers -}}
-{{- end -}}
-{{- $_ := set .Values "resources" .Values.renderer.resources -}}
+{{- /* Enable output persistence for the main Deployment (nginx) */ -}}
+{{- $_ := set .Values.persistence.output "enabled" true -}}
 
-{{- /* Render CronJob via common */ -}}
+{{- /* Configure nginx config as a configMap volume */ -}}
+{{- $_ := set .Values.persistence "nginx-config" (dict
+  "enabled" true
+  "type" "configMap"
+  "name" (printf "%s-nginx" (include "common.names.fullname" .))
+  "mountPath" "/etc/nginx/conf.d"
+  "readOnly" true
+) -}}
+
+{{- /* Map output to nginx html dir for the Deployment */ -}}
+{{- $_ := set .Values.persistence.output "mountPath" "/usr/share/nginx/html" -}}
+{{- $_ := set .Values.persistence.output "readOnly" true -}}
+
+{{- /* Render everything via common */ -}}
 {{ include "common.all" . }}
-
-{{- /* Render Web Deployment */ -}}
-{{ include "unmined.webDeployment" . }}
 
 {{- /* Render nginx ConfigMap */ -}}
 ---

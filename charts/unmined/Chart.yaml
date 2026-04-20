@@ -3,7 +3,7 @@ apiVersion: v2
 name: unmined
 description: Unmined web map renderer for Minecraft Bedrock servers
 type: application
-version: 0.1.2
+version: 0.2.0
 appVersion: "0.19.60"
 keywords:
   - k8s-at-home
@@ -17,10 +17,10 @@ maintainers:
 dependencies:
   - name: common
     repository: https://antorfr.github.io/smart-home-charts
-    version: 4.6.0
+    version: 4.7.0
 annotations:
   artifacthub.io/changes: |-
-    - kind: fixed
-      description: Renderer is now the main container (fixes SIGABRT crash from unmined-cli without args)
-    - kind: fixed
-      description: Persistence volumes (worlds, output, resourcepack) properly mounted on CronJob
+    - kind: changed
+      description: Refactored to use common chart's new `cronjobs:` section — Deployment (nginx) and CronJob (renderer) are now properly managed by common
+    - kind: changed
+      description: Removed manual Deployment template in favor of common's controller
