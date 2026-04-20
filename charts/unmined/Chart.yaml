@@ -5,6 +5,7 @@ description: Unmined web map renderer for Minecraft Bedrock servers
 type: application
 version: 0.2.0
 appVersion: "0.19.60"
+home: https://github.com/AntorFr/smart-home-charts
 keywords:
   - k8s-at-home
   - minecraft
