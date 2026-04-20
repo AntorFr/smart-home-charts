@@ -48,6 +48,11 @@ Main entrypoint for the common library chart. It will render all underlying temp
     {{- end -}}
   {{- end -}}
 
+  {{- /* Render standalone CronJobs from cronjobs: section */ -}}
+  {{- if .Values.cronjobs }}
+{{ include "common.cronjobs" . }}
+  {{- end -}}
+
   {{ include "common.classes.hpa" . | nindent 0 }}
 
   {{ include "common.service" . | nindent 0 }}

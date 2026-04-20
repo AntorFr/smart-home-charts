@@ -81,6 +81,48 @@ cronjob:
   # -- Number of successful completions required for the Job to be considered complete.
   completions:
 
+# -- Configure standalone CronJobs alongside the main controller.
+# Each key creates a separate CronJob resource with its own image, command, volumes, etc.
+# This allows a chart to have both a Deployment AND one or more CronJobs.
+# @default -- See below
+cronjobs: {}
+  # example:
+  #   enabled: false
+  #   image:
+  #     repository:
+  #     tag:
+  #     pullPolicy: IfNotPresent
+  #   command: []
+  #   args: []
+  #   schedule: "0 */6 * * *"
+  #   concurrencyPolicy: Forbid
+  #   restartPolicy: OnFailure
+  #   backoffLimit: 6
+  #   successfulJobsHistoryLimit: 3
+  #   failedJobsHistoryLimit: 1
+  #   startingDeadlineSeconds:
+  #   timeZone:
+  #   suspend:
+  #   activeDeadlineSeconds:
+  #   ttlSecondsAfterFinished:
+  #   parallelism:
+  #   completions:
+  #   env: {}
+  #   envFrom: []
+  #   resources: {}
+  #   securityContext: {}
+  #   podSecurityContext: {}
+  #   persistence: {}
+  #   initContainers: {}
+  #   additionalContainers: {}
+  #   nodeSelector: {}
+  #   affinity: {}
+  #   tolerations: []
+  #   labels: {}
+  #   annotations: {}
+  #   podAnnotations: {}
+  #   podLabels: {}
+
 image:
   # -- image repository
   repository:

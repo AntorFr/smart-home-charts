@@ -2,7 +2,7 @@ apiVersion: v2
 name: common
 description: Function library for k8s-at-home charts
 type: library
-version: 4.6.0
+version: 4.7.0
 kubeVersion: ">=1.21.0-0"
 keywords:
   - k8s-at-home
@@ -19,6 +19,4 @@ maintainers:
 annotations:
   artifacthub.io/changes: |-
     - kind: added
-      description: Support `controller.type: cronjob` — renders a CronJob reusing the common pod spec (initContainers, additionalContainers, volumes, persistence). New `cronjob.*` values block (schedule, concurrencyPolicy, history limits, restartPolicy, backoffLimit, ttlSecondsAfterFinished, timeZone, suspend...).
-    - kind: changed
-      description: Bumped minimum kubeVersion to 1.21 (required for `batch/v1` CronJob GA).
+      description: "Top-level `cronjobs:` section — create standalone CronJobs alongside the main controller. Each cronjob has its own image, command, volumes, env, and scheduling config."
