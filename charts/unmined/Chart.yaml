@@ -3,7 +3,7 @@ apiVersion: v2
 name: unmined
 description: Unmined web map renderer for Minecraft Bedrock servers
 type: application
-version: 0.2.0
+version: 0.2.1
 appVersion: "0.19.60"
 home: https://github.com/AntorFr/smart-home-charts
 keywords:
@@ -21,7 +21,5 @@ dependencies:
     version: 4.7.0
 annotations:
   artifacthub.io/changes: |-
-    - kind: changed
-      description: Refactored to use common chart's new `cronjobs:` section — Deployment (nginx) and CronJob (renderer) are now properly managed by common
-    - kind: changed
-      description: Removed manual Deployment template in favor of common's controller
+    - kind: fixed
+      description: Fix YAML document separator being swallowed by template dash-trimming on nginx ConfigMap

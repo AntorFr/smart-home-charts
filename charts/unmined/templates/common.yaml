@@ -147,7 +147,7 @@ server {
 {{- /* Render everything via common */ -}}
 {{ include "common.all" . }}
 
-{{- /* Render nginx ConfigMap */ -}}
+{{/* Render nginx ConfigMap */}}
 ---
 apiVersion: v1
 kind: ConfigMap
