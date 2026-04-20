@@ -1956,6 +1956,36 @@ entries:
   unmined:
   - annotations:
       artifacthub.io/changes: |-
+        - kind: changed
+          description: Refactored to use common chart's new `cronjobs:` section — Deployment (nginx) and CronJob (renderer) are now properly managed by common
+        - kind: changed
+          description: Removed manual Deployment template in favor of common's controller
+    apiVersion: v2
+    appVersion: 0.19.60
+    created: "2026-04-20T00:43:44.30145319Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Unmined web map renderer for Minecraft Bedrock servers
+    digest: 73b8165d2326fc18c537099d91b8dd90b7f21c2ccfecc53f312ca1534b9b13f3
+    home: https://github.com/AntorFr/smart-home-charts
+    keywords:
+    - k8s-at-home
+    - minecraft
+    - bedrock
+    - map
+    - unmined
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: unmined
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/unmined-0.2.0/unmined-0.2.0.tgz
+    version: 0.2.0
+  - annotations:
+      artifacthub.io/changes: |-
         - kind: fixed
           description: Renderer is now the main container (fixes SIGABRT crash from unmined-cli without args)
         - kind: fixed
@@ -2259,4 +2289,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-04-20T02:39:13.771778+02:00"
+generated: "2026-04-20T00:43:44.301641973Z"
