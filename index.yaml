@@ -1956,6 +1956,34 @@ entries:
   unmined:
   - annotations:
       artifacthub.io/changes: |-
+        - kind: fixed
+          description: Fix trailing backslash in extraArgs causing subsequent echo to be parsed as unmined-cli argument
+    apiVersion: v2
+    appVersion: 0.19.60
+    created: "2026-04-20T01:18:09.856443341Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Unmined web map renderer for Minecraft Bedrock servers
+    digest: 8c2890db37d693f7f46bfdd42ac74eb9d9b14fd5e0ed1ece3915de183731cfa0
+    home: https://github.com/AntorFr/smart-home-charts
+    keywords:
+    - k8s-at-home
+    - minecraft
+    - bedrock
+    - map
+    - unmined
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: unmined
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/unmined-0.2.3/unmined-0.2.3.tgz
+    version: 0.2.3
+  - annotations:
+      artifacthub.io/changes: |-
         - kind: changed
           description: Move cronjob config to declarative cronjobs: section in values.yaml, remove legacy renderer: section
     apiVersion: v2
@@ -2345,4 +2373,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-04-20T00:58:06.751094587Z"
+generated: "2026-04-20T01:18:09.856672858Z"
