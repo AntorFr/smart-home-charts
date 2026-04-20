@@ -1956,6 +1956,34 @@ entries:
   unmined:
   - annotations:
       artifacthub.io/changes: |-
+        - kind: changed
+          description: Move cronjob config to declarative cronjobs: section in values.yaml, remove legacy renderer: section
+    apiVersion: v2
+    appVersion: 0.19.60
+    created: "2026-04-20T00:58:06.750894441Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Unmined web map renderer for Minecraft Bedrock servers
+    digest: bbfbd31c48a0e9251b3d1e22c30a4b76c455298ff1af94d285145af4561a3185
+    home: https://github.com/AntorFr/smart-home-charts
+    keywords:
+    - k8s-at-home
+    - minecraft
+    - bedrock
+    - map
+    - unmined
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: unmined
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/unmined-0.2.2/unmined-0.2.2.tgz
+    version: 0.2.2
+  - annotations:
+      artifacthub.io/changes: |-
         - kind: fixed
           description: Fix YAML document separator being swallowed by template dash-trimming on nginx ConfigMap
     apiVersion: v2
@@ -2317,4 +2345,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-04-20T00:49:45.847791946Z"
+generated: "2026-04-20T00:58:06.751094587Z"
