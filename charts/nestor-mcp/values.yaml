@@ -9,7 +9,7 @@ image:
   # -- image repository
   repository: ghcr.io/antorfr/nestor-mcp
   # -- image tag
-  tag: "0.0.2-beta"
+  tag: "0.0.9-beta"
   # -- image pull policy
   pullPolicy: IfNotPresent
 
@@ -37,6 +37,7 @@ envFile:
     ALLOW_DIRECT_HA_WRITES=false
 
     GITOPS_REPO_PATH=/data/home-assistant-config
+    HOST_GITOPS_REPO_PATH=./data/home-assistant-config
     GITOPS_REPO_URL=https://github.com/AntorFr/Home-AssistantConfig.git
     GITOPS_DEFAULT_BRANCH=master
 
@@ -48,11 +49,82 @@ envFile:
 
     PROPOSALS_PATH=/data/nestor-mcp/proposals
     WORKFLOW_RUNS_PATH=/data/nestor-mcp/workflow-runs
+    HOST_PROPOSALS_PATH=./data/proposals
+    HOST_WORKFLOW_RUNS_PATH=./data/workflow-runs
 
-    CODE_AGENT_PROVIDER=mock
+    DEFAULT_LLM_PROVIDER=mock
+    DEFAULT_CODE_AGENT_PROVIDER=claude_code
+    HA_EXPLAIN_PROVIDER=mock
+    HA_EXPLAIN_MODEL=claude-haiku-4-5-20251001
+    HA_EXPLAIN_TIMEOUT_SECONDS=20
+    HA_GITOPS_PROVIDER=claude_code
+    HA_GITOPS_TIMEOUT_SECONDS=180
+
     ANTHROPIC_API_KEY=
     CLAUDE_CODE_COMMAND=claude
     CLAUDE_CODE_TIMEOUT_SECONDS=120
+
+
+# -- Standalone CronJobs running alongside the main server.
+# @default -- See below
+cronjobs:
+  # -- Periodically sync the local GitOps repo clone from upstream.
+  sync-gitops-repo:
+    enabled: true
+    schedule: "0 * * * *"
+    concurrencyPolicy: Forbid
+    restartPolicy: OnFailure
+    backoffLimit: 2
+    successfulJobsHistoryLimit: 3
+    failedJobsHistoryLimit: 3
+    image:
+      repository: ghcr.io/antorfr/nestor-mcp
+      tag: "0.0.9-beta"
+      pullPolicy: IfNotPresent
+    command:
+      - python
+      - -m
+      - nestor_mcp.devtools.sync_gitops_repo
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+          - ALL
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+    persistence:
+      # -- Same PVC as the main container, provides /data/home-assistant-config.
+      data:
+        enabled: false
+        mountPath: /data
+        storageClass:
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        retain: true
+      # -- Mount the .env Secret file (same Secret created by templates/secret.yaml).
+      env-file:
+        enabled: true
+        type: secret
+        name: '{{ include "common.names.fullname" . }}-env'
+        subPath: .env
+        mountPath: /app/.env
+        readOnly: true
+        defaultMode: 0400
+      tmp:
+        enabled: true
+        type: emptyDir
+        mountPath: /tmp
 
 # -- Configures service settings for the chart.
 # @default -- See values.yaml

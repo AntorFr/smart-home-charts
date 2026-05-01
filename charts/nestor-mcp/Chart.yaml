@@ -2,8 +2,8 @@
 apiVersion: v2
 description: Nestor MCP — AI-powered GitOps assistant for Home Assistant configuration.
 name: nestor-mcp
-version: 0.0.2
-appVersion: "0.0.2-beta"
+version: 0.0.10
+appVersion: "0.0.9-beta"
 keywords:
   - k8s-at-home
   - home-assistant
@@ -15,7 +15,7 @@ maintainers:
 dependencies:
   - name: common
     repository: https://antorfr.github.io/smart-home-charts
-    version: 4.5.8
+    version: 4.7.0
 sources:
   - https://github.com/AntorFr/nestor-mcp
 type: application
