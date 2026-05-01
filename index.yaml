@@ -1423,6 +1423,34 @@ entries:
         - kind: changed
           description: First chart release
     apiVersion: v2
+    appVersion: 0.0.2-beta
+    created: "2026-05-01T09:11:12.654427064Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Nestor MCP — AI-powered GitOps assistant for Home Assistant configuration.
+    digest: 009bd7f6602c83c7fbbc10faae518086acb082f2739c22165b2bbaf14ed3a90e
+    keywords:
+    - k8s-at-home
+    - home-assistant
+    - mcp
+    - gitops
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: nestor-mcp
+    sources:
+    - https://github.com/AntorFr/nestor-mcp
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/nestor-mcp-0.0.2/nestor-mcp-0.0.2.tgz
+    version: 0.0.2
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
     appVersion: 0.0.1-beta
     created: "2026-05-01T09:04:54.500206578Z"
     dependencies:
@@ -2458,4 +2486,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-05-01T09:04:54.500436871Z"
+generated: "2026-05-01T09:11:12.654569439Z"
