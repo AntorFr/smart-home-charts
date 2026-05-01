@@ -9,7 +9,7 @@ image:
   # -- image repository
   repository: ghcr.io/antorfr/nestor-mcp
   # -- image tag
-  tag: "0.0.1-beta"
+  tag: "0.0.2-beta"
   # -- image pull policy
   pullPolicy: IfNotPresent
 
@@ -126,8 +126,8 @@ resources:
     cpu: 100m
     memory: 256Mi
   limits:
-    cpu: 1000m
-    memory: 1Gi
+    cpu: 2000m
+    memory: 2Gi
 
 # -- Configure persistence settings for the chart under this key.
 # @default -- See values.yaml
@@ -147,8 +147,4 @@ persistence:
     type: emptyDir
     mountPath: /tmp
 
-  # -- Writable home dir cache for pip/Claude Code (readOnlyRootFilesystem).
-  cache:
-    enabled: true
-    type: emptyDir
-    mountPath: /home/nonroot/.cache
+
