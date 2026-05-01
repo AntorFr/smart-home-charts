@@ -1349,6 +1349,36 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/mitmproxy-0.0.1/mitmproxy-0.0.1.tgz
     version: 0.0.1
+  mkdocs-material:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-05-01T19:36:56.469389299Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Material for MkDocs documentation server
+    digest: 504785e01e0536afdfebcd04033c8f250ee5d346fd7e4ab15d4d224f10d1e8c4
+    keywords:
+    - k8s-at-home
+    - docs
+    - mkdocs
+    - material
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: mkdocs-material
+    sources:
+    - https://squidfunk.github.io/mkdocs-material/
+    - https://github.com/squidfunk/mkdocs-material
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/mkdocs-material-0.0.1/mkdocs-material-0.0.1.tgz
+    version: 0.0.1
   music-assistant-server:
   - apiVersion: v2
     appVersion: latest
@@ -2486,4 +2516,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-05-01T09:11:12.654569439Z"
+generated: "2026-05-01T19:36:56.469594564Z"
