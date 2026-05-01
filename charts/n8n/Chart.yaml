@@ -1,0 +1,23 @@
+---
+apiVersion: v2
+description: n8n is a workflow automation platform that combines AI capabilities with business process automation.
+name: n8n
+version: 0.0.1
+appVersion: "latest"
+keywords:
+  - k8s-at-home
+maintainers:
+  - name: AntorFR
+    email: contact@antor.fr
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.5.8
+sources:
+  - https://n8n.io
+  - https://github.com/n8n-io/n8n
+type: application
+annotations:
+  artifacthub.io/changes: |-
+    - kind: changed
+      description: First chart release

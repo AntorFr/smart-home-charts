@@ -1,0 +1,57 @@
+#
+# IMPORTANT NOTE
+#
+# This chart inherits from our common library chart. You can check the default values/options here:
+# https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
+#
+
+image:
+  # -- image repository
+  repository: n8nio/n8n
+  # -- image tag
+  tag: latest
+  # -- image pull policy
+  pullPolicy: IfNotPresent
+
+# -- Environment variables.
+# @default -- See below
+env:
+  TZ: UTC
+  # SQLite is used by default when no DB_* variables are configured.
+  DB_TYPE: sqlite
+  DB_SQLITE_DATABASE: /home/node/.n8n/database.sqlite
+
+# -- Configures service settings for the chart.
+# @default -- See values.yaml
+service:
+  main:
+    ports:
+      http:
+        port: 5678
+
+ingress:
+  # -- Enable and configure ingress settings for the chart under this key.
+  # @default -- See values.yaml
+  main:
+    enabled: false
+    hosts: []
+    # - host: n8n.example.local
+    #   paths:
+    #     - path: /
+    #       pathType: Prefix
+    tls: []
+    # - hosts:
+    #     - n8n.example.local
+    #   secretName: n8n-tls
+
+# -- This secret is automatically managed by templates:
+# -- - N8N_ENCRYPTION_KEY is generated once and reused on upgrades.
+# -- - WEBHOOK_URL is derived from ingress.main.hosts[0] when ingress is enabled.
+secret: {}
+
+# -- Configure persistence settings for the chart under this key.
+# @default -- See values.yaml
+persistence:
+  data:
+    enabled: false
+    mountPath: /home/node/.n8n

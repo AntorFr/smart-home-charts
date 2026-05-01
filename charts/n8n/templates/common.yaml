@@ -1,0 +1,43 @@
+{{/* Make sure all variables are set properly */}}
+{{- include "common.values.setup" . }}
+
+{{/* Render and inject encryption secret (keep user-provided value if set) */}}
+{{- $secrets := include "n8n.secret" . | fromYaml -}}
+{{- if $secrets -}}
+  {{- if not .Values.secret -}}
+    {{- $_ := set .Values "secret" dict -}}
+  {{- end -}}
+  {{- if not (hasKey .Values.secret "N8N_ENCRYPTION_KEY") -}}
+    {{- $_ := set .Values.secret "N8N_ENCRYPTION_KEY" (get $secrets "N8N_ENCRYPTION_KEY") -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Derive WEBHOOK_URL from primary ingress host when ingress is enabled */}}
+{{- define "n8n.hardcodedValues" -}}
+  {{- $host := "" -}}
+  {{- $scheme := "http" -}}
+  {{- if and .Values.ingress .Values.ingress.main .Values.ingress.main.enabled -}}
+    {{- if and .Values.ingress.main.hosts (gt (len .Values.ingress.main.hosts) 0) -}}
+      {{- $firstHost := index .Values.ingress.main.hosts 0 -}}
+      {{- if kindIs "map" $firstHost -}}
+        {{- $host = default "" $firstHost.host -}}
+      {{- else if kindIs "string" $firstHost -}}
+        {{- $host = $firstHost -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if and .Values.ingress.main.tls (gt (len .Values.ingress.main.tls) 0) -}}
+      {{- $scheme = "https" -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $host }}
+env:
+  WEBHOOK_URL: {{ printf "%s://%s" $scheme $host | quote }}
+  {{- end -}}
+{{- end -}}
+{{- $hardcodedValues := include "n8n.hardcodedValues" . | fromYaml -}}
+{{- if $hardcodedValues -}}
+  {{- $_ := mergeOverwrite .Values $hardcodedValues -}}
+{{- end -}}
+
+{{/* Render the templates */}}
+{{ include "common.all" . }}
