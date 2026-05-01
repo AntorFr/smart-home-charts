@@ -1389,6 +1389,34 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/music-library-0.0.1/music-library-0.0.1.tgz
     version: 0.0.1
+  n8n:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-05-01T08:04:13.694028921Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: n8n is a workflow automation platform that combines AI capabilities
+      with business process automation.
+    digest: 3bb713e4c07c04f95bdbaa1c2a1a2880701211db461223daf9b71f7e8fb1b19c
+    keywords:
+    - k8s-at-home
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: n8n
+    sources:
+    - https://n8n.io
+    - https://github.com/n8n-io/n8n
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/n8n-0.0.1/n8n-0.0.1.tgz
+    version: 0.0.1
   netbootxyz:
   - apiVersion: v2
     appVersion: 0.7.6
@@ -1437,6 +1465,34 @@ entries:
     type: application
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/nginx-basic-0.0.1/nginx-basic-0.0.1.tgz
+    version: 0.0.1
+  obsidian:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-05-01T08:04:13.860787962Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: Obsidian is a powerful knowledge base that works on top of local
+      Markdown files.
+    digest: 163c70a1bf1b9ab7a4d3c1d53fbc99cc2689e8bdf9eed32db5b84d3c2a374ad7
+    keywords:
+    - k8s-at-home
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: obsidian
+    sources:
+    - https://obsidian.md
+    - https://github.com/linuxserver/docker-obsidian
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/obsidian-0.0.1/obsidian-0.0.1.tgz
     version: 0.0.1
   photoprism:
   - annotations:
@@ -2373,4 +2429,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-04-20T01:18:09.856672858Z"
+generated: "2026-05-01T08:04:13.861025115Z"
