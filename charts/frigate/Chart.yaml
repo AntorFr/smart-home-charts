@@ -3,7 +3,7 @@ apiVersion: v2
 appVersion: 0.12.0
 description: NVR With Realtime Object Detection for IP Cameras
 name: frigate
-version: 8.2.0
+version: 8.2.1
 kubeVersion: ">=1.16.0-0"
 keywords:
   - frigate
@@ -26,7 +26,7 @@ maintainers:
 dependencies:
   - name: common
     repository: https://antorfr.github.io/smart-home-charts
-    version: 4.5.8
+    version:  4.7.0
 annotations:
   artifacthub.io/changes: |-
     - kind: changed

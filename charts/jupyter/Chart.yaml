@@ -3,7 +3,7 @@ apiVersion: v2
 description: The Jupyter Notebook is a web-based interactive computing platform.
 name: jupyter
 type: application
-version: 0.0.1
+version: 0.0.2
 maintainers:
   - name: AntorFR
     email: contact@antor.fr
@@ -12,7 +12,7 @@ sources:
 dependencies:
   - name: common
     repository: https://antorfr.github.io/smart-home-charts
-    version: 4.5.8
+    version:  4.7.0
 annotations:
   artifacthub.io/changes: |-
     - kind: changed

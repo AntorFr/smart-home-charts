@@ -3,7 +3,7 @@ apiVersion: v2
 description: Automate Cloudflare DNS records for those with a dynamic IP.
 name: cloudflareddns
 type: application
-version: 0.0.5
+version: 0.0.6
 maintainers:
   - name: AntorFR
     email: contact@antor.fr
@@ -12,7 +12,7 @@ sources:
 dependencies:
   - name: common
     repository: https://antorfr.github.io/smart-home-charts
-    version: 4.5.8
+    version:  4.7.0
 annotations:
   artifacthub.io/changes: |-
     - kind: changed

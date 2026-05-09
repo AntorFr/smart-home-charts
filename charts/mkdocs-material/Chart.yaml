@@ -3,7 +3,7 @@ apiVersion: v2
 name: mkdocs-material
 description: Material for MkDocs documentation server
 type: application
-version: 0.0.1
+version: 0.0.2
 appVersion: "latest"
 keywords:
   - k8s-at-home

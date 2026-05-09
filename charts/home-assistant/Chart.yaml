@@ -2,7 +2,7 @@ apiVersion: v2
 name: home-assistant
 description: Home Assistant - Open source home automation that puts local control and privacy first
 type: application
-version: 0.0.1
+version: 0.0.2
 appVersion: "2026.2.2"
 home: https://www.home-assistant.io/
 icon: https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Home_Assistant_Logo.svg/519px-Home_Assistant_Logo.svg.png
@@ -17,4 +17,4 @@ keywords:
 dependencies:
   - name: common
     repository: https://antorfr.github.io/smart-home-charts
-    version: 4.5.8
+    version:  4.7.0

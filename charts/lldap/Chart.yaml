@@ -2,7 +2,7 @@ apiVersion: v2
 name: lldap
 description: lldap lightweight is a authentication server that provides an opinionated, simplified LDAP interface for authentication
 type: application
-version: 0.0.2
+version: 0.0.3
 appVersion: latest
 home: https://github.com/lldap/lldap
 sources:
@@ -10,4 +10,4 @@ sources:
 dependencies:
   - name: common
     repository: https://antorfr.github.io/smart-home-charts
-    version: 4.5.8
+    version:  4.7.0

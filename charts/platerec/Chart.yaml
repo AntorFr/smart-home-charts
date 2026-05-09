@@ -2,7 +2,7 @@ apiVersion: v2
 name: platerec
 description: Accurate, Fast, Developer-Friendly ANPR
 type: application
-version: 0.2.1
+version: 0.2.2
 appVersion: latest
 home: https://platerecognizer.com/
 sources:
@@ -10,4 +10,4 @@ sources:
 dependencies:
   - name: common
     repository: https://antorfr.github.io/smart-home-charts
-    version: 4.5.8
+    version:  4.7.0

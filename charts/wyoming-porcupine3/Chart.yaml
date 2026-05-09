@@ -2,7 +2,7 @@ apiVersion: v2
 name: wyoming-porcupine3
 description: Home Assistant wyoming server that uses Porcupine 3 for wake word detection.
 type: application
-version: 0.0.2
+version: 0.0.3
 appVersion: latest
 home: https://github.com/AntorFr/wyoming-porcupine3
 sources:
@@ -10,4 +10,4 @@ sources:
 dependencies:
   - name: common
     repository: https://antorfr.github.io/smart-home-charts
-    version: 4.5.8
+    version:  4.7.0
