@@ -1,0 +1,34 @@
+controller:
+  replicas: 1
+
+image:
+  repository: ghcr.io/immich-app/immich-server
+  tag: "release"
+  pullPolicy: IfNotPresent
+
+env:
+  TZ: UTC
+
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        primary: true
+        protocol: TCP
+        port: 2283
+
+ingress:
+  main:
+    enabled: false
+
+persistence:
+  library:
+    enabled: false
+    type: pvc
+    mountPath: /usr/src/app/upload
+    accessMode: ReadWriteOnce
+    size: 10Gi
+    retain: false

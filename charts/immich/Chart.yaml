@@ -1,0 +1,16 @@
+apiVersion: v2
+name: immich
+description: High performance self-hosted photo and video management solution.
+type: application
+version: 0.0.1
+appVersion: "release"
+keywords:
+  - k8s-at-home
+home: https://immich.app
+icon: https://raw.githubusercontent.com/immich-app/immich/main/docs/docs/img/immich-logo-150x150.png
+sources:
+  - https://github.com/immich-app/immich
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.5.8
