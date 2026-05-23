@@ -11,7 +11,7 @@ dependencies:
     repository: https://antorfr.github.io/smart-home-charts
     version:  4.7.0
   - name: nginx
-    repository: https://charts.bitnami.com/bitnami
+    repository: https://repo.broadcom.com/bitnami-files/
     version: 13.2.30
     condition: mapViz.enabled
 annotations:

@@ -13,5 +13,5 @@ dependencies:
     version:  4.7.0
   - name: postgresql
     version: 12.10.0
-    repository: https://charts.bitnami.com/bitnami
+    repository: https://repo.broadcom.com/bitnami-files/
     condition: postgresql.enabled
