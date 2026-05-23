@@ -32,6 +32,7 @@ jobs:
       - name: Add Helm repositories and update dependencies
         run: |
           helm repo add smart-home-charts https://antorfr.github.io/smart-home-charts
+          helm repo add bitnami https://repo.broadcom.com/bitnami-files/
           helm repo update
           for chart in charts/*/; do
             if [ -f "$chart/Chart.yaml" ] && grep -q "dependencies:" "$chart/Chart.yaml"; then
@@ -41,4 +42,3 @@ jobs:
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.5.0
-
