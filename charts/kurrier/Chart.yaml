@@ -1,0 +1,14 @@
+apiVersion: v2
+name: kurrier
+description: Kurrier full stack deployment (compose-compatible) based on common
+type: application
+version: 0.0.1
+appVersion: "1.1.13"
+keywords:
+  - k8s-at-home
+  - kurrier
+  - webmail
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.7.0

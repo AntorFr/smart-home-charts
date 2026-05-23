@@ -1,0 +1,47 @@
+{{- include "common.values.setup" . }}
+{{- if eq (default "cnpg" .Values.database.mode) "cnpg" }}
+{{- $clusterName := default "db" .Values.database.cnpg.clusterName -}}
+{{- $secretName := default (printf "%s-cnpg-app" (include "common.names.fullname" .)) .Values.database.cnpg.existingSecret -}}
+{{- $username := default "postgres" .Values.database.cnpg.username -}}
+{{- $database := default "postgres" .Values.database.cnpg.database -}}
+{{- $password := include "kurrier.envValue" (dict "key" "POSTGRES_PASSWORD" "content" .Values.envFile.content) | trim -}}
+{{- if and (not .Values.database.cnpg.existingSecret) (eq $password "") -}}
+{{- fail "database.mode=cnpg requires POSTGRES_PASSWORD in envFile.content or database.cnpg.existingSecret" -}}
+{{- end -}}
+{{- if not .Values.database.cnpg.existingSecret }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $secretName }}
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+type: kubernetes.io/basic-auth
+stringData:
+  username: {{ $username | quote }}
+  password: {{ $password | quote }}
+{{- end }}
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ $clusterName }}
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+spec:
+  instances: {{ default 1 .Values.database.cnpg.instances }}
+  imageName: {{ .Values.database.cnpg.imageName | quote }}
+  storage:
+    size: {{ default "20Gi" .Values.database.cnpg.storage.size }}
+    {{- if .Values.database.cnpg.storage.storageClass }}
+    storageClass: {{ .Values.database.cnpg.storage.storageClass | quote }}
+    {{- end }}
+  superuserSecret:
+    name: {{ $secretName }}
+  bootstrap:
+    initdb:
+      database: {{ $database | quote }}
+      owner: {{ $username | quote }}
+      secret:
+        name: {{ $secretName }}
+{{- end }}

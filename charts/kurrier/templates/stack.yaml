@@ -1,0 +1,262 @@
+{{- include "common.values.setup" . }}
+{{- if .Values.stack.enabled }}
+{{- $root := . -}}
+{{- $sharedEnv := and .Values.stack.envFromSharedSecret (or .Values.envFile.create .Values.envFile.existingSecret) -}}
+{{- $dbMode := default "cnpg" .Values.database.mode -}}
+{{- range $name, $svc := .Values.stack.services }}
+{{- if and $svc.enabled (or (ne $name "db") (eq $dbMode "embedded")) }}
+{{- $serviceName := include "kurrier.stack.serviceName" (dict "root" $root "name" $name) -}}
+{{- $controller := default "deployment" $svc.controller -}}
+{{- $profileTag := include "kurrier.resolveTag" (dict "root" $root "component" $name "explicit" $svc.image.tag) -}}
+{{- $configMapName := printf "%s-config" $serviceName -}}
+{{- if $svc.configFiles }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $configMapName }}
+  labels:
+    {{- include "kurrier.stack.commonLabels" (dict "root" $root "name" $name) | nindent 4 }}
+data:
+{{- range $cfgName, $cfg := $svc.configFiles }}
+{{- range $filename, $content := $cfg.data }}
+  {{ $filename }}: |
+{{ $content | nindent 4 }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- if eq $controller "statefulset" }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ $serviceName }}
+  labels:
+    {{- include "kurrier.stack.commonLabels" (dict "root" $root "name" $name) | nindent 4 }}
+spec:
+  serviceName: {{ $serviceName }}
+  replicas: {{ default 1 $svc.replicas }}
+  selector:
+    matchLabels:
+      {{- include "kurrier.stack.selectorLabels" (dict "root" $root "name" $name) | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "kurrier.stack.selectorLabels" (dict "root" $root "name" $name) | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ $name }}
+          image: {{ printf "%s:%s" $svc.image.repository $profileTag | quote }}
+          imagePullPolicy: {{ default "IfNotPresent" $svc.image.pullPolicy }}
+{{- if $svc.command }}
+          command:
+{{ toYaml $svc.command | nindent 12 }}
+{{- end }}
+{{- if $svc.args }}
+          args:
+{{ toYaml $svc.args | nindent 12 }}
+{{- end }}
+{{- if $svc.env }}
+          env:
+{{- range $key, $value := $svc.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+{{- end }}
+{{- end }}
+{{- if $sharedEnv }}
+          envFrom:
+            - secretRef:
+                name: {{ include "kurrier.envSecretName" $root }}
+{{- end }}
+{{- if $svc.ports }}
+          ports:
+{{- range $portName, $portValue := $svc.ports }}
+            - name: {{ $portName }}
+              containerPort: {{ $portValue }}
+              protocol: TCP
+{{- end }}
+{{- end }}
+{{- if or $svc.persistence $svc.configFiles }}
+          volumeMounts:
+{{- range $pname, $p := $svc.persistence }}
+{{- if $p.enabled }}
+            - name: {{ $pname }}
+              mountPath: {{ $p.mountPath }}
+{{- end }}
+{{- end }}
+{{- range $cfgName, $cfg := $svc.configFiles }}
+            - name: config
+              mountPath: {{ $cfg.mountPath }}
+{{- end }}
+{{- end }}
+{{- if $svc.resources }}
+          resources:
+{{ toYaml $svc.resources | nindent 12 }}
+{{- end }}
+{{- if or $svc.persistence $svc.configFiles }}
+      volumes:
+{{- range $pname, $p := $svc.persistence }}
+{{- if and $p.enabled (eq $p.type "hostPath") }}
+        - name: {{ $pname }}
+          hostPath:
+            path: {{ $p.hostPath }}
+            type: {{ default "DirectoryOrCreate" $p.hostPathType }}
+{{- end }}
+{{- end }}
+{{- if $svc.configFiles }}
+        - name: config
+          configMap:
+            name: {{ $configMapName }}
+{{- end }}
+{{- end }}
+{{- else if eq $controller "job" }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ $serviceName }}
+  labels:
+    {{- include "kurrier.stack.commonLabels" (dict "root" $root "name" $name) | nindent 4 }}
+spec:
+  backoffLimit: {{ default 1 $svc.backoffLimit }}
+  template:
+    metadata:
+      labels:
+        {{- include "kurrier.stack.selectorLabels" (dict "root" $root "name" $name) | nindent 8 }}
+    spec:
+      restartPolicy: {{ default "OnFailure" $svc.restartPolicy }}
+      containers:
+        - name: {{ $name }}
+          image: {{ printf "%s:%s" $svc.image.repository $profileTag | quote }}
+          imagePullPolicy: {{ default "IfNotPresent" $svc.image.pullPolicy }}
+{{- if $svc.command }}
+          command:
+{{ toYaml $svc.command | nindent 12 }}
+{{- end }}
+{{- if $svc.args }}
+          args:
+{{ toYaml $svc.args | nindent 12 }}
+{{- end }}
+{{- if $sharedEnv }}
+          envFrom:
+            - secretRef:
+                name: {{ include "kurrier.envSecretName" $root }}
+{{- end }}
+{{- if $svc.env }}
+          env:
+{{- range $key, $value := $svc.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+{{- end }}
+{{- end }}
+{{- else }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $serviceName }}
+  labels:
+    {{- include "kurrier.stack.commonLabels" (dict "root" $root "name" $name) | nindent 4 }}
+spec:
+  replicas: {{ default 1 $svc.replicas }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "kurrier.stack.selectorLabels" (dict "root" $root "name" $name) | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "kurrier.stack.selectorLabels" (dict "root" $root "name" $name) | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ $name }}
+          image: {{ printf "%s:%s" $svc.image.repository $profileTag | quote }}
+          imagePullPolicy: {{ default "IfNotPresent" $svc.image.pullPolicy }}
+{{- if $svc.command }}
+          command:
+{{ toYaml $svc.command | nindent 12 }}
+{{- end }}
+{{- if $svc.args }}
+          args:
+{{ toYaml $svc.args | nindent 12 }}
+{{- end }}
+{{- if $sharedEnv }}
+          envFrom:
+            - secretRef:
+                name: {{ include "kurrier.envSecretName" $root }}
+{{- end }}
+{{- if $svc.env }}
+          env:
+{{- range $key, $value := $svc.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+{{- end }}
+{{- end }}
+{{- if $svc.ports }}
+          ports:
+{{- range $portName, $portValue := $svc.ports }}
+            - name: {{ $portName }}
+              containerPort: {{ $portValue }}
+              protocol: TCP
+{{- end }}
+{{- end }}
+{{- if or $svc.persistence $svc.configFiles }}
+          volumeMounts:
+{{- range $pname, $p := $svc.persistence }}
+{{- if $p.enabled }}
+            - name: {{ $pname }}
+              mountPath: {{ $p.mountPath }}
+{{- end }}
+{{- end }}
+{{- if $svc.configFiles }}
+{{- range $cfgName, $cfg := $svc.configFiles }}
+            - name: config
+              mountPath: {{ $cfg.mountPath }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- if $svc.resources }}
+          resources:
+{{ toYaml $svc.resources | nindent 12 }}
+{{- end }}
+{{- if or $svc.persistence $svc.configFiles }}
+      volumes:
+{{- range $pname, $p := $svc.persistence }}
+{{- if and $p.enabled (eq $p.type "hostPath") }}
+        - name: {{ $pname }}
+          hostPath:
+            path: {{ $p.hostPath }}
+            type: {{ default "DirectoryOrCreate" $p.hostPathType }}
+{{- end }}
+{{- end }}
+{{- if $svc.configFiles }}
+        - name: config
+          configMap:
+            name: {{ $configMapName }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- if and $svc.service $svc.service.enabled $svc.ports }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $serviceName }}
+  labels:
+    {{- include "kurrier.stack.commonLabels" (dict "root" $root "name" $name) | nindent 4 }}
+spec:
+  type: {{ default "ClusterIP" $svc.service.type }}
+  selector:
+    {{- include "kurrier.stack.selectorLabels" (dict "root" $root "name" $name) | nindent 4 }}
+  ports:
+{{- range $portName, $portValue := $svc.ports }}
+    - name: {{ $portName }}
+      port: {{ $portValue }}
+      targetPort: {{ $portName }}
+      protocol: TCP
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}

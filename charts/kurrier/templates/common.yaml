@@ -1,0 +1,28 @@
+{{/* Make sure all variables are set properly */}}
+{{- include "common.values.setup" . }}
+
+{{/* Apply compatibility profile defaults for web image tag and shared env secret */}}
+{{- define "kurrier.hardcodedValues" -}}
+{{- $dbMode := default "cnpg" .Values.database.mode -}}
+image:
+  tag: {{ include "kurrier.resolveTag" (dict "root" . "component" "web" "explicit" .Values.image.tag) | quote }}
+env:
+  {{- if eq $dbMode "cnpg" }}
+  POSTGRES_HOST: {{ printf "%s-rw" (default "db" .Values.database.cnpg.clusterName) | quote }}
+  {{- else if eq $dbMode "external" }}
+  POSTGRES_HOST: {{ .Values.database.external.host | quote }}
+  POSTGRES_PORT: {{ printf "%v" (default 5432 .Values.database.external.port) | quote }}
+  POSTGRES_DB: {{ .Values.database.external.database | quote }}
+  {{- else }}
+  POSTGRES_HOST: "db"
+  {{- end }}
+{{- if and .Values.envFile.injectToWeb (or .Values.envFile.create .Values.envFile.existingSecret) }}
+envFrom:
+  - secretRef:
+      name: {{ include "kurrier.envSecretName" . | quote }}
+{{- end }}
+{{- end -}}
+{{- $_ := mergeOverwrite .Values (include "kurrier.hardcodedValues" . | fromYaml) -}}
+
+{{/* Render the templates */}}
+{{ include "common.all" . }}
