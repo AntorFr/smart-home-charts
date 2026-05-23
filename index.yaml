@@ -6,6 +6,25 @@ entries:
         - kind: changed
           description: First chart release
     apiVersion: v2
+    created: "2026-05-23T18:44:38.179931775Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Adminer (formerly phpMinAdmin) is a web database management tool
+    digest: 09ba6ac71657976815ff46c0391605436f082d72e97274d0030dd37b36b407b1
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: adminer
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/adminer-0.1.2/adminer-0.1.2.tgz
+    version: 0.1.2
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
     created: "2022-07-28T21:42:19.202988461Z"
     dependencies:
     - name: common
@@ -61,6 +80,29 @@ entries:
   ansible-semaphore:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-05-23T18:44:38.410937187Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://repo.broadcom.com/bitnami-files/
+      version: 12.10.0
+    description: Ansible Semaphore is a modern UI for Ansible. It lets you easily
+      run Ansible playbooks, get notifications about fails, control access to deployment
+      system.
+    digest: d7aa99344b026d5a55151eae9c9a6ae9c1beb61e8eead2545ee0e37267d5d899
+    home: https://www.ansible-semaphore.com/
+    name: ansible-semaphore
+    sources:
+    - https://github.com/ansible-semaphore/semaphore
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/ansible-semaphore-0.0.5/ansible-semaphore-0.0.5.tgz
+    version: 0.0.5
+  - apiVersion: v2
+    appVersion: latest
     created: "2023-08-28T22:20:46.309348843Z"
     dependencies:
     - name: common
@@ -106,6 +148,28 @@ entries:
     - https://github.com/AntorFr/smart-home-charts/releases/download/ansible-semaphore-0.0.2/ansible-semaphore-0.0.2.tgz
     version: 0.0.2
   cloudflareddns:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    created: "2026-05-23T18:44:38.612138676Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Automate Cloudflare DNS records for those with a dynamic IP.
+    digest: db504a68d6511fa05094960746c75a320836373255fcb85b362a7b19d92ba6f5
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: cloudflareddns
+    sources:
+    - https://github.com/hotio/cloudflareddns
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/cloudflareddns-0.0.6/cloudflareddns-0.0.6.tgz
+    version: 0.0.6
   - annotations:
       artifacthub.io/changes: |-
         - kind: changed
@@ -737,6 +801,34 @@ entries:
           description: Move traefik service.* annotations from Ingress to Service (required by Traefik Kubernetes Ingress provider)
     apiVersion: v2
     appVersion: "4"
+    created: "2026-05-23T18:44:38.798001483Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Crafty Controller 4 - web panel for Minecraft Java/Bedrock server
+      management
+    digest: ffc3121f40d60603f4ba4435170f2c8a9327fa77f63b3fa966c61365769fe70c
+    keywords:
+    - k8s-at-home
+    - minecraft
+    - crafty
+    - bedrock
+    - java
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: crafty-controller
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/crafty-controller-0.0.3/crafty-controller-0.0.3.tgz
+    version: 0.0.3
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: fixed
+          description: Move traefik service.* annotations from Ingress to Service (required by Traefik Kubernetes Ingress provider)
+    apiVersion: v2
+    appVersion: "4"
     created: "2026-04-18T21:57:55.721559695Z"
     dependencies:
     - name: common
@@ -796,6 +888,44 @@ entries:
           description: Upgraded chart default Docker repo
     apiVersion: v2
     appVersion: 0.12.0
+    created: "2026-05-23T18:44:38.997713089Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: NVR With Realtime Object Detection for IP Cameras
+    digest: 63c9cac2af0183b5741e5569283bb879a7fa5aff602aa4ff43742d19cd3a1649
+    home: https://github.com/k8s-at-home/charts/tree/master/charts/stable/frigate
+    icon: https://github.com/blakeblackshear/frigate/blob/master/docs/static/img/frigate.png
+    keywords:
+    - frigate
+    - nvr
+    - tensorflow
+    - coral
+    - ml
+    - machine-learning
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: jeff@billimek.com
+      name: billimek
+    - email: 5434875+PixelJonas@users.noreply.github.com
+      name: PixelJonas
+    - email: contact@antor.fr
+      name: AntorFR
+    name: frigate
+    sources:
+    - https://github.com/blakeblackshear/frigate
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/frigate-8.2.1/frigate-8.2.1.tgz
+    version: 8.2.1
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: Upgraded `common` chart dependency to version 4.5.8
+        - kind: changed
+          description: Upgraded chart default Docker repo
+    apiVersion: v2
+    appVersion: 0.12.0
     created: "2023-04-12T07:49:23.285540513Z"
     dependencies:
     - name: common
@@ -829,6 +959,31 @@ entries:
   home-assistant:
   - apiVersion: v2
     appVersion: 2026.2.2
+    created: "2026-05-23T18:44:39.198745393Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Home Assistant - Open source home automation that puts local control
+      and privacy first
+    digest: a85b3357552ab3a2a6059bcf0cc0017cab7d2c573dc790f566d929763eac959e
+    home: https://www.home-assistant.io/
+    icon: https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Home_Assistant_Logo.svg/519px-Home_Assistant_Logo.svg.png
+    keywords:
+    - home-assistant
+    - hass
+    - homeassistant
+    - smart-home
+    - automation
+    name: home-assistant
+    sources:
+    - https://github.com/home-assistant/core
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/home-assistant-0.0.2/home-assistant-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: 2026.2.2
     created: "2026-02-17T03:46:37.648749807Z"
     dependencies:
     - name: common
@@ -852,7 +1007,50 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/home-assistant-0.0.1/home-assistant-0.0.1.tgz
     version: 0.0.1
+  immich:
+  - apiVersion: v2
+    appVersion: release
+    created: "2026-05-23T18:44:39.416843304Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.5.8
+    description: High performance self-hosted photo and video management solution.
+    digest: 7fb4cc662b6452efd34a74712e9d26d9b4d1e630d6b9ddce6f0708ecd40cd6f2
+    home: https://immich.app
+    icon: https://raw.githubusercontent.com/immich-app/immich/main/docs/docs/img/immich-logo-150x150.png
+    keywords:
+    - k8s-at-home
+    name: immich
+    sources:
+    - https://github.com/immich-app/immich
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/immich-0.0.1/immich-0.0.1.tgz
+    version: 0.0.1
   jupyter:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    created: "2026-05-23T18:44:39.622962122Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: The Jupyter Notebook is a web-based interactive computing platform.
+    digest: 6dd948769165bc76b83a0e43f5800d19b1eab8cd0b6c9bac513e491b07083ec6
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: jupyter
+    sources:
+    - https://jupyter.org/
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/jupyter-0.0.2/jupyter-0.0.2.tgz
+    version: 0.0.2
   - annotations:
       artifacthub.io/changes: |-
         - kind: changed
@@ -875,7 +1073,44 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/jupyter-0.0.1/jupyter-0.0.1.tgz
     version: 0.0.1
+  kurrier:
+  - apiVersion: v2
+    appVersion: 1.1.13
+    created: "2026-05-23T18:44:39.810460047Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Kurrier full stack deployment (compose-compatible) based on common
+    digest: 75253510c38f618c79dc29b5a3eb347be978cf5f81602feebb8992154f486a18
+    keywords:
+    - k8s-at-home
+    - kurrier
+    - webmail
+    name: kurrier
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/kurrier-0.0.1/kurrier-0.0.1.tgz
+    version: 0.0.1
   lldap:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-05-23T18:44:40.028125572Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: lldap lightweight is a authentication server that provides an opinionated,
+      simplified LDAP interface for authentication
+    digest: 0b24f0679c815e94cfa1ab1193f29b6c76cef38d1d1939dca08fb87556e58ae2
+    home: https://github.com/lldap/lldap
+    name: lldap
+    sources:
+    - https://github.com/lldap/lldap
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/lldap-0.0.3/lldap-0.0.3.tgz
+    version: 0.0.3
   - apiVersion: v2
     appVersion: latest
     created: "2023-08-05T22:15:58.846473439Z"
@@ -913,6 +1148,26 @@ entries:
     - https://github.com/AntorFr/smart-home-charts/releases/download/lldap-0.0.1/lldap-0.0.1.tgz
     version: 0.0.1
   marytts:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    created: "2026-05-23T18:44:40.21597895Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: The MARY Text-to-Speech System (MaryTTS) is an open-source, multilingual
+      Text-to-Speech Synthesis platform
+    digest: 57ff0f3f90f7043611acd26e47d75cf9a8f0ad16db7089a968ee31f00b236b93
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: marytts
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/marytts-0.1.2/marytts-0.1.2.tgz
+    version: 0.1.2
   - annotations:
       artifacthub.io/changes: |-
         - kind: changed
@@ -974,6 +1229,29 @@ entries:
     - https://github.com/AntorFr/smart-home-charts/releases/download/marytts-0.0.1/marytts-0.0.1.tgz
     version: 0.0.1
   minecraft-server:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    created: "2026-05-23T18:44:40.486038461Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    - condition: mapViz.enabled
+      name: nginx
+      repository: https://repo.broadcom.com/bitnami-files/
+      version: 13.2.30
+    description: The chart will run a Minecraft Bedrock Dedicated Server (MBDS)
+    digest: dd2866f2c47c1953fcc609dadfc829931c4fe6c3827fe1791ad8e4d32d767020
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: minecraft-server
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/minecraft-server-0.1.5/minecraft-server-0.1.5.tgz
+    version: 0.1.5
   - annotations:
       artifacthub.io/changes: |-
         - kind: changed
@@ -1283,6 +1561,23 @@ entries:
   mitmproxy:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-05-23T18:44:40.677108524Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: mitmproxy is a free and open source interactive HTTPS proxy
+    digest: 27def339e89f78b5cf62a028d00bb26305c8bf5d2a04c3a7b464981b5af77c05
+    home: https://mitmproxy.org/
+    name: mitmproxy
+    sources:
+    - https://github.com/mitmproxy/mitmproxy
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/mitmproxy-0.0.5/mitmproxy-0.0.5.tgz
+    version: 0.0.5
+  - apiVersion: v2
+    appVersion: latest
     created: "2023-08-17T21:12:48.907044898Z"
     dependencies:
     - name: common
@@ -1356,6 +1651,35 @@ entries:
           description: First chart release
     apiVersion: v2
     appVersion: latest
+    created: "2026-05-23T18:44:40.896999296Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Material for MkDocs documentation server
+    digest: b25adbdc3041e9b6386015613a6d945bb224e45c8934d96c863b06f16b405ca1
+    keywords:
+    - k8s-at-home
+    - docs
+    - mkdocs
+    - material
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: mkdocs-material
+    sources:
+    - https://squidfunk.github.io/mkdocs-material/
+    - https://github.com/squidfunk/mkdocs-material
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/mkdocs-material-0.0.2/mkdocs-material-0.0.2.tgz
+    version: 0.0.2
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    appVersion: latest
     created: "2026-05-01T19:36:56.469389299Z"
     dependencies:
     - name: common
@@ -1382,6 +1706,26 @@ entries:
   music-assistant-server:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-05-23T18:44:41.207796904Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Music Assistant is a free, opensource Media library manager that
+      connects to your streaming services and a wide range of connected speakers.
+      The server is the beating heart, the core of Music Assistant and must run on
+      an always-on device like a Raspberry Pi, a NAS or an Intel NUC or alike.
+    digest: 0b406103989f9eeb11b22c38d4bd80faff27d88946db4e8605657af77a14f565
+    home: https://github.com/music-assistant/server
+    name: music-assistant-server
+    sources:
+    - https://github.com/music-assistant/server
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/music-assistant-server-0.0.2/music-assistant-server-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: latest
     created: "2024-01-31T20:16:21.413496237Z"
     dependencies:
     - name: common
@@ -1403,6 +1747,24 @@ entries:
   music-library:
   - apiVersion: v2
     appVersion: 0.5.0-beta
+    created: "2026-05-23T18:44:41.473235834Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Family media library manager with Home Assistant and Music Assistant
+      integration
+    digest: 44624e33e4624e4120050c8627004546df7e16979155f4b992d401727666326d
+    home: https://github.com/AntorFr/music-library
+    name: music-library
+    sources:
+    - https://github.com/AntorFr/music-library
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/music-library-0.0.2/music-library-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: 0.5.0-beta
     created: "2026-02-17T02:42:48.884677679Z"
     dependencies:
     - name: common
@@ -1420,6 +1782,33 @@ entries:
     - https://github.com/AntorFr/smart-home-charts/releases/download/music-library-0.0.1/music-library-0.0.1.tgz
     version: 0.0.1
   n8n:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-05-23T18:44:41.726191835Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: n8n is a workflow automation platform that combines AI capabilities
+      with business process automation.
+    digest: 2c7f2836614fb0f118dd5cf0dcb016cc73921c077bf4820ce03657b5b8ab5777
+    keywords:
+    - k8s-at-home
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: n8n
+    sources:
+    - https://n8n.io
+    - https://github.com/n8n-io/n8n
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/n8n-0.0.2/n8n-0.0.2.tgz
+    version: 0.0.2
   - annotations:
       artifacthub.io/changes: |-
         - kind: changed
@@ -1535,6 +1924,25 @@ entries:
   netbootxyz:
   - apiVersion: v2
     appVersion: 0.7.6
+    created: "2026-05-23T18:44:41.987343425Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Network bootable operating system installer and IPXE server
+    digest: 112b63eac2137ee5ae4859008cc582a26c5e9b5033d2211e4a2a9bcfc3303a53
+    keywords:
+    - k8s-at-home
+    - netboot
+    - pxe
+    - tftp
+    name: netbootxyz
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/netbootxyz-0.0.2/netbootxyz-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: 0.7.6
     created: "2026-04-14T20:51:33.51669591Z"
     dependencies:
     - name: common
@@ -1553,6 +1961,20 @@ entries:
     - https://github.com/AntorFr/smart-home-charts/releases/download/netbootxyz-0.0.1/netbootxyz-0.0.1.tgz
     version: 0.0.1
   nginx-basic:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-05-23T18:44:42.261254199Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Basic nginx hosting
+    digest: 67ed55cc8208656e8437b5e325481f0ef810fc8fd1a5189f2e16b1367dde2eb7
+    name: nginx-basic
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/nginx-basic-0.0.3/nginx-basic-0.0.3.tgz
+    version: 0.0.3
   - apiVersion: v2
     appVersion: latest
     created: "2023-11-05T11:09:57.222734689Z"
@@ -1588,6 +2010,33 @@ entries:
           description: First chart release
     apiVersion: v2
     appVersion: latest
+    created: "2026-05-23T18:44:42.526122348Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Obsidian is a powerful knowledge base that works on top of local
+      Markdown files.
+    digest: 109865bbf482af312aecba13779dbc55b570354461afca0be6af8bb16696c90e
+    keywords:
+    - k8s-at-home
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: obsidian
+    sources:
+    - https://obsidian.md
+    - https://github.com/linuxserver/docker-obsidian
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/obsidian-0.0.2/obsidian-0.0.2.tgz
+    version: 0.0.2
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    appVersion: latest
     created: "2026-05-01T08:04:13.860787962Z"
     dependencies:
     - name: common
@@ -1610,6 +2059,44 @@ entries:
     - https://github.com/AntorFr/smart-home-charts/releases/download/obsidian-0.0.1/obsidian-0.0.1.tgz
     version: 0.0.1
   photoprism:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: Upgraded `mariadb` chart dependency to version 11.0.14
+        - kind: changed
+          description: Upgraded `mariadb` chart dependency to version 13.1.2
+    apiVersion: v2
+    appVersion: "230719"
+    created: "2026-05-23T18:44:42.775918193Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    - condition: mariadb.enabled
+      name: mariadb
+      repository: https://repo.broadcom.com/bitnami-files/
+      version: 13.1.2
+    description: PhotoPrism® is a server-based application for browsing, organizing
+      and sharing your personal photo collection
+    digest: a9ffcc5c8cd3eeeb690d9e0364805031bdeaf48038d46ab9e2aea1fa3040798c
+    home: https://github.com/k8s-at-home/charts/tree/master/charts/stable/photoprism
+    icon: https://demo.photoprism.org/static/img/logo-avatar.svg
+    keywords:
+    - photos
+    - photoprism
+    - pictures
+    - sharing
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: jeff@billimek.com
+      name: billimek
+    name: photoprism
+    sources:
+    - https://github.com/photoprism/photoprism
+    - https://hub.docker.com/r/photoprism/photoprism
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/photoprism-7.0.2/photoprism-7.0.2.tgz
+    version: 7.0.2
   - annotations:
       artifacthub.io/changes: |-
         - kind: changed
@@ -1649,6 +2136,23 @@ entries:
     - https://github.com/AntorFr/smart-home-charts/releases/download/photoprism-7.0.1/photoprism-7.0.1.tgz
     version: 7.0.1
   platerec:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-05-23T18:44:43.148492175Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Accurate, Fast, Developer-Friendly ANPR
+    digest: 49f9c1fb118ed301ae066b84ae59c3e624b9f42d096ca5566c68e0e7dffc59b4
+    home: https://platerecognizer.com/
+    name: platerec
+    sources:
+    - https://github.com/parkpow/deep-license-plate-recognition
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/platerec-0.2.2/platerec-0.2.2.tgz
+    version: 0.2.2
   - apiVersion: v2
     appVersion: latest
     created: "2023-07-18T00:48:11.310655384Z"
@@ -1700,6 +2204,29 @@ entries:
         - kind: changed
           description: First chart release
     apiVersion: v2
+    created: "2026-05-23T18:44:43.525610213Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://repo.broadcom.com/bitnami-files/
+      version: 12.5.7
+    description: Semaphore is a responsive web UI for running Ansible playbooks.
+    digest: a91484f2c49f6aa7b323637ff15fe247bc598c60c91ef0e4cf0d3fe8a536ce63
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: semaphore
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/semaphore-0.0.2/semaphore-0.0.2.tgz
+    version: 0.0.2
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
     created: "2023-07-17T23:00:27.065374424Z"
     dependencies:
     - name: common
@@ -1719,6 +2246,30 @@ entries:
     - https://github.com/AntorFr/smart-home-charts/releases/download/semaphore-0.0.1/semaphore-0.0.1.tgz
     version: 0.0.1
   smartiot-config:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+        - kind: changed
+          description: update data persistence with v1.1.0 of the app
+        - kind: changed
+          description: bump common depedency to v1.3.2
+    apiVersion: v2
+    created: "2026-05-23T18:44:43.803975669Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: SmartIoT-config is an config system for SmartIoT Esp32/Esp8266 firmware
+      helping for discovery, OTA upate and config backup.
+    digest: 90c388de110fab40bd13667430f17ff69a7695a6309c578b5c5f966825931e65
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: smartiot-config
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/smartiot-config-0.3.4/smartiot-config-0.3.4.tgz
+    version: 0.3.4
   - annotations:
       artifacthub.io/changes: |-
         - kind: changed
@@ -2069,6 +2620,26 @@ entries:
         - kind: changed
           description: First chart release
     apiVersion: v2
+    created: "2026-05-23T18:44:44.05229459Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: TasmoAdmin is an administrative platform for devices flashed with
+      Tasmota.
+    digest: ad6a28eb5294925f1d6be903406e6dfdb0f8a1e4432e7cae12bf682379140ab8
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: tasmoadmin
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.1.2/tasmoadmin-0.1.2.tgz
+    version: 0.1.2
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
     created: "2022-07-28T21:42:19.657644721Z"
     dependencies:
     - name: common
@@ -2330,6 +2901,29 @@ entries:
         - kind: changed
           description: First chart release
     apiVersion: v2
+    created: "2026-05-23T18:44:44.309652324Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: The easiest way to run WireGuard VPN + Web-based Admin UI.
+    digest: 4b5b345657c36d52352818cbbc5cb1c5ad27560c82d541ae81e6762a15d0d959
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: wg-easy
+    sources:
+    - https://github.com/WeeJeWel/wg-easy
+    - https://ghcr.io/wg-easy/wg-easy
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/wg-easy-0.0.2/wg-easy-0.0.2.tgz
+    version: 0.0.2
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
     created: "2024-03-02T10:13:11.280620626Z"
     dependencies:
     - name: common
@@ -2349,6 +2943,32 @@ entries:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wg-easy-0.0.1/wg-easy-0.0.1.tgz
     version: 0.0.1
   wireguard:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: Upgraded `common` chart dependency to version 4.5.8
+    apiVersion: v2
+    appVersion: 1.0.20210424
+    created: "2026-05-23T18:44:44.553616326Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Fast, modern, secure VPN tunnel
+    digest: 0a6aa2d4aefdc5e13a7d7afdac3e8bcd1053220353b956e540510e8518fab513
+    icon: https://avatars.githubusercontent.com/u/13991055?s=200&v=4
+    keywords:
+    - vpn
+    - privacy
+    - security
+    - wireguard
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - name: AntorFR
+    name: wireguard
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/wireguard-1.3.4/wireguard-1.3.4.tgz
+    version: 1.3.4
   - annotations:
       artifacthub.io/changes: |-
         - kind: changed
@@ -2378,6 +2998,26 @@ entries:
   wyoming-openwakeword:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-05-23T18:44:44.822350287Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Wyoming protocol server for the openWakeWord wake word detection
+      system. openWakeWord is an open-source wakeword library that can be used to
+      create voice-enabled applications and interfaces. It includes pre-trained models
+      for common words & phrases that work well in real-world environments.
+    digest: 26bdb4d1cbd83c0b28a0f14ba1d0802c848470851361dfe7c4bb5e7c0ac0b101
+    home: https://github.com/rhasspy/wyoming-openwakeword
+    name: wyoming-openwakeword
+    sources:
+    - https://github.com/dscripka/openWakeWord
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-openwakeword-0.0.2/wyoming-openwakeword-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: latest
     created: "2023-10-24T20:45:37.147346573Z"
     dependencies:
     - name: common
@@ -2397,6 +3037,24 @@ entries:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-openwakeword-0.0.1/wyoming-openwakeword-0.0.1.tgz
     version: 0.0.1
   wyoming-piper:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-05-23T18:44:45.174352339Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Piper uses modern machine learning algorithms for realistic-sounding
+      speech but can still generate audio quickly.
+    digest: b3443e954a4ffc5174d2e033462f119b19df055ecd345af6b3a4f96615aa43dc
+    home: https://github.com/home-assistant/addons/blob/master/piper/DOCS.md
+    name: wyoming-piper
+    sources:
+    - https://github.com/home-assistant/addons/blob/master/piper
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-piper-0.0.4/wyoming-piper-0.0.4.tgz
+    version: 0.0.4
   - apiVersion: v2
     appVersion: latest
     created: "2023-08-17T22:46:18.870182981Z"
@@ -2473,6 +3131,24 @@ entries:
   wyoming-porcupine3:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-05-23T18:44:45.429877719Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Home Assistant wyoming server that uses Porcupine 3 for wake word
+      detection.
+    digest: 755388b53817b246715bec5e1fef9427c3681d6fd8753a65050d9e541a91c3c8
+    home: https://github.com/AntorFr/wyoming-porcupine3
+    name: wyoming-porcupine3
+    sources:
+    - https://github.com/AntorFr/wyoming-porcupine3
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-porcupine3-0.0.3/wyoming-porcupine3-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: latest
     created: "2023-12-01T23:44:07.207397955Z"
     dependencies:
     - name: common
@@ -2510,6 +3186,24 @@ entries:
   wyoming-whisper:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-05-23T18:44:45.680997296Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Whisper is an open source speech-to-text model created by OpenAI
+      that runs locally.
+    digest: 946ef232d6a0c48fdbc95a74aaaf6fdeea8900afb952bbfd65a7d61cab145914
+    home: https://hub.docker.com/r/rhasspy/wyoming-whisper
+    name: wyoming-whisper
+    sources:
+    - https://github.com/home-assistant/addons/tree/master/whisper
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.5/wyoming-whisper-0.0.5.tgz
+    version: 0.0.5
+  - apiVersion: v2
+    appVersion: latest
     created: "2023-08-17T22:46:18.987797267Z"
     dependencies:
     - name: common
@@ -2544,4 +3238,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-05-01T19:48:52.58978479Z"
+generated: "2026-05-23T18:44:45.681337211Z"
