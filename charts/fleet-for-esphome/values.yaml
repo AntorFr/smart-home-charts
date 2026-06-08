@@ -1,0 +1,132 @@
+#
+# IMPORTANT NOTE
+#
+# This chart inherits from our common library chart. You can check the default values/options here:
+# https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
+#
+
+controller:
+  replicas: 1
+  strategy: Recreate
+
+# -- Enable the Fleet for ESPHome server. Set to false to deploy only workers.
+server:
+  enabled: true
+
+image:
+  repository: ghcr.io/weirded/esphome-dist-server
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# -- Host networking is recommended by Fleet for ESPHome for mDNS discovery and ESP device reachability.
+hostNetwork: true
+dnsPolicy: ClusterFirstWithHostNet
+
+# -- Environment variables for the server container.
+env:
+  HA_MODE: standalone
+
+# -- SERVER_TOKEN is generated once and reused on upgrades when the server or sidecar worker is enabled.
+# -- For worker-only installs, set SERVER_TOKEN here or use worker.deployment.existingSecret.
+secret: {}
+
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        primary: true
+        protocol: TCP
+        port: 8765
+
+ingress:
+  main:
+    enabled: false
+    hosts: []
+    # - host: fleet-for-esphome.example.local
+    #   paths:
+    #     - path: /
+    #       pathType: Prefix
+    tls: []
+    # - hosts:
+    #     - fleet-for-esphome.example.local
+    #   secretName: fleet-for-esphome-tls
+
+persistence:
+  data:
+    enabled: false
+    type: pvc
+    mountPath: /data
+    storageClass:  # "-"
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    retain: false
+
+  esphome:
+    enabled: false
+    type: pvc
+    mountPath: /config/esphome
+    storageClass:  # "-"
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    retain: false
+
+  esphome-versions:
+    enabled: true
+    type: emptyDir
+    mountPath: "-"
+
+# -- Worker configuration.
+worker:
+  image:
+    repository: ghcr.io/weirded/esphome-dist-client
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  # -- Optional local build worker sidecar in the same Pod as the server.
+  sidecar:
+    enabled: true
+    env:
+      SERVER_URL: http://127.0.0.1:8765
+      HOSTNAME: standalone-worker
+      MAX_PARALLEL_JOBS: "1"
+    resources: {}
+
+  # -- Optional standalone worker Deployment. Enable this for worker-only installs or extra workers.
+  #
+  # Worker-only example:
+  # server:
+  #   enabled: false
+  # worker:
+  #   sidecar:
+  #     enabled: false
+  #   deployment:
+  #     enabled: true
+  #     replicas: 2
+  #     serverUrl: http://fleet.example.local:8765
+  # secret:
+  #   SERVER_TOKEN: replace-with-server-token
+  deployment:
+    enabled: false
+    replicas: 1
+    # -- Defaults to the in-cluster server service when server.enabled=true. Required for worker-only installs.
+    serverUrl: ""
+    # -- Use an existing Secret containing SERVER_TOKEN instead of secret.SERVER_TOKEN.
+    existingSecret:
+      name: ""
+      key: SERVER_TOKEN
+    env:
+      MAX_PARALLEL_JOBS: "1"
+    resources: {}
+    podAnnotations: {}
+    podLabels: {}
+    podSecurityContext: {}
+    securityContext: {}
+    nodeSelector: {}
+    affinity: {}
+    tolerations: []
+    topologySpreadConstraints: []
+
+additionalContainers: {}

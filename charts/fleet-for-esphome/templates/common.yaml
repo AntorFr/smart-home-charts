@@ -1,0 +1,53 @@
+{{/* Make sure all variables are set properly */}}
+{{- include "common.values.setup" . }}
+
+{{/* Disable common-rendered server resources when running workers only */}}
+{{- if not .Values.server.enabled -}}
+  {{- $_ := set .Values.controller "enabled" false -}}
+  {{- if and .Values.service .Values.service.main -}}
+    {{- $_ := set .Values.service.main "enabled" false -}}
+  {{- end -}}
+  {{- if and .Values.ingress .Values.ingress.main -}}
+    {{- $_ := set .Values.ingress.main "enabled" false -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if and (not .Values.server.enabled) .Values.worker.sidecar.enabled -}}
+  {{- fail "worker.sidecar.enabled requires server.enabled=true. For worker-only installs, set worker.sidecar.enabled=false and worker.deployment.enabled=true." -}}
+{{- end -}}
+
+{{/* Render and inject SERVER_TOKEN secret (keep user-provided value if set) */}}
+{{- if or .Values.server.enabled .Values.worker.sidecar.enabled -}}
+  {{- $secrets := include "fleet-for-esphome.secret" . | fromYaml -}}
+  {{- if $secrets -}}
+    {{- if not .Values.secret -}}
+      {{- $_ := set .Values "secret" dict -}}
+    {{- end -}}
+    {{- if not (hasKey .Values.secret "SERVER_TOKEN") -}}
+      {{- $_ := set .Values.secret "SERVER_TOKEN" (get $secrets "SERVER_TOKEN") -}}
+    {{- end -}}
+  {{- end -}}
+{{- else if and .Values.worker.deployment.enabled (not .Values.worker.deployment.existingSecret.name) (not (hasKey (.Values.secret | default dict) "SERVER_TOKEN")) -}}
+  {{- fail "worker-only installs require secret.SERVER_TOKEN or worker.deployment.existingSecret.name" -}}
+{{- end -}}
+
+{{/* Add optional local build worker sidecar */}}
+{{- if .Values.worker.sidecar.enabled -}}
+  {{- if not .Values.additionalContainers -}}
+    {{- $_ := set .Values "additionalContainers" dict -}}
+  {{- end -}}
+  {{- $_ := set .Values.additionalContainers "worker" (dict
+    "image" (printf "%s:%s" .Values.worker.image.repository (default .Chart.AppVersion .Values.worker.image.tag))
+    "imagePullPolicy" .Values.worker.image.pullPolicy
+    "env" .Values.worker.sidecar.env
+    "envFrom" (list (dict "secretRef" (dict "name" (include "common.names.fullname" .))))
+    "volumeMounts" (list (dict "name" "esphome-versions" "mountPath" "/esphome-versions"))
+    "resources" .Values.worker.sidecar.resources
+  ) -}}
+{{- end -}}
+
+{{/* Render the templates */}}
+{{ include "common.all" . }}
+
+{{/* Render standalone worker Deployment */}}
+{{ include "fleet-for-esphome.workerDeployment" . }}

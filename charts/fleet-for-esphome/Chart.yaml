@@ -1,0 +1,15 @@
+apiVersion: v2
+name: fleet-for-esphome
+description: A modern Home Assistant UI for ESPHome fleet management, builds, flashing, and device tracking
+type: application
+version: 0.0.1
+appVersion: latest
+home: https://github.com/weirded/fleet-for-esphome
+sources:
+  - https://github.com/weirded/fleet-for-esphome
+  - https://ghcr.io/weirded/esphome-dist-server
+  - https://ghcr.io/weirded/esphome-dist-client
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version:  4.7.0
