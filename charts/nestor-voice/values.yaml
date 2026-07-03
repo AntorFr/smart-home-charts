@@ -1,0 +1,62 @@
+#
+# IMPORTANT NOTE
+#
+# This chart inherits from our common library chart. You can check the default values/options here:
+# https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
+#
+
+controller:
+  replicas: 1
+
+image:
+  # -- image repository (construite par le repo de code nestor-voice)
+  repository: ghcr.io/antorfr/nestor-tts
+  # -- image tag
+  tag: "latest"
+  # -- image pull policy
+  pullPolicy: IfNotPresent
+
+# -- Variables d'environnement non sensibles de la passerelle.
+# @default -- See below
+env:
+  # -- voice_id ElevenLabs de la voix "Nestor-base-v1"
+  NESTOR_VOICE_ID: "yY3c56wtYbsunxZsENmx"
+  # -- modele TTS ElevenLabs (aligne sur l'integration HA officielle)
+  NESTOR_MODEL: "eleven_multilingual_v2"
+  # -- frequence d'echantillonnage du PCM renvoye a Wyoming
+  NESTOR_SAMPLE_RATE: "22050"
+
+# -- Secret genere par common et charge en envFrom.
+# La cle DOIT etre surchargee au deploiement (ne pas committer la vraie valeur) :
+#   helm upgrade ... --set secret.ELEVENLABS_API_KEY=xxxxx
+secret:
+  ELEVENLABS_API_KEY: ""
+
+# -- Service Wyoming (TCP brut, comme wyoming-piper).
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        primary: true
+        protocol: TCP
+        port: 10200
+
+# -- Acces interne au cluster uniquement.
+ingress:
+  main:
+    enabled: false
+
+# -- Cache PCM sur /data (optionnel : accelere et economise des credits en
+# resservant les phrases deja synthetisees, meme apres redemarrage).
+persistence:
+  data:
+    enabled: false
+    type: pvc
+    mountPath: /data
+    storageClass:  # "-" pour desactiver le provisioning dynamique
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    retain: true
