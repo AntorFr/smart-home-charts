@@ -3,7 +3,7 @@ apiVersion: v2
 name: ha-mcp
 description: Home Assistant MCP server — AI assistant integration for Home Assistant via the Model Context Protocol.
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "7.9.0"
 keywords:
   - k8s-at-home
@@ -22,5 +22,5 @@ sources:
   - https://github.com/homeassistant-ai/ha-mcp
 annotations:
   artifacthub.io/changes: |-
-    - kind: added
-      description: First chart release
+    - kind: fixed
+      description: Set numeric runAsUser (999) so the pod starts under runAsNonRoot

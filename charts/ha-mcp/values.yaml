@@ -80,9 +80,13 @@ ingress:
     enabled: false
 
 # -- Security context for the pod. The image runs as the non-root user
-# `mcpuser`; do not force a UID to avoid HOME ownership mismatches.
+# `mcpuser` (uid/gid 999). The UID must be given numerically: with a named
+# user the kubelet cannot verify runAsNonRoot and refuses to start the pod.
 podSecurityContext:
   runAsNonRoot: true
+  runAsUser: 999
+  runAsGroup: 999
+  fsGroup: 999
 
 # -- Security context for the main container. readOnlyRootFilesystem is left off
 # because ha-mcp writes runtime state under $HOME (/home/mcpuser/.ha-mcp).
