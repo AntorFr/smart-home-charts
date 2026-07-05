@@ -1,0 +1,13 @@
+apiVersion: v2
+name: antre-du-maitre
+description: Guided CoF Mini scenario creation PWA (Fastify API + React) for iPad
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+home: https://github.com/AntorFr/Antre-du-maitre
+sources:
+  - https://github.com/AntorFr/Antre-du-maitre
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.7.0

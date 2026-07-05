@@ -1,0 +1,37 @@
+controller:
+  replicas: 1
+
+image:
+  repository: ghcr.io/antorfr/antre-du-maitre
+  tag: "latest" # placeholder; the real version is pinned in k8s-home-lab
+  pullPolicy: IfNotPresent
+
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        primary: true
+        protocol: TCP
+        port: 3001
+
+ingress:
+  main:
+    enabled: false # enabled at the cluster level (k8s-home-lab)
+
+env:
+  NODE_ENV: "production"
+  PORT: "3001"
+  DATABASE_URL: "file:/data/antre.db"
+  LLM_ERROR_LOG_DIR: "/data/logs"
+  # Real provider + secrets (ANTHROPIC_API_KEY, JWT_SECRET) are injected at the
+  # cluster level. Mock is the safe default for a bare chart install.
+  LLM_PROVIDER: "mock"
+
+persistence:
+  data:
+    enabled: false # enabled at the cluster level (hostPath under /mnt/data)
+    type: hostPath
+    mountPath: /data
