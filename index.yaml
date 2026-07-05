@@ -977,6 +977,37 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/frigate-8.2.0/frigate-8.2.0.tgz
     version: 8.2.0
+  ha-mcp:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: added
+          description: First chart release
+    apiVersion: v2
+    appVersion: 7.9.0
+    created: "2026-07-05T10:01:21.071997772Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Home Assistant MCP server — AI assistant integration for Home Assistant
+      via the Model Context Protocol.
+    digest: 088717780785e91cec00b383a212998c09b3164c771ad0a6d5c1d047ece79c3c
+    home: https://github.com/homeassistant-ai/ha-mcp
+    keywords:
+    - k8s-at-home
+    - home-assistant
+    - mcp
+    - ai
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: ha-mcp
+    sources:
+    - https://github.com/homeassistant-ai/ha-mcp
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/ha-mcp-0.1.0/ha-mcp-0.1.0.tgz
+    version: 0.1.0
   home-assistant:
   - apiVersion: v2
     appVersion: 2026.2.2
@@ -3290,4 +3321,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-07-03T16:56:26.54331754Z"
+generated: "2026-07-05T10:01:21.072377047Z"
