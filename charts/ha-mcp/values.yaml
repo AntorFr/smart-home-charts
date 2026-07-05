@@ -1,0 +1,102 @@
+#
+# IMPORTANT NOTE
+#
+# This chart inherits from our common library chart. You can check the default values/options here:
+# https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
+#
+# ha-mcp is an upstream third-party image (homeassistant-ai/ha-mcp). We do NOT
+# build it — the real image tag is pinned at deploy time in k8s-home-lab so
+# Renovate can bump it.
+
+image:
+  # -- image repository (upstream image, not built by us)
+  repository: ghcr.io/homeassistant-ai/ha-mcp
+  # -- image tag (placeholder; real version pinned in k8s-home-lab, step 3)
+  tag: "latest"
+  # -- image pull policy
+  pullPolicy: IfNotPresent
+
+# -- Run the HTTP transport entrypoint. The image has no ENTRYPOINT and its
+# default CMD is stdio mode; `ha-mcp-web` starts the HTTP server on port 8086
+# (path /mcp), see fastmcp-http.json in the upstream repo.
+args:
+  - ha-mcp-web
+
+# -- Connection to Home Assistant. HOMEASSISTANT_TOKEN is intentionally left
+# empty here and must be provided at deploy time (k8s-home-lab valuesContent
+# or a Secret) — never commit a token to this public chart.
+env:
+  HOMEASSISTANT_URL: "http://homeassistant.local:8123"
+  HOMEASSISTANT_TOKEN: ""
+
+# -- Configures service settings for the chart. HTTP transport listens on 8086.
+service:
+  main:
+    ports:
+      http:
+        enabled: true
+        primary: true
+        port: 8086
+
+# -- Probes: the HTTP MCP endpoint lives on /mcp with no dedicated /health, so
+# use a plain TCP check on the listening port.
+probes:
+  liveness:
+    enabled: true
+    custom: true
+    spec:
+      tcpSocket:
+        port: 8086
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      timeoutSeconds: 5
+      failureThreshold: 3
+  readiness:
+    enabled: true
+    custom: true
+    spec:
+      tcpSocket:
+        port: 8086
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+  startup:
+    enabled: true
+    custom: true
+    spec:
+      tcpSocket:
+        port: 8086
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      timeoutSeconds: 5
+      failureThreshold: 30
+
+# -- Ingress is disabled by default; enable it at the cluster level (step 3)
+# according to the desired exposure. NOTE: the /mcp endpoint is unauthenticated
+# in plain HTTP mode — only expose it deliberately.
+ingress:
+  main:
+    enabled: false
+
+# -- Security context for the pod. The image runs as the non-root user
+# `mcpuser`; do not force a UID to avoid HOME ownership mismatches.
+podSecurityContext:
+  runAsNonRoot: true
+
+# -- Security context for the main container. readOnlyRootFilesystem is left off
+# because ha-mcp writes runtime state under $HOME (/home/mcpuser/.ha-mcp).
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
+# -- Resource requests and limits.
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 1000m
+    memory: 512Mi
