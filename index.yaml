@@ -147,6 +147,24 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/ansible-semaphore-0.0.2/ansible-semaphore-0.0.2.tgz
     version: 0.0.2
+  antre-du-maitre:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2026-07-05T14:08:04.060739542Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Guided CoF Mini scenario creation PWA (Fastify API + React) for iPad
+    digest: e149d6d8d177b937bc0401c0634186da54a6500ab1521e06324edbdb19d8bc8f
+    home: https://github.com/AntorFr/Antre-du-maitre
+    name: antre-du-maitre
+    sources:
+    - https://github.com/AntorFr/Antre-du-maitre
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/antre-du-maitre-0.1.0/antre-du-maitre-0.1.0.tgz
+    version: 0.1.0
   cloudflareddns:
   - annotations:
       artifacthub.io/changes: |-
@@ -3351,4 +3369,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-07-05T10:13:05.827753108Z"
+generated: "2026-07-05T14:08:04.061008812Z"
