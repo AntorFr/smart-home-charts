@@ -17,6 +17,16 @@ image:
 env:
   TZ: UTC
 
+# Applied to the web pod (via common) and to every stack/db-init pod.
+# ndots:1 resolves external names (github.com, IMAP/SMTP hosts) directly
+# instead of walking the k8s search domains first — matches upstream compose
+# behaviour (plain Docker DNS) and avoids resolvers giving up on local search
+# domains that answer NODATA instead of NXDOMAIN.
+dnsConfig:
+  options:
+    - name: ndots
+      value: "1"
+
 service:
   main:
     ports:

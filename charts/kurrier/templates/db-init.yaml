@@ -69,6 +69,10 @@ spec:
         {{- include "kurrier.stack.selectorLabels" (dict "root" . "name" "db-init") | nindent 8 }}
     spec:
       restartPolicy: OnFailure
+{{- with .Values.dnsConfig }}
+      dnsConfig:
+{{ toYaml . | nindent 8 }}
+{{- end }}
       initContainers:
         - name: fetch-source
           image: {{ printf "%s:%s" .Values.dbInit.fetchImage.repository .Values.dbInit.fetchImage.tag | quote }}
