@@ -6,12 +6,7 @@
 {{- end -}}
 {{- end -}}
 
-{{- define "kurrier.profile" -}}
-{{- $profiles := .Values.compatibility.profiles | default dict -}}
-{{- $profileName := .Values.compatibility.profile | default "" -}}
-{{- (get $profiles $profileName | default dict) | toYaml -}}
-{{- end -}}
-
+{{/* Extract the value of an env key from the compose-style envFile content. */}}
 {{- define "kurrier.envValue" -}}
 {{- $key := .key -}}
 {{- $content := .content | default "" -}}
@@ -28,20 +23,21 @@
 {{- $value -}}
 {{- end -}}
 
-{{- define "kurrier.resolveTag" -}}
-{{- $root := .root -}}
-{{- $component := .component -}}
-{{- $explicit := .explicit | default "" -}}
-{{- $profile := (include "kurrier.profile" $root | fromYaml) | default dict -}}
-{{- $expected := dig "images" $component "tag" "" $profile -}}
-{{- if and $root.Values.compatibility.strict (ne $explicit "") (ne $expected "") (ne $explicit $expected) -}}
-{{- fail (printf "compatibility.strict=true: component '%s' tag '%s' differs from profile '%s' tag '%s'" $component $explicit $root.Values.compatibility.profile $expected) -}}
+{{/* Extract the password from a postgresql://user:password@host:port/db URL. */}}
+{{- define "kurrier.urlPassword" -}}
+{{- $url := . | default "" -}}
+{{- if regexMatch "^[a-z+]+://[^:/@]+:[^@]+@" $url -}}
+{{- regexReplaceAll "^[a-z+]+://[^:/@]+:([^@]+)@.*$" $url "${1}" -}}
 {{- end -}}
-{{- if ne $explicit "" -}}
-{{- $explicit -}}
-{{- else -}}
-{{- $expected -}}
 {{- end -}}
+
+{{/* Image tag for a stack component: explicit tag or the root image.tag. */}}
+{{- define "kurrier.stackTag" -}}
+{{- $tag := default .root.Values.image.tag .explicit -}}
+{{- if not $tag -}}
+{{- fail (printf "no image tag for stack component '%s': set stack.services.%s.image.tag or image.tag" .name .name) -}}
+{{- end -}}
+{{- $tag -}}
 {{- end -}}
 
 {{- define "kurrier.stack.serviceName" -}}

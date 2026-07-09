@@ -1,71 +1,21 @@
+# Kurrier v3 stack (https://github.com/kurrier-org/kurrier)
+# Mirrors upstream db/docker-compose.yml: web (common workload), worker, redis,
+# typesense, dav (Baikal), garage (S3) + CNPG PostgreSQL and a db-init Job that
+# runs the upstream db-bootstrap.sh migrations.
 #
-# IMPORTANT NOTE
-#
-# This chart inherits from our common library chart.
-#
-
-compatibility:
-  # Select a tested upstream profile. Updating this value is the preferred upgrade path.
-  profile: v1.1.13
-  # When true, explicit image tags different from profile tags fail the render.
-  strict: false
-  profiles:
-    v1.1.13:
-      images:
-        web:
-          tag: v1.1.13
-        worker:
-          tag: v1.1.13
-        redis:
-          tag: 8.2.2
-        typesense:
-          tag: "29.0"
-        db:
-          tag: 15.8.1.085
-        studio:
-          tag: 2025.12.09-sha-434634f
-        kong:
-          tag: 2.8.1
-        auth:
-          tag: v2.183.0
-        rest:
-          tag: v14.1
-        storage:
-          tag: v1.33.0
-        meta:
-          tag: v0.93.1
-        supavisor:
-          tag: 2.7.4
-        dav:
-          tag: nginx
-        webdav:
-          tag: v5.10.1
+# NOTE: stack service hostnames below assume the release is named "kurrier"
+# (services are rendered as <release>-<name>, e.g. kurrier-redis).
 
 image:
   repository: ghcr.io/kurrier-org/kurrier-web
+  # Upstream release tag (vX.Y.Z). Pinned by the deployment values.
+  # Also used as default tag for the worker image and as the source tag for
+  # the db-init Job (migrations are fetched from the upstream repo at this tag).
   tag:
   pullPolicy: IfNotPresent
 
 env:
   TZ: UTC
-  WEB_PORT: "3000"
-  WEB_URL: http://localhost:3000
-  DATABASE_URL: postgres://postgres:$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/$(POSTGRES_DB)
-  DATABASE_RLS_URL: postgres://rls_client:$(RLS_CLIENT_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/$(POSTGRES_DB)
-  API_PUBLIC_URL: $(SUPABASE_PUBLIC_URL)
-  API_URL: http://kong:8000
-  ANON_KEY: $(ANON_KEY)
-  SERVICE_ROLE_KEY: $(SERVICE_ROLE_KEY)
-  REDIS_PASSWORD: $(REDIS_PASSWORD)
-  REDIS_HOST: redis
-  REDIS_PORT: $(REDIS_PORT)
-  TYPESENSE_API_KEY: $(TYPESENSE_API_KEY)
-  TYPESENSE_PORT: $(TYPESENSE_PORT)
-  TYPESENSE_PROTOCOL: $(TYPESENSE_PROTOCOL)
-  TYPESENSE_HOST: $(TYPESENSE_HOST)
-  SEARCH_REBUILD_ON_BOOT: $(SEARCH_REBUILD_ON_BOOT)
-  WORKER_URL: http://worker:3001
-  DAV_URL: http://dav:80
 
 service:
   main:
@@ -76,26 +26,6 @@ service:
 ingress:
   main:
     enabled: false
-
-database:
-  # valid values: cnpg, embedded, external
-  mode: cnpg
-  cnpg:
-    enabled: true
-    clusterName: db
-    instances: 1
-    imageName: ghcr.io/cloudnative-pg/postgresql:15.8
-    storage:
-      size: 20Gi
-      storageClass: local-path
-    # Reuses POSTGRES_PASSWORD from envFile.content when existingSecret is empty.
-    existingSecret: ""
-    username: postgres
-    database: postgres
-  external:
-    host: ""
-    port: 5432
-    database: postgres
 
 # Keep default probes conservative for startup; web app can take time during first boot.
 probes:
@@ -142,89 +72,90 @@ envFile:
   create: true
   # Inject the shared env secret in the common/web workload.
   injectToWeb: true
-  # Compose-style env block. Keep this close to upstream example.env for easier upgrades.
+  # Compose-style env block. Keep this close to upstream db/example.env for
+  # easier upgrades; hostnames are adapted to the k8s service names.
+  # DATABASE_RLS_URL / DAV_DATABASE_URL credentials must stay consistent with
+  # database.cnpg.username and the roles created by the db-init Job.
   content: |
     WEB_PORT=3000
-    WEB_URL=http://web:3000
-    WORKER_URL=http://worker:3001
+    WEB_URL=http://localhost:3000
+    NITRO_PORT=3001
+    HOST=0.0.0.0
 
     REDIS_PASSWORD=replace_with_your_redis_password
-    REDIS_HOST=redis
+    REDIS_HOST=kurrier-redis
     REDIS_PORT=6379
-    RLS_CLIENT_PASSWORD=replace_with_your_rls_client_password
 
     TYPESENSE_API_KEY=supersecretkey
     TYPESENSE_PORT=8108
     TYPESENSE_PROTOCOL=http
-    TYPESENSE_HOST=typesense
+    TYPESENSE_HOST=kurrier-typesense
 
+    POSTGRES_USER=postgres
+    POSTGRES_PASSWORD=replace_with_your_password
+    POSTGRES_DB=kurrier
+    POSTGRES_PORT=5432
+    POSTGRES_HOST=db-rw
+
+    DATABASE_URL=postgresql://postgres:replace_with_your_password@db-rw:5432/kurrier
+    DATABASE_RLS_URL=postgresql://kurrier:replace_with_your_rls_password@db-rw:5432/kurrier
+
+    JWT_SECRET=replace_with_your_jwt_secret
+    APP_SECRET_ENCRYPTION_KEY=replace_with_32_byte_base64_key
     SEARCH_REBUILD_ON_BOOT=false
 
-    POSTGRES_PASSWORD=your-super-secret-and-long-postgres-password
-    JWT_SECRET=your-super-secret-jwt-token-with-at-least-32-characters-long
-    ANON_KEY=replace_with_anon_key
-    SERVICE_ROLE_KEY=replace_with_service_role_key
-    DASHBOARD_USERNAME=supabase
-    DASHBOARD_PASSWORD=replace_with_dashboard_password
-    SECRET_KEY_BASE=replace_with_secret_key_base
-    VAULT_ENC_KEY=replace_with_32_char_min_key
+    DAV_URL=http://kurrier-dav:80
+    DAV_DATABASE_URL=postgresql://baikal:replace_with_baikal_password@db-rw:5432/baikal
+    WORKER_URL=http://kurrier-worker:3001
 
-    SUPABASE_PUBLIC_URL=http://localhost:8000
+    GARAGE_ACCESS_KEY=replace_with_garage_access_key
+    GARAGE_SECRET_KEY=replace_with_garage_secret_key
+    GARAGE_BUCKET=kurrier-store
+    GARAGE_RPC_SECRET=replace_with_64_char_hex_secret
 
-    POSTGRES_HOST=db-rw
-    POSTGRES_DB=postgres
-    POSTGRES_PORT=5432
+    S3_ENDPOINT=http://kurrier-garage:3900
+    S3_ACCESS_KEY=replace_with_garage_access_key
+    S3_SECRET_KEY=replace_with_garage_secret_key
+    S3_BUCKET=kurrier-store
+    S3_REGION=garage
+    S3_FORCE_PATH_STYLE=true
 
-    POOLER_PROXY_PORT_TRANSACTION=6543
-    POOLER_DEFAULT_POOL_SIZE=20
-    POOLER_MAX_CLIENT_CONN=100
-    POOLER_TENANT_ID=kurrier
-    POOLER_DB_POOL_SIZE=5
+    OIDC_GOOGLE_CLIENT_ID=
+    OIDC_GOOGLE_CLIENT_SECRET=
 
-    KONG_HTTP_PORT=8000
-    KONG_HTTPS_PORT=8443
+database:
+  cnpg:
+    enabled: true
+    clusterName: db
+    instances: 1
+    imageName: ghcr.io/cloudnative-pg/postgresql:18.4-standard-trixie
+    storage:
+      size: 20Gi
+      storageClass: local-path
+    # Superuser password comes from POSTGRES_PASSWORD in envFile.content.
+    # The app role (owner of the app database) password is parsed from
+    # DATABASE_RLS_URL in envFile.content.
+    username: kurrier
+    database: kurrier
 
-    PGRST_DB_SCHEMAS=public,storage,graphql_public
-
-    SITE_URL=http://localhost:3000
-    ADDITIONAL_REDIRECT_URLS=
-    JWT_EXPIRY=3600
-    DISABLE_SIGNUP=false
-    API_EXTERNAL_URL=http://localhost:8000
-
-    MAILER_URLPATHS_CONFIRMATION=/auth/v1/verify
-    MAILER_URLPATHS_INVITE=/auth/v1/verify
-    MAILER_URLPATHS_RECOVERY=/auth/v1/verify
-    MAILER_URLPATHS_EMAIL_CHANGE=/auth/v1/verify
-
-    ENABLE_EMAIL_SIGNUP=true
-    ENABLE_EMAIL_AUTOCONFIRM=true
-    SMTP_ADMIN_EMAIL=admin@example.com
-    SMTP_HOST=supabase-mail
-    SMTP_PORT=2500
-    SMTP_USER=fake_mail_user
-    SMTP_PASS=fake_mail_password
-    SMTP_SENDER_NAME=fake_sender
-    ENABLE_ANONYMOUS_USERS=false
-
-    ENABLE_PHONE_SIGNUP=true
-    ENABLE_PHONE_AUTOCONFIRM=true
-
-    STUDIO_DEFAULT_ORGANIZATION=Kurrier
-    STUDIO_DEFAULT_PROJECT=Kurrier
-    STUDIO_PORT=3000
-
-    IMGPROXY_ENABLE_WEBP_DETECTION=true
-    OPENAI_API_KEY=
-
-    FUNCTIONS_VERIFY_JWT=false
-
-    LOGFLARE_PUBLIC_ACCESS_TOKEN=replace_with_logflare_public_token
-    LOGFLARE_PRIVATE_ACCESS_TOKEN=replace_with_logflare_private_token
-
-    DOCKER_SOCKET_LOCATION=/var/run/docker.sock
-    GOOGLE_PROJECT_ID=GOOGLE_PROJECT_ID
-    GOOGLE_PROJECT_NUMBER=GOOGLE_PROJECT_NUMBER
+# One-shot Job (post-install/post-upgrade hook) that:
+#  - creates the Baikal role + database (from DAV_DATABASE_URL) and seeds its schema
+#  - runs the upstream db/init/db-bootstrap.sh migrations on the app database
+# The upstream db/init folder is fetched at sourceRepo @ tag (default image.tag).
+dbInit:
+  enabled: true
+  sourceRepo: https://github.com/kurrier-org/kurrier
+  # Git tag to fetch db/init from; defaults to image.tag.
+  tag: ""
+  image:
+    repository: postgres
+    tag: "18"
+    pullPolicy: IfNotPresent
+  fetchImage:
+    repository: alpine
+    tag: "3.21"
+    pullPolicy: IfNotPresent
+  backoffLimit: 20
 
 stack:
   enabled: true
@@ -238,6 +169,7 @@ stack:
       replicas: 1
       image:
         repository: ghcr.io/kurrier-org/kurrier-worker
+        # Defaults to the root image.tag (web and worker are released together).
         tag:
         pullPolicy: IfNotPresent
       ports:
@@ -245,46 +177,6 @@ stack:
       service:
         enabled: true
         type: ClusterIP
-      env:
-        WEB_PORT: "3000"
-        WEB_URL: $(WEB_URL)
-        DATABASE_URL: postgres://postgres:$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/$(POSTGRES_DB)
-        DATABASE_RLS_URL: postgres://rls_client:$(RLS_CLIENT_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/$(POSTGRES_DB)
-        API_PUBLIC_URL: $(SUPABASE_PUBLIC_URL)
-        API_URL: http://kong:8000
-        ANON_KEY: $(ANON_KEY)
-        SERVICE_ROLE_KEY: $(SERVICE_ROLE_KEY)
-        REDIS_PASSWORD: $(REDIS_PASSWORD)
-        REDIS_HOST: redis
-        REDIS_PORT: $(REDIS_PORT)
-        TYPESENSE_API_KEY: $(TYPESENSE_API_KEY)
-        TYPESENSE_PORT: $(TYPESENSE_PORT)
-        TYPESENSE_PROTOCOL: $(TYPESENSE_PROTOCOL)
-        TYPESENSE_HOST: $(TYPESENSE_HOST)
-        SEARCH_REBUILD_ON_BOOT: $(SEARCH_REBUILD_ON_BOOT)
-        LOCAL_TUNNEL_URL: $(LOCAL_TUNNEL_URL)
-        NITRO_PORT: "3001"
-        DAV_URL: http://dav:80
-        WEB_DAV_URL: http://webdav:6065
-      persistence:
-        dav-config:
-          enabled: true
-          type: hostPath
-          hostPath: /srv/kurrier/dav_config
-          hostPathType: DirectoryOrCreate
-          mountPath: /dav-config
-        dav-data:
-          enabled: true
-          type: hostPath
-          hostPath: /srv/kurrier/dav_data
-          hostPathType: DirectoryOrCreate
-          mountPath: /dav-data
-        webdav-data:
-          enabled: true
-          type: hostPath
-          hostPath: /srv/kurrier/webdav/data
-          hostPathType: DirectoryOrCreate
-          mountPath: /data
 
     redis:
       enabled: true
@@ -292,20 +184,20 @@ stack:
       replicas: 1
       image:
         repository: redis
-        tag:
+        tag: 8.2.2
         pullPolicy: IfNotPresent
       command:
         - sh
         - -ec
       args:
-        - exec redis-server --appendonly yes --requirepass "$REDIS_PASSWORD"
+        - exec redis-server --appendonly yes --stop-writes-on-bgsave-error no --requirepass "$REDIS_PASSWORD"
       ports:
         redis: 6379
       service:
         enabled: true
         type: ClusterIP
       persistence:
-        data:
+        redis-data:
           enabled: true
           type: hostPath
           hostPath: /srv/kurrier/redis_data
@@ -318,7 +210,7 @@ stack:
       replicas: 1
       image:
         repository: typesense/typesense
-        tag:
+        tag: "29.0"
         pullPolicy: IfNotPresent
       args:
         - --data-dir
@@ -331,172 +223,12 @@ stack:
         enabled: true
         type: ClusterIP
       persistence:
-        data:
+        typesense-data:
           enabled: true
           type: hostPath
-          hostPath: /srv/kurrier/typesense-data
+          hostPath: /srv/kurrier/typesense_data
           hostPathType: DirectoryOrCreate
           mountPath: /data
-
-    db:
-      # Used only when database.mode=embedded
-      enabled: true
-      controller: deployment
-      replicas: 1
-      image:
-        repository: supabase/postgres
-        tag:
-        pullPolicy: IfNotPresent
-      ports:
-        postgresql: 5432
-      service:
-        enabled: true
-        type: ClusterIP
-      persistence:
-        data:
-          enabled: true
-          type: hostPath
-          hostPath: /srv/kurrier/volumes/db/data
-          hostPathType: DirectoryOrCreate
-          mountPath: /var/lib/postgresql/data
-      resources: {}
-
-    studio:
-      enabled: true
-      controller: deployment
-      replicas: 1
-      image:
-        repository: supabase/studio
-        tag:
-        pullPolicy: IfNotPresent
-      ports:
-        http: 3000
-      service:
-        enabled: true
-        type: ClusterIP
-      env:
-        HOSTNAME: "::"
-        STUDIO_PG_META_URL: http://meta:8080
-        NEXT_PUBLIC_ENABLE_LOGS: "true"
-        NEXT_ANALYTICS_BACKEND_PROVIDER: postgres
-
-    kong:
-      enabled: true
-      controller: deployment
-      replicas: 1
-      image:
-        repository: kong
-        tag:
-        pullPolicy: IfNotPresent
-      command:
-        - sh
-        - -ec
-      args:
-        - envsubst < /etc/kurrier-config/kong.yml > /home/kong/kong.yml && exec /docker-entrypoint.sh kong docker-start
-      ports:
-        http: 8000
-        https: 8443
-      service:
-        enabled: true
-        type: ClusterIP
-      env:
-        KONG_DATABASE: "off"
-        KONG_DECLARATIVE_CONFIG: /home/kong/kong.yml
-        KONG_DNS_ORDER: LAST,A,CNAME
-        KONG_PLUGINS: request-transformer,cors,key-auth,acl,basic-auth,request-termination,ip-restriction
-        KONG_NGINX_PROXY_PROXY_BUFFER_SIZE: 160k
-        KONG_NGINX_PROXY_PROXY_BUFFERS: 64 160k
-      configFiles:
-        kong:
-          mountPath: /etc/kurrier-config
-          data:
-            kong.yml: |
-              _format_version: "2.1"
-              _transform: true
-              services: []
-
-    auth:
-      enabled: true
-      controller: deployment
-      replicas: 1
-      image:
-        repository: supabase/gotrue
-        tag:
-        pullPolicy: IfNotPresent
-      ports:
-        http: 9999
-      service:
-        enabled: true
-        type: ClusterIP
-      env:
-        GOTRUE_API_HOST: 0.0.0.0
-        GOTRUE_API_PORT: "9999"
-        GOTRUE_DB_DRIVER: postgres
-
-    rest:
-      enabled: true
-      controller: deployment
-      replicas: 1
-      image:
-        repository: postgrest/postgrest
-        tag:
-        pullPolicy: IfNotPresent
-      command:
-        - postgrest
-      ports:
-        http: 3000
-      service:
-        enabled: true
-        type: ClusterIP
-
-    storage:
-      enabled: true
-      controller: deployment
-      replicas: 1
-      image:
-        repository: supabase/storage-api
-        tag:
-        pullPolicy: IfNotPresent
-      ports:
-        http: 5000
-      service:
-        enabled: true
-        type: ClusterIP
-      persistence:
-        storage:
-          enabled: true
-          type: hostPath
-          hostPath: /srv/kurrier/volumes/storage
-          hostPathType: DirectoryOrCreate
-          mountPath: /var/lib/storage
-
-    meta:
-      enabled: true
-      controller: deployment
-      replicas: 1
-      image:
-        repository: supabase/postgres-meta
-        tag:
-        pullPolicy: IfNotPresent
-      ports:
-        http: 8080
-      service:
-        enabled: true
-        type: ClusterIP
-
-    supavisor:
-      enabled: true
-      controller: deployment
-      replicas: 1
-      image:
-        repository: supabase/supavisor
-        tag:
-        pullPolicy: IfNotPresent
-      ports:
-        pooler: 6543
-      service:
-        enabled: true
-        type: ClusterIP
 
     dav:
       enabled: true
@@ -504,73 +236,134 @@ stack:
       replicas: 1
       image:
         repository: ckulka/baikal
-        tag:
+        tag: nginx
         pullPolicy: IfNotPresent
       ports:
         http: 80
       service:
         enabled: true
         type: ClusterIP
+      # Baikal preset config (upstream db/init/dav_config/baikal.yaml).
+      # Seeded into the config volume on first start only (Baikal writes to its
+      # config dir at runtime, so it cannot be a read-only configmap mount).
+      # pgsql_* credentials must match DAV_DATABASE_URL in envFile.content.
+      configFiles:
+        preset:
+          mountPath: /baikal-preset
+          data:
+            baikal.yaml: |
+              system:
+                  configured_version: 0.10.1
+                  timezone: UTC
+                  card_enabled: true
+                  cal_enabled: true
+                  dav_auth_type: Digest
+                  admin_passwordhash: replace_with_admin_passwordhash
+                  failed_access_message: 'user %u authentication failure for Baikal'
+                  auth_realm: BaikalDAV
+                  base_uri: ''
+                  invite_from: noreply@_
+              database:
+                  sqlite_file: /var/www/baikal/Specific/db/db.sqlite
+                  backend: pgsql
+                  mysql_host: ''
+                  mysql_dbname: ''
+                  mysql_username: ''
+                  mysql_password: ''
+                  encryption_key: replace_with_encryption_key
+                  pgsql_host: db-rw
+                  pgsql_dbname: baikal
+                  pgsql_username: baikal
+                  pgsql_password: replace_with_baikal_password
+      initContainers:
+        - name: seed-config
+          image: busybox:1.37
+          command:
+            - sh
+            - -c
+            - '[ -f /config/baikal.yaml ] || cp /baikal-preset/baikal.yaml /config/baikal.yaml'
+          volumeMounts:
+            - name: config
+              mountPath: /baikal-preset
+            - name: baikal-config
+              mountPath: /config
       persistence:
-        config:
+        baikal-config:
           enabled: true
           type: hostPath
           hostPath: /srv/kurrier/dav_config
           hostPathType: DirectoryOrCreate
           mountPath: /var/www/baikal/config
-        data:
+        baikal-data:
           enabled: true
           type: hostPath
           hostPath: /srv/kurrier/dav_data
           hostPathType: DirectoryOrCreate
           mountPath: /var/www/baikal/Specific
 
-    webdav:
+    garage:
       enabled: true
       controller: deployment
       replicas: 1
       image:
-        repository: ghcr.io/hacdias/webdav
-        tag:
+        repository: dxflrs/garage
+        tag: v2.3.0
         pullPolicy: IfNotPresent
       command:
-        - /webdav
-      args:
+        - /garage
         - -c
-        - /config.yml
+        - /etc/garage/garage.toml
+        - server
+        - --single-node
+        - --default-bucket
       ports:
-        http: 6065
+        s3: 3900
+        rpc: 3901
+        s3web: 3902
+        admin: 3903
       service:
         enabled: true
         type: ClusterIP
+      env:
+        GARAGE_RPC_SECRET: $(GARAGE_RPC_SECRET)
+        GARAGE_DEFAULT_ACCESS_KEY: $(GARAGE_ACCESS_KEY)
+        GARAGE_DEFAULT_SECRET_KEY: $(GARAGE_SECRET_KEY)
+        GARAGE_DEFAULT_BUCKET: $(GARAGE_BUCKET)
       configFiles:
-        webdav:
-          mountPath: /
+        config:
+          mountPath: /etc/garage
           data:
-            config.yml: |
-              address: 0.0.0.0
-              port: 6065
-              directory: /data
-              users:
-                - username: admin
-                  password: admin
+            garage.toml: |
+              metadata_dir = "/var/lib/garage/meta"
+              data_dir = "/var/lib/garage/data"
+              db_engine = "sqlite"
+
+              replication_factor = 1
+              consistency_mode = "consistent"
+
+              rpc_bind_addr = "[::]:3901"
+              rpc_public_addr = "127.0.0.1:3901"
+
+              [s3_api]
+              s3_region = "garage"
+              api_bind_addr = "[::]:3900"
+
+              [s3_web]
+              bind_addr = "[::]:3902"
+              root_domain = "localhost"
+
+              [admin]
+              api_bind_addr = "[::]:3903"
       persistence:
-        data:
+        garage-meta:
           enabled: true
           type: hostPath
-          hostPath: /srv/kurrier/webdav/data
+          hostPath: /srv/kurrier/garage/meta
           hostPathType: DirectoryOrCreate
-          mountPath: /data
-
-    db-bootstrap:
-      enabled: false
-      controller: job
-      image:
-        repository: postgres
-        tag: "15"
-        pullPolicy: IfNotPresent
-      command:
-        - sh
-        - -ec
-      args:
-        - echo "Provide bootstrap scripts via custom config or override this job in your values file." && exit 0
+          mountPath: /var/lib/garage/meta
+        garage-data:
+          enabled: true
+          type: hostPath
+          hostPath: /srv/kurrier/garage/data
+          hostPathType: DirectoryOrCreate
+          mountPath: /var/lib/garage/data

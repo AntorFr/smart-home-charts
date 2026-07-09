@@ -2,12 +2,11 @@
 {{- if .Values.stack.enabled }}
 {{- $root := . -}}
 {{- $sharedEnv := and .Values.stack.envFromSharedSecret (or .Values.envFile.create .Values.envFile.existingSecret) -}}
-{{- $dbMode := default "cnpg" .Values.database.mode -}}
 {{- range $name, $svc := .Values.stack.services }}
-{{- if and $svc.enabled (or (ne $name "db") (eq $dbMode "embedded")) }}
+{{- if $svc.enabled }}
 {{- $serviceName := include "kurrier.stack.serviceName" (dict "root" $root "name" $name) -}}
 {{- $controller := default "deployment" $svc.controller -}}
-{{- $profileTag := include "kurrier.resolveTag" (dict "root" $root "component" $name "explicit" $svc.image.tag) -}}
+{{- $profileTag := include "kurrier.stackTag" (dict "root" $root "name" $name "explicit" $svc.image.tag) -}}
 {{- $configMapName := printf "%s-config" $serviceName -}}
 {{- if $svc.configFiles }}
 ---
@@ -169,6 +168,10 @@ spec:
       labels:
         {{- include "kurrier.stack.selectorLabels" (dict "root" $root "name" $name) | nindent 8 }}
     spec:
+{{- if $svc.initContainers }}
+      initContainers:
+{{ toYaml $svc.initContainers | nindent 8 }}
+{{- end }}
       containers:
         - name: {{ $name }}
           image: {{ printf "%s:%s" $svc.image.repository $profileTag | quote }}

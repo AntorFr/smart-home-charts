@@ -1,13 +1,16 @@
 apiVersion: v2
 name: kurrier
-description: Kurrier full stack deployment (compose-compatible) based on common
+description: Kurrier v3 full stack (web, worker, redis, typesense, Baikal DAV, Garage S3) based on common, with CNPG PostgreSQL
 type: application
-version: 0.0.1
-appVersion: "1.1.13"
+version: 0.1.0
+appVersion: "3.0.11"
 keywords:
   - k8s-at-home
   - kurrier
   - webmail
+home: https://github.com/kurrier-org/kurrier
+sources:
+  - https://github.com/kurrier-org/kurrier
 dependencies:
   - name: common
     repository: https://antorfr.github.io/smart-home-charts

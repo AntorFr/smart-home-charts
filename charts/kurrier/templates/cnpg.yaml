@@ -1,26 +1,41 @@
 {{- include "common.values.setup" . }}
-{{- if eq (default "cnpg" .Values.database.mode) "cnpg" }}
+{{- if .Values.database.cnpg.enabled }}
 {{- $clusterName := default "db" .Values.database.cnpg.clusterName -}}
-{{- $secretName := default (printf "%s-cnpg-app" (include "common.names.fullname" .)) .Values.database.cnpg.existingSecret -}}
-{{- $username := default "postgres" .Values.database.cnpg.username -}}
-{{- $database := default "postgres" .Values.database.cnpg.database -}}
-{{- $password := include "kurrier.envValue" (dict "key" "POSTGRES_PASSWORD" "content" .Values.envFile.content) | trim -}}
-{{- if and (not .Values.database.cnpg.existingSecret) (eq $password "") -}}
-{{- fail "database.mode=cnpg requires POSTGRES_PASSWORD in envFile.content or database.cnpg.existingSecret" -}}
+{{- $username := default "kurrier" .Values.database.cnpg.username -}}
+{{- $database := default "kurrier" .Values.database.cnpg.database -}}
+{{- $superuserSecret := printf "%s-cnpg-superuser" (include "common.names.fullname" .) -}}
+{{- $appSecret := printf "%s-cnpg-app" (include "common.names.fullname" .) -}}
+{{- $superuserPassword := include "kurrier.envValue" (dict "key" "POSTGRES_PASSWORD" "content" .Values.envFile.content) | trim -}}
+{{- $rlsUrl := include "kurrier.envValue" (dict "key" "DATABASE_RLS_URL" "content" .Values.envFile.content) | trim -}}
+{{- $appPassword := include "kurrier.urlPassword" $rlsUrl -}}
+{{- if eq $superuserPassword "" -}}
+{{- fail "database.cnpg requires POSTGRES_PASSWORD in envFile.content" -}}
 {{- end -}}
-{{- if not .Values.database.cnpg.existingSecret }}
+{{- if eq $appPassword "" -}}
+{{- fail "database.cnpg requires DATABASE_RLS_URL (postgresql://user:password@host:port/db) in envFile.content" -}}
+{{- end }}
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{ $secretName }}
+  name: {{ $superuserSecret }}
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+type: kubernetes.io/basic-auth
+stringData:
+  username: postgres
+  password: {{ $superuserPassword | quote }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $appSecret }}
   labels:
     {{- include "common.labels" . | nindent 4 }}
 type: kubernetes.io/basic-auth
 stringData:
   username: {{ $username | quote }}
-  password: {{ $password | quote }}
-{{- end }}
+  password: {{ $appPassword | quote }}
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
@@ -36,12 +51,13 @@ spec:
     {{- if .Values.database.cnpg.storage.storageClass }}
     storageClass: {{ .Values.database.cnpg.storage.storageClass | quote }}
     {{- end }}
+  enableSuperuserAccess: true
   superuserSecret:
-    name: {{ $secretName }}
+    name: {{ $superuserSecret }}
   bootstrap:
     initdb:
       database: {{ $database | quote }}
       owner: {{ $username | quote }}
       secret:
-        name: {{ $secretName }}
+        name: {{ $appSecret }}
 {{- end }}

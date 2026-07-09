@@ -1,0 +1,127 @@
+{{- include "common.values.setup" . }}
+{{- if .Values.dbInit.enabled }}
+{{- $fullname := include "common.names.fullname" . -}}
+{{- $clusterName := default "db" .Values.database.cnpg.clusterName -}}
+{{- $superuserSecret := printf "%s-cnpg-superuser" $fullname -}}
+{{- $database := default "kurrier" .Values.database.cnpg.database -}}
+{{- $sourceTag := default .Values.image.tag .Values.dbInit.tag -}}
+{{- if not $sourceTag -}}
+{{- fail "dbInit requires a source tag: set dbInit.tag or image.tag" -}}
+{{- end }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $fullname }}-db-init
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+    app.kubernetes.io/component: db-init
+data:
+  run.sh: |
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    echo "Waiting for Postgres at $PGHOST..."
+    until pg_isready -h "$PGHOST" -U "$PGUSER" >/dev/null 2>&1; do sleep 2; done
+    echo "Postgres is ready."
+
+    # --- Baikal role + database, parsed from DAV_DATABASE_URL ---
+    DAV_USER=$(printf '%s' "$DAV_DATABASE_URL" | sed -E 's|^[a-z+]+://([^:/@]+):.*$|\1|')
+    DAV_PASS=$(printf '%s' "$DAV_DATABASE_URL" | sed -E 's|^[a-z+]+://[^:/@]+:([^@]+)@.*$|\1|')
+    DAV_DB=$(printf '%s' "$DAV_DATABASE_URL" | sed -E 's|^.*/([^/?]+)(\?.*)?$|\1|')
+
+    if psql -d postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname = '$DAV_USER'" | grep -q 1; then
+      psql -d postgres -v ON_ERROR_STOP=1 -c "ALTER ROLE \"$DAV_USER\" LOGIN PASSWORD '$DAV_PASS'"
+    else
+      psql -d postgres -v ON_ERROR_STOP=1 -c "CREATE ROLE \"$DAV_USER\" LOGIN PASSWORD '$DAV_PASS'"
+    fi
+
+    if ! psql -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname = '$DAV_DB'" | grep -q 1; then
+      createdb "$DAV_DB" -O "$DAV_USER"
+    fi
+
+    # Seed the Baikal schema as the baikal role so it owns the objects.
+    if ! PGPASSWORD="$DAV_PASS" psql -U "$DAV_USER" -d "$DAV_DB" -tAc "SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'addressbookchanges'" | grep -q 1; then
+      echo "Seeding Baikal schema into $DAV_DB..."
+      PGPASSWORD="$DAV_PASS" psql -U "$DAV_USER" -d "$DAV_DB" -v ON_ERROR_STOP=1 -f /scripts/baikal-init/baikal.sql
+    fi
+
+    # --- Kurrier app migrations (upstream db/init/db-bootstrap.sh) ---
+    export PGDATABASE="$APP_DB"
+    exec bash /scripts/db-bootstrap.sh
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ $fullname }}-db-init
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+    app.kubernetes.io/component: db-init
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "5"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: {{ default 20 .Values.dbInit.backoffLimit }}
+  template:
+    metadata:
+      labels:
+        {{- include "kurrier.stack.selectorLabels" (dict "root" . "name" "db-init") | nindent 8 }}
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+        - name: fetch-source
+          image: {{ printf "%s:%s" .Values.dbInit.fetchImage.repository .Values.dbInit.fetchImage.tag | quote }}
+          imagePullPolicy: {{ default "IfNotPresent" .Values.dbInit.fetchImage.pullPolicy }}
+          command:
+            - sh
+            - -ec
+            - |
+              wget -qO /tmp/src.tar.gz "$SOURCE_REPO/archive/refs/tags/$SOURCE_TAG.tar.gz"
+              mkdir -p /tmp/work
+              tar xzf /tmp/src.tar.gz -C /tmp/work
+              cp -a /tmp/work/*/db/init/. /scripts/
+          env:
+            - name: SOURCE_REPO
+              value: {{ .Values.dbInit.sourceRepo | quote }}
+            - name: SOURCE_TAG
+              value: {{ $sourceTag | quote }}
+          volumeMounts:
+            - name: scripts
+              mountPath: /scripts
+      containers:
+        - name: db-init
+          image: {{ printf "%s:%s" .Values.dbInit.image.repository .Values.dbInit.image.tag | quote }}
+          imagePullPolicy: {{ default "IfNotPresent" .Values.dbInit.image.pullPolicy }}
+          command:
+            - bash
+            - /db-init/run.sh
+          envFrom:
+            - secretRef:
+                name: {{ include "kurrier.envSecretName" . }}
+          env:
+            - name: PGHOST
+              value: {{ printf "%s-rw" $clusterName | quote }}
+            - name: PGUSER
+              value: postgres
+            - name: PGDATABASE
+              value: postgres
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $superuserSecret }}
+                  key: password
+            - name: APP_DB
+              value: {{ $database | quote }}
+          volumeMounts:
+            - name: scripts
+              mountPath: /scripts
+            - name: db-init
+              mountPath: /db-init
+      volumes:
+        - name: scripts
+          emptyDir: {}
+        - name: db-init
+          configMap:
+            name: {{ $fullname }}-db-init
+{{- end }}
