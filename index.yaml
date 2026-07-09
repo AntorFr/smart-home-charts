@@ -1175,6 +1175,28 @@ entries:
     version: 0.0.1
   kurrier:
   - apiVersion: v2
+    appVersion: 3.0.11
+    created: "2026-07-09T21:54:05.286015567Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: Kurrier v3 full stack (web, worker, redis, typesense, Baikal DAV,
+      Garage S3) based on common, with CNPG PostgreSQL
+    digest: 1b36f68da3601c8706917500958c0181b826034bdbb5732a918b3109e21ace87
+    home: https://github.com/kurrier-org/kurrier
+    keywords:
+    - k8s-at-home
+    - kurrier
+    - webmail
+    name: kurrier
+    sources:
+    - https://github.com/kurrier-org/kurrier
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/kurrier-0.1.0/kurrier-0.1.0.tgz
+    version: 0.1.0
+  - apiVersion: v2
     appVersion: 1.1.13
     created: "2026-05-23T18:44:39.810460047Z"
     dependencies:
@@ -3369,4 +3391,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-07-05T14:08:04.061008812Z"
+generated: "2026-07-09T21:54:05.286243212Z"
