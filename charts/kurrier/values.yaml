@@ -44,7 +44,7 @@ probes:
     custom: true
     spec:
       httpGet:
-        path: /
+        path: /en/auth/login
         port: 3000
       initialDelaySeconds: 30
       periodSeconds: 30
@@ -55,7 +55,7 @@ probes:
     custom: true
     spec:
       httpGet:
-        path: /
+        path: /en/auth/login
         port: 3000
       initialDelaySeconds: 10
       periodSeconds: 15
@@ -66,7 +66,7 @@ probes:
     custom: true
     spec:
       httpGet:
-        path: /
+        path: /en/auth/login
         port: 3000
       initialDelaySeconds: 0
       periodSeconds: 10
