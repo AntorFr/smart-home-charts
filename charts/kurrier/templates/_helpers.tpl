@@ -47,7 +47,10 @@
 {{- end -}}
 
 {{- define "kurrier.stack.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "common.names.fullname" .root }}
+{{/* name must be per-service: the common/web service selects on
+     app.kubernetes.io/name+instance only, so stack pods sharing the release
+     name would also receive web traffic. */}}
+app.kubernetes.io/name: {{ include "kurrier.stack.serviceName" (dict "root" .root "name" .name) }}
 app.kubernetes.io/instance: {{ .root.Release.Name }}
 app.kubernetes.io/component: {{ .name }}
 {{- end -}}

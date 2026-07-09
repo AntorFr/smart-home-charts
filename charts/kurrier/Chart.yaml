@@ -2,7 +2,7 @@ apiVersion: v2
 name: kurrier
 description: Kurrier v3 full stack (web, worker, redis, typesense, Baikal DAV, Garage S3) based on common, with CNPG PostgreSQL
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "3.0.11"
 keywords:
   - k8s-at-home
