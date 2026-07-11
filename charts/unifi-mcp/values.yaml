@@ -1,0 +1,101 @@
+#
+# IMPORTANT NOTE
+#
+# This chart inherits from our common library chart. You can check the default values/options here:
+# https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
+#
+# unifi-network-mcp is an upstream third-party image (sirkirby/unifi-mcp). We do
+# NOT build it — the real image tag is pinned at deploy time in k8s-home-lab so
+# Renovate can bump it.
+
+image:
+  # -- image repository (upstream image, not built by us)
+  repository: ghcr.io/sirkirby/unifi-network-mcp
+  # -- image tag (placeholder; real version pinned in k8s-home-lab, step 3)
+  tag: "latest"
+  # -- image pull policy
+  pullPolicy: IfNotPresent
+
+# -- Server configuration. The image defaults to stdio transport; HTTP must be
+# enabled explicitly for a network deployment (single /mcp endpoint, port 3000).
+# UNIFI_USERNAME/UNIFI_PASSWORD must reference a LOCAL controller admin account
+# (not a Ubiquiti SSO account) and are provided at deploy time — never commit
+# credentials to this public chart.
+# Mutations follow the upstream safe default (UNIFI_TOOL_PERMISSION_MODE=confirm:
+# preview-then-confirm); see docs/permissions.md upstream before overriding.
+env:
+  UNIFI_MCP_HTTP_ENABLED: "true"
+  UNIFI_MCP_HOST: "0.0.0.0"
+  UNIFI_MCP_PORT: "3000"
+  UNIFI_HOST: "192.168.1.1"
+  UNIFI_USERNAME: ""
+  UNIFI_PASSWORD: ""
+
+# -- Configures service settings for the chart. HTTP transport listens on 3000.
+service:
+  main:
+    ports:
+      http:
+        enabled: true
+        primary: true
+        port: 3000
+
+# -- Probes: the streamable HTTP endpoint lives on /mcp with no dedicated
+# /health route, so use a plain TCP check on the listening port.
+probes:
+  liveness:
+    enabled: true
+    custom: true
+    spec:
+      tcpSocket:
+        port: 3000
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      timeoutSeconds: 5
+      failureThreshold: 3
+  readiness:
+    enabled: true
+    custom: true
+    spec:
+      tcpSocket:
+        port: 3000
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 30
+  startup:
+    enabled: true
+    custom: true
+    spec:
+      tcpSocket:
+        port: 3000
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      timeoutSeconds: 5
+      failureThreshold: 30
+
+# -- Ingress is disabled by default; enable it at the cluster level (step 3)
+# according to the desired exposure. NOTE: the /mcp endpoint is unauthenticated —
+# only expose it deliberately, and add the public hostname to
+# UNIFI_MCP_ALLOWED_HOSTS or the server rejects proxied requests.
+ingress:
+  main:
+    enabled: false
+
+# -- Security context for the main container. The upstream image runs as root
+# (no USER directive in its Dockerfile), so runAsNonRoot cannot be enforced;
+# drop capabilities instead.
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
+# -- Resource requests and limits.
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 1000m
+    memory: 512Mi
