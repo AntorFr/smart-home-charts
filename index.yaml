@@ -2914,6 +2914,34 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
+  unifi-mcp:
+  - apiVersion: v2
+    appVersion: 0.23.1
+    created: "2026-07-11T16:51:51.094328863Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.7.0
+    description: UniFi Network MCP server — AI assistant access to a UniFi controller
+      (UDM/UniFi OS) via the Model Context Protocol.
+    digest: 9ec51d621f0cd033278838de323fbdb566aef2be991202087e22550d99a7840b
+    home: https://github.com/sirkirby/unifi-mcp
+    keywords:
+    - k8s-at-home
+    - unifi
+    - ubiquiti
+    - mcp
+    - ai
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: unifi-mcp
+    sources:
+    - https://github.com/sirkirby/unifi-mcp
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/unifi-mcp-0.1.0/unifi-mcp-0.1.0.tgz
+    version: 0.1.0
   unmined:
   - annotations:
       artifacthub.io/changes: |-
@@ -3457,4 +3485,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-07-09T22:39:34.183177888Z"
+generated: "2026-07-11T16:51:51.094560534Z"
