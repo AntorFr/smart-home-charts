@@ -1,0 +1,70 @@
+# Default values for agent-pod.
+# Real deployment values (image tags, hostPaths, env, tunnel container) are
+# overridden at the cluster level (k8s-home-lab valuesContent).
+
+controller:
+  replicas: 1
+
+# Main container: agent-gw (chat gateway over the Claude Agent SDK)
+image:
+  repository: ghcr.io/antorfr/agent-gw
+  tag: latest # placeholder; the real tag is pinned cluster-side
+  pullPolicy: IfNotPresent
+
+env: {}
+# GW_CHANNEL: pwa
+# GW_PERMISSION_MODE: bypassPermissions
+
+service:
+  main:
+    ports:
+      http:
+        enabled: true
+        primary: true
+        port: 8000
+
+ingress:
+  main:
+    enabled: false # enabled cluster-side (LAN-only exposure)
+
+# Persistent state, shared between the gateway and the tunnel container.
+# All disabled by default; enable cluster-side with hostPath values.
+persistence:
+  workspace:
+    enabled: false
+    type: hostPath
+    mountPath: /workspace
+  claude:
+    # Claude Code sessions + subscription credentials (~/.claude)
+    enabled: false
+    type: hostPath
+    mountPath: /home/agent/.claude
+  vscode-cli:
+    # VS Code tunnel auth token — only mounted in the tunnel container
+    enabled: false
+    type: hostPath
+    mountPath: "-"
+  gw-state:
+    # agent-gw per-channel session ids
+    enabled: false
+    type: hostPath
+    mountPath: /home/agent/.agent-gw
+
+# The agent body (VS Code tunnel) runs as an additional container in the same
+# pod. Define it cluster-side, e.g.:
+#
+# additionalContainers:
+#   tunnel:
+#     name: tunnel
+#     image: ghcr.io/antorfr/claude-pod:0.1.0
+#     env:
+#       - name: TUNNEL_NAME
+#         value: alfred
+#     volumeMounts:
+#       - name: workspace
+#         mountPath: /workspace
+#       - name: claude
+#         mountPath: /home/agent/.claude
+#       - name: vscode-cli
+#         mountPath: /home/agent/.vscode-cli
+additionalContainers: {}
