@@ -847,3 +847,60 @@ addons:
       capabilities:
         add:
           - NET_ADMIN
+
+  # -- OAuth 2.1 proxy (sigbit/mcp-auth-proxy) sidecar placed in front of an MCP
+  # server that has no native auth. Federates to an OIDC provider (Authelia) and
+  # only forwards MCP traffic to a caller holding a valid token. The primary
+  # service port is auto-routed to the proxy when enabled.
+  mcpAuth:
+    # -- Enable the OAuth proxy sidecar.
+    enabled: false
+
+    image:
+      # -- mcp-auth-proxy image repository.
+      repository: ghcr.io/sigbit/mcp-auth-proxy
+      # -- mcp-auth-proxy image tag.
+      tag: "2.10.2"
+      # -- image pull policy.
+      pullPolicy: IfNotPresent
+
+    # -- Image used by the /data chown init container (only when a hostPath is set).
+    initImage: busybox:1.37.0
+
+    # -- Port the proxy listens on. Kept >=1024 because the pod usually runs non-root.
+    listenPort: 4180
+    # -- Port of the upstream MCP server inside the pod (the app's own port).
+    backendPort: 8080
+    # -- Public URL of the service, e.g. https://<app>.mcp.berard.me (required).
+    externalUrl: ""
+    # -- UID the proxy runs as / owner of the /data hostPath (match podSecurityContext).
+    runAsUser: 999
+
+    oidc:
+      # -- OIDC discovery URL of the identity provider.
+      configurationUrl: "https://auth.berard.me/.well-known/openid-configuration"
+      # -- OIDC client id registered for this service (required).
+      clientId: ""
+      # -- OIDC client secret (required; provided at deploy time, never in this chart).
+      clientSecret: ""
+      # -- Display name of the provider on the proxy login page.
+      providerName: "Authelia"
+      # -- Requested scopes. MUST include `groups` for attribute-based filtering.
+      scopes: "openid,profile,email,groups"
+      # -- Attribute filter, e.g. `/groups=parents`. Empty = any authenticated user.
+      allowedAttributes: ""
+      # -- Optional exact user allow-list (comma-separated emails).
+      allowedUsers: ""
+
+    persistence:
+      # -- hostPath for the proxy /data (DCR clients + sessions). Empty = ephemeral emptyDir.
+      hostPath: ""
+
+    # -- Extra environment variables for the proxy (key: value).
+    extraEnv: {}
+
+    # -- securityContext for the proxy container.
+    securityContext: {}
+
+    # -- Resource requests/limits for the proxy container.
+    resources: {}

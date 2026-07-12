@@ -25,6 +25,11 @@ Main entrypoint for the common library chart. It will render all underlying temp
     {{- include "common.addon.netshoot" . }}
   {{- end -}}
 
+  {{- /* Enable mcp-auth add-on if required */ -}}
+  {{- if .Values.addons.mcpAuth.enabled }}
+    {{- include "common.addon.mcpAuth" . }}
+  {{- end -}}
+
   {{ include "common.configmap" . | nindent 0 }}
 
   {{- /* Build the templates */ -}}
