@@ -3,7 +3,7 @@ apiVersion: v2
 name: ha-mcp
 description: Home Assistant MCP server — AI assistant integration for Home Assistant via the Model Context Protocol.
 type: application
-version: 0.1.1
+version: 0.2.0
 appVersion: "7.9.0"
 keywords:
   - k8s-at-home
@@ -16,7 +16,7 @@ maintainers:
 dependencies:
   - name: common
     repository: https://antorfr.github.io/smart-home-charts
-    version: 4.7.0
+    version: 4.8.0
 home: https://github.com/homeassistant-ai/ha-mcp
 sources:
   - https://github.com/homeassistant-ai/ha-mcp
