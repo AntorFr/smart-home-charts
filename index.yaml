@@ -1053,6 +1053,36 @@ entries:
           description: Set numeric runAsUser (999) so the pod starts under runAsNonRoot
     apiVersion: v2
     appVersion: 7.9.0
+    created: "2026-07-12T12:33:56.092026455Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.8.0
+    description: Home Assistant MCP server — AI assistant integration for Home Assistant
+      via the Model Context Protocol.
+    digest: f62ce7cb3597291047ff0d374dac70a715b09c5a2d1d5bba9244bb68e98c8f77
+    home: https://github.com/homeassistant-ai/ha-mcp
+    keywords:
+    - k8s-at-home
+    - home-assistant
+    - mcp
+    - ai
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: ha-mcp
+    sources:
+    - https://github.com/homeassistant-ai/ha-mcp
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/ha-mcp-0.2.0/ha-mcp-0.2.0.tgz
+    version: 0.2.0
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: fixed
+          description: Set numeric runAsUser (999) so the pod starts under runAsNonRoot
+    apiVersion: v2
+    appVersion: 7.9.0
     created: "2026-07-05T10:13:05.827505977Z"
     dependencies:
     - name: common
@@ -2082,6 +2112,34 @@ entries:
           description: First chart release
     apiVersion: v2
     appVersion: 0.0.9-beta
+    created: "2026-07-12T12:33:56.251721199Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.8.0
+    description: Nestor MCP — AI-powered GitOps assistant for Home Assistant configuration.
+    digest: 02928ef788518981e36fef5045f098f62cd4e615429f11a50104cea045395895
+    keywords:
+    - k8s-at-home
+    - home-assistant
+    - mcp
+    - gitops
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: nestor-mcp
+    sources:
+    - https://github.com/AntorFr/nestor-mcp
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/nestor-mcp-0.0.11/nestor-mcp-0.0.11.tgz
+    version: 0.0.11
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: First chart release
+    apiVersion: v2
+    appVersion: 0.0.9-beta
     created: "2026-05-01T19:48:52.589580368Z"
     dependencies:
     - name: common
@@ -2968,6 +3026,33 @@ entries:
   unifi-mcp:
   - apiVersion: v2
     appVersion: 0.23.1
+    created: "2026-07-12T12:33:56.406746104Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.8.0
+    description: UniFi Network MCP server — AI assistant access to a UniFi controller
+      (UDM/UniFi OS) via the Model Context Protocol.
+    digest: a01140a04b2f64ee06a3943bfb65effbd269eeb63b024dc8b93ef21eec1e850b
+    home: https://github.com/sirkirby/unifi-mcp
+    keywords:
+    - k8s-at-home
+    - unifi
+    - ubiquiti
+    - mcp
+    - ai
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: unifi-mcp
+    sources:
+    - https://github.com/sirkirby/unifi-mcp
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/unifi-mcp-0.2.0/unifi-mcp-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 0.23.1
     created: "2026-07-11T16:51:51.094328863Z"
     dependencies:
     - name: common
@@ -3536,4 +3621,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-07-12T12:28:02.804623795Z"
+generated: "2026-07-12T12:33:56.406950607Z"
