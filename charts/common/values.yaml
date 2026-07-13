@@ -218,6 +218,17 @@ envFrom: []
 # - secretRef:
 #     name: secret-name
 
+# -- Pull secrets from a backend (OpenBao/Vault) via the External Secrets
+# Operator. When enabled, renders an ExternalSecret materializing a Secret named
+# `<fullname>-secrets` and auto-wires it into the container's envFrom.
+externalSecrets:
+  enabled: false
+  # store: openbao-<app>          # SecretStore / ClusterSecretStore name (required)
+  storeKind: ClusterSecretStore   # or SecretStore for a namespaced store
+  refreshInterval: 1h
+  data: {}
+  #   ANTHROPIC_API_KEY: { key: llm/anthropic-antre, property: api_key }
+
 # -- Custom priority class for different treatment by the scheduler
 priorityClassName:  # system-node-critical
 

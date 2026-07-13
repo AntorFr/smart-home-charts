@@ -30,6 +30,11 @@ Main entrypoint for the common library chart. It will render all underlying temp
     {{- include "common.addon.mcpAuth" . }}
   {{- end -}}
 
+  {{- /* External Secrets: mutate envFrom before the controller renders */ -}}
+  {{- if .Values.externalSecrets.enabled }}
+    {{- include "common.addon.externalSecrets" . }}
+  {{- end -}}
+
   {{ include "common.configmap" . | nindent 0 }}
 
   {{- /* Build the templates */ -}}
@@ -66,5 +71,9 @@ Main entrypoint for the common library chart. It will render all underlying temp
 
   {{- if .Values.secret -}}
     {{ include "common.secret" .  | nindent 0 }}
+  {{- end -}}
+
+  {{- if .Values.externalSecrets.enabled -}}
+    {{ include "common.externalsecret" . | nindent 0 }}
   {{- end -}}
 {{- end -}}
