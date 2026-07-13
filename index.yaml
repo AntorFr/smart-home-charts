@@ -327,6 +327,32 @@ entries:
   - annotations:
       artifacthub.io/changes: |-
         - kind: added
+          description: "`externalSecrets:` section — pull secrets from OpenBao/Vault via the External Secrets Operator. Renders an ExternalSecret materializing `<fullname>-secrets` and auto-wires it into the container's envFrom."
+    apiVersion: v2
+    created: "2026-07-13T01:33:46.954970111Z"
+    description: Function library for k8s-at-home charts
+    digest: 7289d08464e4afa08d6079654186456d5f99f292be3e419a2efe6c8b49b85349
+    home: https://github.com/k8s-at-home/library-charts/tree/main/stable/common
+    keywords:
+    - k8s-at-home
+    - common
+    kubeVersion: '>=1.21.0-0'
+    maintainers:
+    - email: me@bjw-s.dev
+      name: bjw-s
+    - email: devin.kray@gmail.com
+      name: onedr0p
+    - email: nick@cajun.pro
+      name: dirtycajunrice
+    - name: AntorFR
+    name: common
+    type: library
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/common-4.9.0/common-4.9.0.tgz
+    version: 4.9.0
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: added
           description: "Top-level `cronjobs:` section — create standalone CronJobs alongside the main controller. Each cronjob has its own image, command, volumes, env, and scheduling config."
     apiVersion: v2
     created: "2026-07-12T12:28:02.804379345Z"
@@ -3621,4 +3647,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-07-12T12:33:56.406950607Z"
+generated: "2026-07-13T01:33:46.955202323Z"
