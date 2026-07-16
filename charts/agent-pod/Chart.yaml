@@ -2,7 +2,7 @@ apiVersion: v2
 name: agent-pod
 description: Always-on Claude Code agent pod - chat gateway (agent-gw) plus VS Code tunnel body (claude-pod)
 type: application
-version: 0.1.0
+version: 0.2.0
 appVersion: "0.1.0"
 keywords:
   - claude
@@ -16,4 +16,4 @@ maintainers:
 dependencies:
   - name: common
     repository: https://antorfr.github.io/smart-home-charts
-    version: 4.7.0
+    version: 4.9.0
