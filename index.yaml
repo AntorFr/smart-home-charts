@@ -368,6 +368,32 @@ entries:
   - annotations:
       artifacthub.io/changes: |-
         - kind: added
+          description: "`externalSecrets.groups:` — split secrets into one ExternalSecret per consumer (`<fullname>-<group>-secrets`), auto-wired into the matching `additionalContainers` entry. Confines ESO's atomic-sync blast radius: a missing key only fails its own group, not the whole pod's Secret."
+    apiVersion: v2
+    created: "2026-07-19T18:58:52.57571965Z"
+    description: Function library for k8s-at-home charts
+    digest: 4819d97a1bade72d7fa866200313963b7f7e7c8e0ba2c0bdc534406b460e6f04
+    home: https://github.com/k8s-at-home/library-charts/tree/main/stable/common
+    keywords:
+    - k8s-at-home
+    - common
+    kubeVersion: '>=1.21.0-0'
+    maintainers:
+    - email: me@bjw-s.dev
+      name: bjw-s
+    - email: devin.kray@gmail.com
+      name: onedr0p
+    - email: nick@cajun.pro
+      name: dirtycajunrice
+    - name: AntorFR
+    name: common
+    type: library
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/common-4.10.0/common-4.10.0.tgz
+    version: 4.10.0
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: added
           description: "`externalSecrets:` section — pull secrets from OpenBao/Vault via the External Secrets Operator. Renders an ExternalSecret materializing `<fullname>-secrets` and auto-wires it into the container's envFrom."
     apiVersion: v2
     created: "2026-07-13T01:33:46.954970111Z"
@@ -3688,4 +3714,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-07-16T20:49:34.363956528Z"
+generated: "2026-07-19T18:58:52.576078391Z"
