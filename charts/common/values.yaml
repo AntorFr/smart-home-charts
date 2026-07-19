@@ -219,15 +219,25 @@ envFrom: []
 #     name: secret-name
 
 # -- Pull secrets from a backend (OpenBao/Vault) via the External Secrets
-# Operator. When enabled, renders an ExternalSecret materializing a Secret named
-# `<fullname>-secrets` and auto-wires it into the container's envFrom.
+# Operator. When enabled, renders one ExternalSecret per group of keys and
+# auto-wires each consumer's envFrom. `data` is the default group
+# (`<fullname>-secrets`, main container); `groups.<name>` each get their own
+# ExternalSecret (`<fullname>-<name>-secrets`), auto-wired into the matching
+# `additionalContainers` entry when one exists. An ExternalSecret syncs
+# atomically (one missing remote key fails the whole object), so group keys by
+# consumer to confine the blast radius of a missing key.
 externalSecrets:
   enabled: false
-  # store: openbao-<app>          # SecretStore / ClusterSecretStore name (required)
+  # store: openbao-<cluster>      # SecretStore / ClusterSecretStore name (required)
   storeKind: ClusterSecretStore   # or SecretStore for a namespaced store
   refreshInterval: 1h
   data: {}
   #   ANTHROPIC_API_KEY: { key: llm/anthropic-antre, property: api_key }
+  groups: {}
+  #   voice:
+  #     data:
+  #       ESPHOME_NOISE_KEY: { key: home/esphome, property: api_key }
+  #     # store / storeKind / refreshInterval: optional per-group overrides
 
 # -- Custom priority class for different treatment by the scheduler
 priorityClassName:  # system-node-critical

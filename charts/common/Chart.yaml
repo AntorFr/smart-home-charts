@@ -2,7 +2,7 @@ apiVersion: v2
 name: common
 description: Function library for k8s-at-home charts
 type: library
-version: 4.9.0
+version: 4.10.0
 kubeVersion: ">=1.21.0-0"
 keywords:
   - k8s-at-home
@@ -19,4 +19,4 @@ maintainers:
 annotations:
   artifacthub.io/changes: |-
     - kind: added
-      description: "`externalSecrets:` section — pull secrets from OpenBao/Vault via the External Secrets Operator. Renders an ExternalSecret materializing `<fullname>-secrets` and auto-wires it into the container's envFrom."
+      description: "`externalSecrets.groups:` — split secrets into one ExternalSecret per consumer (`<fullname>-<group>-secrets`), auto-wired into the matching `additionalContainers` entry. Confines ESO's atomic-sync blast radius: a missing key only fails its own group, not the whole pod's Secret."
