@@ -2,7 +2,7 @@ apiVersion: v2
 name: common
 description: Function library for k8s-at-home charts
 type: library
-version: 4.10.0
+version: 4.10.1
 kubeVersion: ">=1.21.0-0"
 keywords:
   - k8s-at-home
@@ -18,5 +18,7 @@ maintainers:
   - name: AntorFR
 annotations:
   artifacthub.io/changes: |-
+    - kind: fixed
+      description: "externalSecrets: multi-document rendering glued the `---` separator to the previous line (chomped newline), YAML-merging the documents so only the last ExternalSecret survived — and Helm pruned the missing one. Separators are now emitted explicitly."
     - kind: added
       description: "`externalSecrets.groups:` — split secrets into one ExternalSecret per consumer (`<fullname>-<group>-secrets`), auto-wired into the matching `additionalContainers` entry. Confines ESO's atomic-sync blast radius: a missing key only fails its own group, not the whole pod's Secret."

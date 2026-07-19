@@ -57,12 +57,16 @@ Values:
   {{- end -}}
 {{- end -}}
 
-{{/* One ExternalSecret object. Args: root (chart context), name (target Secret
-     name), es (dict: store, storeKind, refreshInterval, data). */}}
+{{/* One ExternalSecret object, WITHOUT a leading `---` and trimmed: the caller
+     emits the document separator on its own line. Never rely on whitespace
+     chomping to separate documents — a chomped trailing newline glues `---` to
+     the previous line and YAML then merges both documents (duplicate keys, last
+     one wins), silently dropping an object.
+     Args: root (chart context), name (target Secret name), es (dict: store,
+     storeKind, refreshInterval, data). */}}
 {{- define "common.externalsecret.single" -}}
   {{- $root := .root -}}
   {{- $es := .es -}}
----
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
@@ -89,23 +93,26 @@ spec:
 {{- end -}}
 
 {{/* The ExternalSecret objects materialized by the External Secrets Operator:
-     one for the default group (`data`), one per named group (`groups`). */}}
+     one for the default group (`data`), one per named group (`groups`). Each
+     document is emitted behind an explicit `---` line (see note above). */}}
 {{- define "common.externalsecret" -}}
   {{- if .Values.externalSecrets.enabled -}}
     {{- $es := .Values.externalSecrets -}}
     {{- $fullname := include "common.names.fullname" . -}}
-    {{- if $es.data -}}
-      {{- include "common.externalsecret.single" (dict "root" . "name" (printf "%s-secrets" $fullname) "es" $es) -}}
-    {{- end -}}
-    {{- range $groupName, $group := (default dict $es.groups) -}}
-      {{- if $group.data -}}
+    {{- if $es.data }}
+---
+{{ include "common.externalsecret.single" (dict "root" . "name" (printf "%s-secrets" $fullname) "es" $es) | trim }}
+    {{- end }}
+    {{- range $groupName, $group := (default dict $es.groups) }}
+      {{- if $group.data }}
         {{- $merged := dict
               "store" (default $es.store $group.store)
               "storeKind" (default $es.storeKind $group.storeKind)
               "refreshInterval" (default $es.refreshInterval $group.refreshInterval)
-              "data" $group.data -}}
-        {{- include "common.externalsecret.single" (dict "root" $ "name" (printf "%s-%s-secrets" $fullname $groupName) "es" $merged) -}}
-      {{- end -}}
-    {{- end -}}
+              "data" $group.data }}
+---
+{{ include "common.externalsecret.single" (dict "root" $ "name" (printf "%s-%s-secrets" $fullname $groupName) "es" $merged) | trim }}
+      {{- end }}
+    {{- end }}
   {{- end -}}
 {{- end -}}
