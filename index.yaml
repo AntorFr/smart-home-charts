@@ -2695,6 +2695,35 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/platerec-0.1.0/platerec-0.1.0.tgz
     version: 0.1.0
+  rosetta-mcp:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: added
+          description: First chart release
+    apiVersion: v2
+    appVersion: 0.1.0
+    created: "2026-07-19T20:43:26.112318117Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.10.1
+    description: Rosetta — modular MCP hub, thin read-only MCP servers (addons) behind
+      one endpoint and one OIDC auth.
+    digest: 172d3818bf721e33b9f55bb1fcb092dc09b3173e143725db3a54a04ebfd8e04c
+    keywords:
+    - k8s-at-home
+    - mcp
+    - oidc
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: rosetta-mcp
+    sources:
+    - https://github.com/AntorFr/rosetta-mcp
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/rosetta-mcp-0.1.0/rosetta-mcp-0.1.0.tgz
+    version: 0.1.0
   semaphore:
   - annotations:
       artifacthub.io/changes: |-
@@ -3790,4 +3819,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-07-19T19:25:55.554707621Z"
+generated: "2026-07-19T20:43:26.112560724Z"
