@@ -80,6 +80,30 @@ entries:
   agent-pod:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2026-07-19T19:07:13.775364584Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.10.0
+    description: Always-on Claude Code agent pod - chat gateway (agent-gw) plus VS
+      Code tunnel body (claude-pod)
+    digest: e345f0833ce5bc49832a14e687f98fd1d289a9ee2d4a8822582cb2c70d13fe78
+    home: https://github.com/AntorFr/agent-pods
+    keywords:
+    - claude
+    - agent
+    - assistant
+    maintainers:
+    - name: AntorFr
+    name: agent-pod
+    sources:
+    - https://github.com/AntorFr/agent-pods
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/agent-pod-0.3.0/agent-pod-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2026-07-16T20:49:34.363731816Z"
     dependencies:
     - name: common
@@ -3714,4 +3738,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-07-19T18:58:52.576078391Z"
+generated: "2026-07-19T19:07:13.775621508Z"
