@@ -1,0 +1,96 @@
+#
+# IMPORTANT NOTE
+#
+# This chart inherits from our common library chart. You can check the default values/options here:
+# https://github.com/AntorFr/smart-home-charts/tree/main/charts/common
+#
+
+image:
+  # -- image repository
+  repository: ghcr.io/antorfr/rosetta-mcp
+  # -- image tag (placeholder; the real version is pinned in k8s-home-lab)
+  tag: "latest"
+  # -- image pull policy
+  pullPolicy: IfNotPresent
+
+# -- Environment. Auth (ROSETTA_ISSUER/ROSETTA_AUDIENCE/...) and addon API keys
+# are set at deploy time; keys come from the vault via the externalSecrets addon.
+env:
+  TZ: "Europe/Paris"
+
+# -- Configures service settings for the chart.
+# @default -- See values.yaml
+service:
+  main:
+    ports:
+      http:
+        enabled: true
+        primary: true
+        port: 8200
+
+# -- Probe configuration — HTTP on /health (unauthenticated by design).
+probes:
+  liveness:
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /health
+        port: 8200
+      initialDelaySeconds: 5
+      periodSeconds: 30
+      timeoutSeconds: 5
+      failureThreshold: 3
+  readiness:
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /health
+        port: 8200
+      initialDelaySeconds: 3
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+  startup:
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /health
+        port: 8200
+      initialDelaySeconds: 0
+      periodSeconds: 5
+      timeoutSeconds: 5
+      failureThreshold: 12
+
+# -- Ingress is enabled at the cluster level (k8s-home-lab) with the real host.
+ingress:
+  main:
+    enabled: false
+
+# -- The hub is stateless: no volume, configuration by environment only.
+persistence: {}
+
+# -- Security context for the main container (thin read-only HTTP façades).
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+
+# -- Security context for the pod.
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+
+# -- Resource requests and limits (httpx façades, nothing heavy).
+resources:
+  requests:
+    cpu: 25m
+    memory: 96Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi

@@ -1,0 +1,24 @@
+---
+apiVersion: v2
+description: Rosetta — modular MCP hub, thin read-only MCP servers (addons) behind one endpoint and one OIDC auth.
+name: rosetta-mcp
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - k8s-at-home
+  - mcp
+  - oidc
+maintainers:
+  - name: AntorFR
+    email: contact@antor.fr
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.10.1
+sources:
+  - https://github.com/AntorFr/rosetta-mcp
+type: application
+annotations:
+  artifacthub.io/changes: |-
+    - kind: added
+      description: First chart release
