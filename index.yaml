@@ -2415,6 +2415,37 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/nestor-mcp-0.0.1/nestor-mcp-0.0.1.tgz
     version: 0.0.1
+  nestor-openwakeword:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: added
+          description: First chart release
+    apiVersion: v2
+    appVersion: 0.1.0
+    created: "2026-07-23T23:09:30.874872897Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.10.1
+    description: Nestor wake word detector for Home Assistant over Wyoming, with a
+      drain/model HTTP API for the sample-collection phase.
+    digest: 00f77cf711f4436fabc688c88727006bfb8a24887febe9e9cf09e1e40f5516eb
+    keywords:
+    - k8s-at-home
+    - home-assistant
+    - wyoming
+    - wake-word
+    - openwakeword
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: nestor-openwakeword
+    sources:
+    - https://github.com/AntorFr/nestor-openwakeword
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/nestor-openwakeword-0.1.0/nestor-openwakeword-0.1.0.tgz
+    version: 0.1.0
   nestor-voice:
   - annotations:
       artifacthub.io/changes: |-
@@ -3847,4 +3878,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-07-23T00:27:01.447034249Z"
+generated: "2026-07-23T23:09:30.875127443Z"
