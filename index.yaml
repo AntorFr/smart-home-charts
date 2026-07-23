@@ -2278,6 +2278,34 @@ entries:
   - annotations:
       artifacthub.io/changes: |-
         - kind: changed
+          description: Bump common 4.8.0 → 4.10.1 (addon externalSecrets pour sortir les secrets du clair)
+    apiVersion: v2
+    appVersion: 0.0.9-beta
+    created: "2026-07-23T00:27:01.446766147Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.10.1
+    description: Nestor MCP — AI-powered GitOps assistant for Home Assistant configuration.
+    digest: 72d4d637058b3348ff3ad8254650039d5bc022e87103e616612b9723439d162a
+    keywords:
+    - k8s-at-home
+    - home-assistant
+    - mcp
+    - gitops
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: nestor-mcp
+    sources:
+    - https://github.com/AntorFr/nestor-mcp
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/nestor-mcp-0.0.12/nestor-mcp-0.0.12.tgz
+    version: 0.0.12
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
           description: First chart release
     apiVersion: v2
     appVersion: 0.0.9-beta
@@ -3819,4 +3847,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-07-19T20:43:26.112560724Z"
+generated: "2026-07-23T00:27:01.447034249Z"
