@@ -1,0 +1,26 @@
+---
+apiVersion: v2
+description: Nestor wake word detector for Home Assistant over Wyoming, with a drain/model HTTP API for the sample-collection phase.
+name: nestor-openwakeword
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - k8s-at-home
+  - home-assistant
+  - wyoming
+  - wake-word
+  - openwakeword
+maintainers:
+  - name: AntorFR
+    email: contact@antor.fr
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.10.1
+sources:
+  - https://github.com/AntorFr/nestor-openwakeword
+type: application
+annotations:
+  artifacthub.io/changes: |-
+    - kind: added
+      description: First chart release

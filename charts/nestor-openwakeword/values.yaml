@@ -1,0 +1,68 @@
+#
+# IMPORTANT NOTE
+#
+# This chart inherits from our common library chart. You can check the default values/options here:
+# https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
+#
+
+controller:
+  replicas: 1
+
+image:
+  # -- image repository (built by the nestor-openwakeword code repo)
+  repository: ghcr.io/antorfr/nestor-openwakeword
+  # -- image tag; placeholder — the real version is pinned in k8s-home-lab
+  tag: "latest"
+  # -- image pull policy
+  pullPolicy: IfNotPresent
+
+# -- Non-sensitive environment variables.
+env:
+  # -- timezone (containers default to UTC otherwise)
+  TZ: "Europe/Paris"
+
+# -- Exposed services. Wyoming = raw TCP (like wyoming-piper); drain = internal HTTP.
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+    ports:
+      # -- Wyoming wake word protocol, consumed by the Home Assistant integration
+      http:
+        enabled: true
+        primary: true
+        protocol: TCP
+        port: 10700
+      # -- drain API (pull/purge captures) + /model (push the champion)
+      drain:
+        enabled: true
+        protocol: TCP
+        port: 8788
+
+# -- Cluster-internal access only (HA + drain cron via port-forward).
+ingress:
+  main:
+    enabled: false
+
+# -- Persistence. During the collection phase, captures + the live model live on the
+# holocron NAS (NFS via democratic-csi): the real StorageClass and size are overridden
+# at deploy time (k8s-home-lab). Here we only declare the volume shape.
+persistence:
+  # -- Collected samples (written by the detector, pulled/purged by the drain API).
+  captures:
+    enabled: false
+    type: pvc
+    mountPath: /data/captures
+    storageClass:  # "-" to disable dynamic provisioning
+    accessMode: ReadWriteOnce
+    size: 50Gi
+    retain: true
+  # -- Champion model pushed via POST /model (persists; else falls back to the vendored one).
+  model:
+    enabled: false
+    type: pvc
+    mountPath: /data/model
+    storageClass:
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    retain: true
