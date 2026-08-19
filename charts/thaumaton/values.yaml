@@ -1,0 +1,41 @@
+controller:
+  replicas: 1
+
+image:
+  repository: ghcr.io/antorfr/thaumaton
+  tag: "latest" # placeholder; the real version is pinned in k8s-home-lab
+  pullPolicy: IfNotPresent
+
+# The image runs nginx + uvicorn as uid/gid 1000; the hostPath mounted at the
+# cluster level is owned by the same uid.
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        primary: true
+        protocol: TCP
+        # nginx listens on 8080: a non-root user cannot bind a port below 1024.
+        port: 8080
+
+ingress:
+  main:
+    enabled: false # enabled at the cluster level (k8s-home-lab)
+
+env:
+  TZ: "Europe/Paris"
+  DATA_DIR: "/app/data"
+  FONTS_DIR: "/app/fonts"
+
+persistence:
+  data:
+    enabled: false # enabled at the cluster level (hostPath under /mnt/data)
+    type: hostPath
+    mountPath: /app/data

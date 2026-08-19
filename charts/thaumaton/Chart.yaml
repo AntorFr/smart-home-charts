@@ -1,0 +1,13 @@
+apiVersion: v2
+name: thaumaton
+description: Spellbook and NPC sheet PDF generator for tabletop RPGs (FastAPI + React)
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+home: https://github.com/AntorFr/thaumaton
+sources:
+  - https://github.com/AntorFr/thaumaton
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.10.1
