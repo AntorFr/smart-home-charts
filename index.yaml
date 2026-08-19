@@ -3280,6 +3280,25 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
+  thaumaton:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2026-08-19T22:44:55.737205694Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.10.1
+    description: Spellbook and NPC sheet PDF generator for tabletop RPGs (FastAPI
+      + React)
+    digest: f7ee851a1d5c28794896a5ee16a1e6a2fcf2af775d898b9aec04ed2a46c5da8a
+    home: https://github.com/AntorFr/thaumaton
+    name: thaumaton
+    sources:
+    - https://github.com/AntorFr/thaumaton
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/thaumaton-0.1.0/thaumaton-0.1.0.tgz
+    version: 0.1.0
   unifi-mcp:
   - apiVersion: v2
     appVersion: 0.23.1
@@ -3878,4 +3897,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-07-23T23:09:30.875127443Z"
+generated: "2026-08-19T22:44:55.737452745Z"
