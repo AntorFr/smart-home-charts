@@ -1,5 +1,29 @@
 apiVersion: v1
 entries:
+  adestia:
+  - apiVersion: v2
+    appVersion: 0.20.0
+    created: "2026-09-05T15:27:35.396544742Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.10.1
+    description: Adestia - always-on personal assistant shell (one release per body)
+    digest: da95cec9b42d9508b35c8c41885586e9acdf037b239e6265c8e2a12c3f5d514a
+    home: https://github.com/AntorFr/Adestia
+    keywords:
+    - adestia
+    - assistant
+    - agent
+    maintainers:
+    - name: AntorFr
+    name: adestia
+    sources:
+    - https://github.com/AntorFr/Adestia
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/adestia-0.1.0/adestia-0.1.0.tgz
+    version: 0.1.0
   adminer:
   - annotations:
       artifacthub.io/changes: |-
@@ -3897,4 +3921,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-08-19T22:44:55.737452745Z"
+generated: "2026-09-05T15:27:35.396799139Z"
