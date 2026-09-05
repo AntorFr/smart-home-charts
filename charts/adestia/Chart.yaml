@@ -1,0 +1,19 @@
+apiVersion: v2
+name: adestia
+description: Adestia - always-on personal assistant shell (one release per body)
+type: application
+version: 0.1.0
+appVersion: "0.20.0"
+keywords:
+  - adestia
+  - assistant
+  - agent
+home: https://github.com/AntorFr/Adestia
+sources:
+  - https://github.com/AntorFr/Adestia
+maintainers:
+  - name: AntorFr
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.10.1
