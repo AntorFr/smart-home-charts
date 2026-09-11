@@ -1,0 +1,64 @@
+# Tessera Guard — default chart values. The real wiring (upstream, matrix,
+# Seal token, host) is overridden in k8s-home-lab.
+#
+# Guard is the DATA PLANE: a transparent reverse proxy in front of one MCP
+# endpoint. It plays the gates, and for a call the matrix marks
+# `require-signature` it HOLDS the bytes and registers a consent at Seal —
+# the arguments never reach the proof authority, and the agent never gets to
+# re-type them.
+#
+# Stateless by principle (state doctrine): held bytes live in memory for at
+# most the consent TTL. Nothing durable here — no volume, and a restart costs
+# at worst a re-signature.
+controller:
+  replicas: 1
+
+image:
+  repository: ghcr.io/antorfr/tessera-guard
+  tag: "main" # placeholder — pinned to a SemVer tag in k8s-home-lab
+  pullPolicy: IfNotPresent
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 65532
+  runAsGroup: 65532
+
+securityContext:
+  readOnlyRootFilesystem: true # nothing is written: the matrix is mounted read-only
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: [ALL]
+
+env:
+  TZ: "Europe/Paris"
+  OSTIA_ADDR: ":8090"
+  # No safe default for the upstream, the matrix or the Seal endpoint:
+  # a Guard that guesses is a Guard that lets something through.
+
+service:
+  main:
+    ports:
+      http:
+        enabled: true
+        primary: true
+        port: 8090
+
+ingress:
+  main:
+    enabled: false
+
+probes:
+  liveness:
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /healthz
+        port: 8090
+  readiness:
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /healthz
+        port: 8090
