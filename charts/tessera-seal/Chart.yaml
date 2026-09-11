@@ -1,0 +1,15 @@
+apiVersion: v2
+name: tessera-seal
+description: Tessera Seal — the galaxy's proof authority (WebAuthn consent ceremony + verification). Stateful, holds the only sacred state.
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+home: https://github.com/AntorFr/tessera
+sources:
+  - https://github.com/AntorFr/tessera
+maintainers:
+  - name: AntorFr
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.10.1

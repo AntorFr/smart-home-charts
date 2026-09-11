@@ -1,0 +1,80 @@
+# Tessera Seal — default chart values. Real deployment (host, pinned tag,
+# tokens, persistence, NetworkPolicy) is overridden in k8s-home-lab (step 3).
+#
+# Seal is the former signature service of Tessera (fusion 2026-09-10): it
+# serves the WebAuthn ceremony from its OWN origin (RP ID = the domain) and
+# verifies assertions. It holds the sacred state (SQLite WAL + synchronous=FULL)
+# so it is stateful and MUST NOT be scaled beyond one replica until Control
+# distributes state to N Seals.
+controller:
+  replicas: 1
+  strategy: Recreate # single sacred volume: never two pods on the same DB file
+
+image:
+  repository: ghcr.io/antorfr/tessera-seal
+  tag: "main" # placeholder — pinned to a sha- tag in k8s-home-lab, never floating
+  pullPolicy: IfNotPresent
+
+# Distroless nonroot base (uid 65532): no shell, no package manager. The whole
+# security posture of the product leans on this — do not swap for a fat image.
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 65532
+  runAsGroup: 65532
+  fsGroup: 65532
+
+securityContext:
+  readOnlyRootFilesystem: true # the data volume is the ONLY writable path
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: [ALL]
+
+env:
+  TZ: "Europe/Paris"
+  TESSERA_ADDR: ":8080"
+  # RP ID and origin are the WebAuthn origin binding (protocol invariant 4):
+  # they MUST match the real host exactly, set in k8s-home-lab.
+  # TESSERA_RP_ID / TESSERA_ORIGIN — no safe default, intentionally unset here.
+  TESSERA_DB: "/data/tessera.db"
+
+service:
+  main:
+    ports:
+      http:
+        enabled: true
+        primary: true
+        port: 8080
+
+# The sacred volume. SQLite WAL needs a real filesystem; one writer only.
+# Disabled by default like the ingress: the REAL persistence (hostPath/PVC,
+# accessMode, size) is set in k8s-home-lab. ⚠️ A deployment that forgets to
+# enable it runs on an EPHEMERAL DB — losing passkeys, grants and the journal
+# on every restart. Never ship Seal without a persistent /data.
+persistence:
+  data:
+    enabled: false
+    mountPath: /data
+
+# HTTPS-only (WebAuthn requires a secure context off localhost). Enabled and
+# hosted in k8s-home-lab where the real hostname and issuer live.
+ingress:
+  main:
+    enabled: false
+
+# Liveness/readiness on GET /healthz — the distroless image ships no shell or
+# curl, so a Docker HEALTHCHECK is impossible; Kubernetes probes do the job.
+probes:
+  liveness:
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /healthz
+        port: 8080
+  readiness:
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /healthz
+        port: 8080
