@@ -3307,6 +3307,26 @@ entries:
   tessera-guard:
   - apiVersion: v2
     appVersion: 0.0.2
+    created: "2026-09-11T09:35:13.160164943Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.10.1
+    description: Tessera Guard — the data plane. It fronts an MCP endpoint, applies
+      the policy matrix, and suspends calls that need a human signature.
+    digest: 9c230a4864e5a4dcee4a3c82b9fcdaa3d7b1577e2d193e89131ce01fa8eec9c5
+    home: https://github.com/AntorFr/tessera
+    maintainers:
+    - name: AntorFr
+    name: tessera-guard
+    sources:
+    - https://github.com/AntorFr/tessera
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/tessera-guard-0.1.1/tessera-guard-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 0.0.2
     created: "2026-09-11T09:28:46.640942847Z"
     dependencies:
     - name: common
@@ -3963,4 +3983,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-09-11T09:28:46.64117987Z"
+generated: "2026-09-11T09:35:13.160425952Z"
