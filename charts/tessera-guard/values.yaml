@@ -47,18 +47,23 @@ ingress:
   main:
     enabled: false
 
+# TCP probes, deliberately: Guard is a TRANSPARENT proxy — every path it
+# receives is relayed upstream, so it owns no HTTP route of its own and an
+# `/healthz` probe would be answered by the fronted MCP server (404). A live
+# listening socket is what "the process is up" means here.
+# (Noted as a product gap: Guard could serve a local, non-proxied health
+# route — but that means carving a path out of the proxy, which is a design
+# decision, not a chart fix.)
 probes:
   liveness:
     enabled: true
     custom: true
     spec:
-      httpGet:
-        path: /healthz
+      tcpSocket:
         port: 8090
   readiness:
     enabled: true
     custom: true
     spec:
-      httpGet:
-        path: /healthz
+      tcpSocket:
         port: 8090
