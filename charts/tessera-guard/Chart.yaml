@@ -1,0 +1,15 @@
+apiVersion: v2
+name: tessera-guard
+description: "Tessera Guard — the data plane. It fronts an MCP endpoint, applies the policy matrix, and suspends calls that need a human signature."
+type: application
+version: 0.1.0
+appVersion: "0.0.2"
+home: https://github.com/AntorFr/tessera
+sources:
+  - https://github.com/AntorFr/tessera
+maintainers:
+  - name: AntorFr
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.10.1
