@@ -1,0 +1,15 @@
+apiVersion: v2
+name: tessera-control
+description: "Tessera Control — the control plane. It holds the fleet's configuration and the galaxy's sacred state (proofs), signs what it distributes, and mints the hour-H delegation. It routes no traffic and judges no call."
+type: application
+version: 0.1.0
+appVersion: "0.0.6"
+home: https://github.com/AntorFr/tessera
+sources:
+  - https://github.com/AntorFr/tessera
+maintainers:
+  - name: AntorFr
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.10.1

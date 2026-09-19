@@ -1,0 +1,106 @@
+# Tessera Control — default chart values. The real deployment (host, pinned
+# tag, tokens, persistence, configuration) is overridden in k8s-home-lab.
+#
+# Control is the control plane of Tessera (Control · Guard · Seal). Since the
+# fusion of 2026-09-10 inverted the state doctrine, it holds TWO stores and
+# they are not the same kind of thing:
+#
+#   - the RECONSTRUCTIBLE half — servers/ and types/ YAML, regenerable from
+#     git, usually mounted read-only from a ConfigMap. Losing it costs a
+#     redeploy.
+#   - the SACRED half — the proofs (consents, envelopes, uses, credentials,
+#     journal). It is the ONLY thing a backup must catch, and losing it is
+#     losing what humans signed.
+#
+# It is therefore stateful, single-writer (SQLite WAL + synchronous=FULL),
+# and MUST NOT be scaled beyond one replica.
+controller:
+  replicas: 1
+  strategy: Recreate # one sacred volume: never two pods on the same DB file
+
+image:
+  repository: ghcr.io/antorfr/tessera-control
+  tag: "main" # placeholder — pinned to an exact tag in k8s-home-lab
+  pullPolicy: IfNotPresent
+
+# Distroless nonroot base (uid 65532): no shell, no package manager.
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 65532
+  runAsGroup: 65532
+  fsGroup: 65532
+
+securityContext:
+  readOnlyRootFilesystem: true # the data volume is the ONLY writable path
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: [ALL]
+
+env:
+  TZ: "Europe/Paris"
+  TESSERA_CONTROL_ADDR: ":8100"
+  # Control's own writable origin: where the auto-generated signing key lands
+  # on first boot, and where an edit made through Control is written.
+  TESSERA_CONTROL_STORE: "/data/store"
+  # The sacred store. Its ABSENCE is a startup error, not a degraded mode:
+  # since the fusion, a Control with nowhere to keep the proofs can answer no
+  # Seal at all.
+  TESSERA_CONTROL_SACRED_DB: "/data/sacred.db"
+  # Deliberately unset here, because there is no safe default:
+  #   TESSERA_CONTROL_PROVIDED — the read-only origins (a mounted ConfigMap).
+  #   TESSERA_CONTROL_ISSUER   — the URL a RESOURCE reaches this Control at.
+  #     Without it no hour-H delegation can be minted and every match answers
+  #     503. Control says so loudly at boot.
+
+service:
+  main:
+    ports:
+      http:
+        enabled: true
+        primary: true
+        port: 8100
+
+# ⚠️ The sacred volume. A deployment that forgets to enable it runs the
+# galaxy's proofs on an EPHEMERAL disk — every restart loses what was signed.
+# Disabled here like the ingress so the real persistence is a deliberate
+# choice made in k8s-home-lab, never something inherited by accident.
+persistence:
+  data:
+    enabled: false
+    mountPath: /data
+
+# Control has no front-end in the MVP and speaks only to Seals, Guards and
+# the resources that fetch its JWKS. Exposure is decided at deployment.
+ingress:
+  main:
+    enabled: false
+
+# Liveness/readiness on GET /healthz — the distroless image ships no shell and
+# no curl, so a Docker HEALTHCHECK is impossible and an HTTP probe is the only
+# way Kubernetes can tell a live process from a hung one.
+#
+# ⚠️ The readiness delays are generous on purpose: the fleet heartbeat is a
+# LONG POLL held open for up to a minute, and a probe timeout tuned for a
+# chatty web app would keep declaring this pod unhealthy under normal load.
+probes:
+  liveness:
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /healthz
+        port: 8100
+      initialDelaySeconds: 10
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 3
+  readiness:
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /healthz
+        port: 8100
+      initialDelaySeconds: 5
+      periodSeconds: 20
+      timeoutSeconds: 10
