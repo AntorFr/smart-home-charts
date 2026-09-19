@@ -3304,6 +3304,28 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/tasmoadmin-0.0.1/tasmoadmin-0.0.1.tgz
     version: 0.0.1
+  tessera-control:
+  - apiVersion: v2
+    appVersion: 0.0.6
+    created: "2026-09-19T20:10:53.717269643Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.10.1
+    description: Tessera Control — the control plane. It holds the fleet's configuration
+      and the galaxy's sacred state (proofs), signs what it distributes, and mints
+      the hour-H delegation. It routes no traffic and judges no call.
+    digest: 6bb6e202ed68f20373851f24398b763fa3746bfdf9f9e873a40f82d34859e6ae
+    home: https://github.com/AntorFr/tessera
+    maintainers:
+    - name: AntorFr
+    name: tessera-control
+    sources:
+    - https://github.com/AntorFr/tessera
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/tessera-control-0.1.0/tessera-control-0.1.0.tgz
+    version: 0.1.0
   tessera-guard:
   - apiVersion: v2
     appVersion: 0.0.2
@@ -3983,4 +4005,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-09-11T09:35:13.160425952Z"
+generated: "2026-09-19T20:10:53.717434444Z"
