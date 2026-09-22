@@ -63,6 +63,15 @@ ingress:
 
 # Liveness/readiness on GET /healthz — the distroless image ships no shell or
 # curl, so a Docker HEALTHCHECK is impossible; Kubernetes probes do the job.
+# ⚠️ The delays are GENEROUS, and that is not idle caution.
+#
+# Attached to Control, Seal holds a long poll towards it (up to a minute) and
+# makes synchronous calls on the envelope path. With the Kubernetes default —
+# `timeoutSeconds: 1` — the slightest slowdown of the node or of the control
+# plane misses three probes in a row and the pod is killed. Measured: 20
+# restarts in 43 h on the house instance, while Control, running these very
+# values, had none. A signing service that restarts under load is a signing
+# service that is not there when it is needed.
 probes:
   liveness:
     enabled: true
@@ -71,6 +80,10 @@ probes:
       httpGet:
         path: /healthz
         port: 8080
+      initialDelaySeconds: 10
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 3
   readiness:
     enabled: true
     custom: true
@@ -78,3 +91,6 @@ probes:
       httpGet:
         path: /healthz
         port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 20
+      timeoutSeconds: 10

@@ -2,7 +2,7 @@ apiVersion: v2
 name: tessera-seal
 description: Tessera Seal — the galaxy's proof authority (WebAuthn consent ceremony + verification). Stateful, holds the only sacred state.
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "0.1.0"
 home: https://github.com/AntorFr/tessera
 sources:
