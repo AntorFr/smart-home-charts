@@ -3370,6 +3370,26 @@ entries:
   tessera-seal:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2026-09-22T17:14:22.391813157Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.10.1
+    description: Tessera Seal — the galaxy's proof authority (WebAuthn consent ceremony
+      + verification). Stateful, holds the only sacred state.
+    digest: 5e263da5df22d4db76f5c6557ae3814a61d3b43357f9c06ee7b15ead6c1f46e3
+    home: https://github.com/AntorFr/tessera
+    maintainers:
+    - name: AntorFr
+    name: tessera-seal
+    sources:
+    - https://github.com/AntorFr/tessera
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/tessera-seal-0.1.1/tessera-seal-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2026-09-11T08:08:09.024742776Z"
     dependencies:
     - name: common
@@ -4005,4 +4025,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-09-19T20:10:53.717434444Z"
+generated: "2026-09-22T17:14:22.3920724Z"
