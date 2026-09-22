@@ -2,7 +2,7 @@ apiVersion: v2
 name: tessera-guard
 description: "Tessera Guard — the data plane. It fronts an MCP endpoint, applies the policy matrix, and suspends calls that need a human signature."
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "0.0.2"
 home: https://github.com/AntorFr/tessera
 sources:

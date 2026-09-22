@@ -54,6 +54,13 @@ ingress:
 # (Noted as a product gap: Guard could serve a local, non-proxied health
 # route — but that means carving a path out of the proxy, which is a design
 # decision, not a chart fix.)
+# ⚠️ The delays are GENEROUS, and that is not idle caution. A door talks to an
+# upstream, to the proof authority and — attached — to Control; on a busy node
+# the Kubernetes default `timeoutSeconds: 1` misses three probes in a row and
+# the pod is killed. Measured on the house instance: 19 restarts in 11 days,
+# all in windows where the node was CPU-saturated, while a pod with these
+# values rode the same windows out. A door that restarts under load refuses
+# calls it should have judged.
 probes:
   liveness:
     enabled: true
@@ -61,9 +68,16 @@ probes:
     spec:
       tcpSocket:
         port: 8090
+      initialDelaySeconds: 10
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 3
   readiness:
     enabled: true
     custom: true
     spec:
       tcpSocket:
         port: 8090
+      initialDelaySeconds: 5
+      periodSeconds: 20
+      timeoutSeconds: 10
