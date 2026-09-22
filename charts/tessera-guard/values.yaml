@@ -61,12 +61,21 @@ ingress:
 # all in windows where the node was CPU-saturated, while a pod with these
 # values rode the same windows out. A door that restarts under load refuses
 # calls it should have judged.
+#
+# The handler is httpGet on the door's own /healthz — the one route a Guard
+# answers for ITSELF and never forwards. A tcpSocket probe would only prove
+# the listener is open, which a wedged door also manages; and because Helm
+# MERGES this map with any deployment override, a chart shipping tcpSocket
+# while a deployment overrides httpGet produces a probe with two handlers,
+# which Kubernetes refuses outright. One handler here, and deployments have
+# nothing left to override.
 probes:
   liveness:
     enabled: true
     custom: true
     spec:
-      tcpSocket:
+      httpGet:
+        path: /healthz
         port: 8090
       initialDelaySeconds: 10
       periodSeconds: 30
@@ -76,7 +85,8 @@ probes:
     enabled: true
     custom: true
     spec:
-      tcpSocket:
+      httpGet:
+        path: /healthz
         port: 8090
       initialDelaySeconds: 5
       periodSeconds: 20
