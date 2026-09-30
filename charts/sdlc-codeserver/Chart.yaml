@@ -1,0 +1,25 @@
+---
+apiVersion: v2
+description: Remote design workstation for the homelab SDLC chain — Claude Code, the chain's toolchains and `pilote`, reached through an outbound-only VS Code tunnel.
+name: sdlc-codeserver
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - vscode
+  - tunnel
+  - claude-code
+  - workstation
+maintainers:
+  - name: AntorFR
+    email: contact@antor.fr
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.10.1
+sources:
+  - https://github.com/AntorFr/homelab-sdlc-core
+type: application
+annotations:
+  artifacthub.io/changes: |-
+    - kind: added
+      description: First release — StatefulSet running the sdlc-codeserver image, no Service, persistent home

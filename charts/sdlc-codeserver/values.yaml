@@ -1,0 +1,74 @@
+# Default values for sdlc-codeserver.
+#
+# A single-user workstation: the image's entrypoint prepares the home and holds a VS Code
+# tunnel in the foreground (outbound only, authenticated by GitHub). Nothing listens, so
+# the chart exposes nothing: no Service, no ingress, no probes.
+# Real deployment values (image tag, tunnel name, hostPaths, secrets) are set cluster-side.
+
+controller:
+  # One home, one tunnel registration: never more than one replica.
+  type: statefulset
+  replicas: 1
+
+image:
+  repository: ghcr.io/antorfr/sdlc-codeserver
+  tag: latest  # placeholder; the real tag is pinned cluster-side
+  pullPolicy: IfNotPresent
+
+env:
+  # Explicit even though the image sets it: it is the mounted path below, and a pod run
+  # under a uid missing from /etc/passwd would otherwise get HOME=/.
+  HOME: /home/agent
+  # Name shown in VS Code > Remote Explorer > Tunnels (20 characters max). Required.
+  TUNNEL_NAME: ""
+
+# The image's uid, which must also own whatever NFS share the workstation writes.
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+
+# ndots:1 instead of Kubernetes' 5: with 5, the `code` CLI fails to resolve github.com
+# ("failed to lookup address information") while getent resolves it fine.
+dnsConfig:
+  options:
+    - name: ndots
+      value: "1"
+
+# No `<SERVICE>_PORT=tcp://…` variables for every neighbour of the namespace.
+enableServiceLinks: false
+
+initContainers:
+  # A fresh hostPath is created root:root and `fsGroup` does not apply to hostPath:
+  # without this, the entrypoint cannot write the home. Non-recursive, so free at every
+  # start. Uses the workstation image itself: nothing else to pull.
+  home-owner:
+    image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+    command: ["chown", "1000:1000", "/home/agent"]
+    securityContext:
+      runAsUser: 0
+      runAsGroup: 0
+    volumeMounts:
+      - name: home
+        mountPath: /home/agent
+
+service:
+  main:
+    enabled: false
+
+probes:
+  liveness:
+    enabled: false
+  readiness:
+    enabled: false
+  startup:
+    enabled: false
+
+persistence:
+  # The WHOLE home: Claude sessions and credentials, the `gh` login, ~/.kube, the clones
+  # (~/Dev) and the VS Code server state (extensions, settings, recent folders). Ephemeral
+  # by default; set a hostPath cluster-side — on local disk, not NFS: the VS Code server
+  # is thousands of small files.
+  home:
+    enabled: true
+    type: emptyDir
+    mountPath: /home/agent
