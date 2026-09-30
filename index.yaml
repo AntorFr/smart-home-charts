@@ -2807,6 +2807,37 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/rosetta-mcp-0.1.0/rosetta-mcp-0.1.0.tgz
     version: 0.1.0
+  sdlc-codeserver:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: added
+          description: First release — StatefulSet running the sdlc-codeserver image, no Service, persistent home
+    apiVersion: v2
+    appVersion: 0.1.0
+    created: "2026-09-30T23:23:32.937937923Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.10.1
+    description: Remote design workstation for the homelab SDLC chain — Claude Code,
+      the chain's toolchains and `pilote`, reached through an outbound-only VS Code
+      tunnel.
+    digest: fefa8bc7d1643eee7bb7a1cee2d0f0b7ff254135afde7321f5d5b390af7c0d38
+    keywords:
+    - vscode
+    - tunnel
+    - claude-code
+    - workstation
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: sdlc-codeserver
+    sources:
+    - https://github.com/AntorFr/homelab-sdlc-core
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/sdlc-codeserver-0.1.0/sdlc-codeserver-0.1.0.tgz
+    version: 0.1.0
   semaphore:
   - annotations:
       artifacthub.io/changes: |-
@@ -4065,4 +4096,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-09-22T17:54:38.802682701Z"
+generated: "2026-09-30T23:23:32.938242087Z"
