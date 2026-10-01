@@ -1,0 +1,15 @@
+apiVersion: v2
+name: kanevas
+description: Kanevas — TTRPG campaign companion (Fastify backend). Socle only, no business feature.
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+home: https://github.com/AntorFr/kanevas
+sources:
+  - https://github.com/AntorFr/kanevas
+maintainers:
+  - name: AntorFr
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.10.1
