@@ -1,6 +1,6 @@
 # Status — smart-home-charts
 
-> MàJ : 2026-07-19
+> MàJ : 2026-10-02
 
 **État :** Library chart `common` en 4.10.1 — addon `externalSecrets` avec **groupes
 par consommateur** (`groups.<nom>` → un ExternalSecret `<fullname>-<nom>-secrets`,
@@ -9,6 +9,10 @@ au conteneur concerné (feature née du revert alfred-voice du 2026-07-19). La 4
 corrige la 4.10.0 : séparateurs `---` désormais émis explicitement (le chomping les
 collait à la ligne précédente → documents fusionnés par YAML, objet silencieusement
 pruné par Helm). Déployé en prod via agent-pod 0.3.1 (alfred).
+
+**Chart `kanevas` 0.1.0 (2026-10-02, PR ouverte)** — socle de Kanevas : passe-plat vers `common`
+4.10.1, sondes sur `GET /healthz` port 3000, ingress et persistance désactivés par défaut, activés
+par `k8s-home-lab` avec le tag d'image. À fusionner avant `k8s-home-lab` : sa fusion déploie.
 
 **Chart `adestia` 0.1.0 (05/09)** — remplace `agent-pod` pour les trois corps
 (alfred, skippy, nestor). `agent-pod` portait encore le nom et la description de
