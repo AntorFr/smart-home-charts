@@ -1447,6 +1447,27 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/jupyter-0.0.1/jupyter-0.0.1.tgz
     version: 0.0.1
+  kanevas:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2026-10-03T23:36:05.342342461Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.10.1
+    description: Kanevas — TTRPG campaign companion (Fastify backend). Socle only,
+      no business feature.
+    digest: bc9f3d65f1968d5011676aed36cce5c73d3e6eab745aa77c1c856c6b3f5b012a
+    home: https://github.com/AntorFr/kanevas
+    maintainers:
+    - name: AntorFr
+    name: kanevas
+    sources:
+    - https://github.com/AntorFr/kanevas
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/kanevas-0.1.0/kanevas-0.1.0.tgz
+    version: 0.1.0
   kurrier:
   - apiVersion: v2
     appVersion: 3.0.11
@@ -4096,4 +4117,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-09-30T23:23:32.938242087Z"
+generated: "2026-10-03T23:36:05.342722713Z"
