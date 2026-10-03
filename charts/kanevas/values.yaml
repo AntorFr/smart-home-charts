@@ -1,0 +1,69 @@
+# Default values for kanevas — socle only (route de santé /healthz), no
+# business feature yet. Real deployment values (image tag, ingress host,
+# persistence, OIDC secret) are overridden at the cluster level
+# (k8s-home-lab valuesContent) — none of them is hardcoded here.
+
+# Port 3000 is the chart's own choice (service and probes); the app listens on
+# PORT, default 3001, so the cluster values MUST set env PORT: "3000".
+
+controller:
+  replicas: 1
+
+image:
+  repository: ghcr.io/antorfr/kanevas
+  tag: "latest" # placeholder; the real version is pinned in k8s-home-lab
+  pullPolicy: IfNotPresent
+
+env: {}
+
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        primary: true
+        protocol: TCP
+        port: 3000
+
+ingress:
+  main:
+    enabled: false # enabled at the cluster level (k8s-home-lab)
+
+# Single volume for SQLite + the attachment disk (AD-5/AD-7 of the epic) —
+# reserved by this socle, empty at this stage (no table, no file written
+# yet). Enabled cluster-side: persistence.data.enabled AND
+# persistence.data.hostPath (/mnt/data/kanevas/data) — enabling alone fails
+# the render with "hostPath not set".
+persistence:
+  data:
+    enabled: false
+    type: hostPath
+    mountPath: /data
+
+# Liveness/readiness on GET /healthz — the only route this socle serves:
+# public, unauthenticated, a plain-text "kanevas <version>".
+probes:
+  liveness:
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /healthz
+        port: 3000
+      initialDelaySeconds: 10
+      periodSeconds: 30
+      timeoutSeconds: 5
+      failureThreshold: 3
+  readiness:
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /healthz
+        port: 3000
+      initialDelaySeconds: 5
+      periodSeconds: 20
+      timeoutSeconds: 5
+      failureThreshold: 3
