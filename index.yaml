@@ -1141,6 +1141,34 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/crafty-controller-0.0.1/crafty-controller-0.0.1.tgz
     version: 0.0.1
+  engarde:
+  - apiVersion: v2
+    appVersion: 3492df9
+    created: "2026-10-23T19:18:42.706625695Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.10.1
+    description: engarde server — a reliable WireGuard tunnel over multiple connections,
+      by duplicating every packet on every link.
+    digest: 51c9090419a07a2b6161510f88e22b0e7c8c10d94e60012325b991757e4c0256
+    home: https://github.com/AntorFr/engarde-docker
+    keywords:
+    - wireguard
+    - vpn
+    - bonding
+    - redundancy
+    maintainers:
+    - email: contact@antor.fr
+      name: AntorFR
+    name: engarde
+    sources:
+    - https://github.com/AntorFr/engarde-docker
+    - https://github.com/porech/engarde
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/engarde-0.1.0/engarde-0.1.0.tgz
+    version: 0.1.0
   fleet-for-esphome:
   - apiVersion: v2
     appVersion: latest
@@ -4117,4 +4145,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-10-03T23:36:05.342722713Z"
+generated: "2026-10-23T19:18:42.706894251Z"
