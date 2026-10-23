@@ -1,0 +1,23 @@
+---
+apiVersion: v2
+name: engarde
+description: engarde server — a reliable WireGuard tunnel over multiple connections, by duplicating every packet on every link.
+type: application
+version: 0.1.0
+appVersion: "3492df9"
+keywords:
+  - wireguard
+  - vpn
+  - bonding
+  - redundancy
+maintainers:
+  - name: AntorFR
+    email: contact@antor.fr
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.10.1
+home: https://github.com/AntorFr/engarde-docker
+sources:
+  - https://github.com/AntorFr/engarde-docker
+  - https://github.com/porech/engarde

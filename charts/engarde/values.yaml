@@ -1,0 +1,80 @@
+image:
+  repository: ghcr.io/antorfr/engarde
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+# -- engarde-server settings, rendered into /config/engarde.yml.
+engarde:
+  # -- (required) The WireGuard server to relay to, as host:port.
+  dstAddr: ""
+  # -- Seconds without packets before a client address is dropped.
+  # Keep it above the clients' WireGuard PersistentKeepalive.
+  clientTimeout: 30
+  # -- Socket write timeout, in milliseconds.
+  writeTimeout: 10
+
+env:
+  TZ: UTC
+
+service:
+  main:
+    enabled: true
+    primary: true
+    # Every link of a client must keep its own source address: with SNAT they
+    # would all collapse onto the node IP and replies could no longer be sent
+    # back on each link. Hence LoadBalancer + externalTrafficPolicy: Local.
+    type: LoadBalancer
+    externalTrafficPolicy: Local
+    ports:
+      http:
+        enabled: false
+      tunnel:
+        enabled: true
+        primary: true
+        port: 59402
+        protocol: UDP
+
+ingress:
+  main:
+    enabled: false
+
+configmap:
+  config:
+    enabled: true
+    data:
+      engarde.yml: |
+        server:
+          description: {{ include "common.names.fullname" . | quote }}
+          listenAddr: "0.0.0.0:59402"
+          dstAddr: {{ required "engarde.dstAddr is required" .Values.engarde.dstAddr | quote }}
+          clientTimeout: {{ .Values.engarde.clientTimeout }}
+          writeTimeout: {{ .Values.engarde.writeTimeout }}
+          webManager:
+            listenAddr: "0.0.0.0:9001"
+
+persistence:
+  config:
+    enabled: true
+    type: configMap
+    name: '{{ include "common.names.fullname" . }}-config'
+    mountPath: /config
+
+# The tunnel port is UDP: probe the web manager instead (pod-local, not exposed
+# by the service). Reach it with `kubectl port-forward <pod> 9001`.
+probes:
+  liveness:
+    enabled: true
+    custom: true
+    spec:
+      tcpSocket:
+        port: 9001
+      periodSeconds: 10
+  readiness:
+    enabled: true
+    custom: true
+    spec:
+      tcpSocket:
+        port: 9001
+      periodSeconds: 10
+  startup:
+    enabled: false
