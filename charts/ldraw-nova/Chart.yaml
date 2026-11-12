@@ -1,0 +1,17 @@
+apiVersion: v2
+name: ldraw-nova
+description: LDraw Nova — AI agents that design LDraw (LEGO-compatible) models, with LeoCAD rendering and a web UI.
+type: application
+version: 0.1.0
+appVersion: "0.6.0"
+home: https://github.com/AntorFr/ldraw-nova-docker
+sources:
+  - https://github.com/AntorFr/ldraw-nova-docker
+  - https://github.com/anteloc/ldraw-nova-docker
+  - https://github.com/anteloc/ldraw-nova
+maintainers:
+  - name: AntorFr
+dependencies:
+  - name: common
+    repository: https://antorfr.github.io/smart-home-charts
+    version: 4.10.1

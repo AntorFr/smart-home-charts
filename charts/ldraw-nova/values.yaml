@@ -1,0 +1,54 @@
+# Default values for ldraw-nova. Real deployment values (image tag, ingress host,
+# persistence paths) are overridden at the cluster level (k8s-home-lab
+# valuesContent).
+#
+# The web app has NO login: whoever reaches it can use the LLM sessions stored
+# in /config and have agents run code in the pod. Keep the ingress on a trusted
+# network (or behind forward auth).
+
+controller:
+  replicas: 1
+  # Single-user app on node-bound volumes: never run two pods at once.
+  strategy: Recreate
+
+image:
+  repository: ghcr.io/antorfr/ldraw-nova-docker
+  tag: "latest" # placeholder; the real version is pinned in k8s-home-lab
+  pullPolicy: IfNotPresent
+
+# The app never talks to the Kubernetes API; agent-written code runs in this
+# pod, so it gets no service account token.
+automountServiceAccountToken: false
+
+env: {}
+
+# 8000 = the web app (uvicorn). The container also listens on 8443 (self-signed
+# HTTPS for WebXR headsets) and 1456 (relay of the OpenAI sign-in callback):
+# neither is exposed here — use `kubectl port-forward` when needed.
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        primary: true
+        protocol: TCP
+        port: 8000
+
+ingress:
+  main:
+    enabled: false # enabled at the cluster level (k8s-home-lab)
+
+# Both enabled cluster-side, with their hostPath:
+# - data:   models, chats and the agents' work folders (/data/{generated,chats,output})
+# - config: LLM settings, API keys and browser sessions (the app keeps it 0700)
+persistence:
+  data:
+    enabled: false
+    type: hostPath
+    mountPath: /data
+  config:
+    enabled: false
+    type: hostPath
+    mountPath: /config
