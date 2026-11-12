@@ -1603,6 +1603,29 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/kurrier-0.0.1/kurrier-0.0.1.tgz
     version: 0.0.1
+  ldraw-nova:
+  - apiVersion: v2
+    appVersion: 0.6.0
+    created: "2026-11-12T14:24:52.697535421Z"
+    dependencies:
+    - name: common
+      repository: https://antorfr.github.io/smart-home-charts
+      version: 4.10.1
+    description: LDraw Nova — AI agents that design LDraw (LEGO-compatible) models,
+      with LeoCAD rendering and a web UI.
+    digest: 350cd8bd02b01af393d04d5b892f35f2b4b58746e750f968cd2e9e6bb6593c7f
+    home: https://github.com/AntorFr/ldraw-nova-docker
+    maintainers:
+    - name: AntorFr
+    name: ldraw-nova
+    sources:
+    - https://github.com/AntorFr/ldraw-nova-docker
+    - https://github.com/anteloc/ldraw-nova-docker
+    - https://github.com/anteloc/ldraw-nova
+    type: application
+    urls:
+    - https://github.com/AntorFr/smart-home-charts/releases/download/ldraw-nova-0.1.0/ldraw-nova-0.1.0.tgz
+    version: 0.1.0
   lldap:
   - apiVersion: v2
     appVersion: latest
@@ -4145,4 +4168,4 @@ entries:
     urls:
     - https://github.com/AntorFr/smart-home-charts/releases/download/wyoming-whisper-0.0.2/wyoming-whisper-0.0.2.tgz
     version: 0.0.2
-generated: "2026-10-23T19:18:42.706894251Z"
+generated: "2026-11-12T14:24:52.697704032Z"
