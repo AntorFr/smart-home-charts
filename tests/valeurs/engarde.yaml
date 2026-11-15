@@ -1,0 +1,3 @@
+# Valeurs minimales pour que le rendu passe (engarde.dstAddr est requis).
+engarde:
+  dstAddr: "203.0.113.10:51820"
