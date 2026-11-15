@@ -1,0 +1,6 @@
+tests:
+  commande: scripts/suite-attestee.sh
+  rapport: resultats.tap
+  format: tap
+  delai: 20m
+  local: scripts/suite-attestee.sh   # égal à la suite : aucun test lent (navigateur, écran, démarrage)

@@ -1,0 +1,3 @@
+# Valeurs minimales pour que le rendu passe (un tag d'image est requis).
+image:
+  tag: "v3.0.11"

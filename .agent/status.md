@@ -1,6 +1,6 @@
 # Status — smart-home-charts
 
-> MàJ : 2026-10-02
+> MàJ : 2026-11-15
 
 **État :** Library chart `common` en 4.10.1 — addon `externalSecrets` avec **groupes
 par consommateur** (`groups.<nom>` → un ExternalSecret `<fullname>-<nom>-secrets`,
@@ -9,6 +9,13 @@ au conteneur concerné (feature née du revert alfred-voice du 2026-07-19). La 4
 corrige la 4.10.0 : séparateurs `---` désormais émis explicitement (le chomping les
 collait à la ligne précédente → documents fusionnés par YAML, objet silencieusement
 pruné par Helm). Déployé en prod via agent-pod 0.3.1 (alfred).
+
+**Suite de tests (2026-11-15)** — déclarée dans `.sdlc.yaml` (`tests:`), jouée par
+`scripts/suite-attestee.sh` : `helm lint` + `helm template` de chaque chart de `charts/*/` (lint
+seul pour `common`, library), rapport TAP `resultats.tap`, 103 points, ~6 min (délai 20m). Aucun
+cluster requis. `lint-test.yaml` est supprimé : plus aucun workflow ne joue la suite ; `ct install`
+et le contrôle d'incrément de version ne sont plus joués nulle part. Piège : un chart qui exige des
+valeurs pour se rendre (`engarde`, `kurrier`) les trouve dans `tests/valeurs/<chart>.yaml`.
 
 **Chart `kanevas` 0.1.0 (2026-10-02, PR ouverte)** — socle de Kanevas : passe-plat vers `common`
 4.10.1, sondes sur `GET /healthz` port 3000, ingress et persistance désactivés par défaut, activés
